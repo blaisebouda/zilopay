@@ -1,0 +1,40 @@
+<?php
+
+namespace App\Http\Requests\Auth;
+
+use App\Enums\AccountTypeEnum;
+use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules\Password;
+
+class RegisterRequest extends FormRequest
+{
+    /**
+     * Determine if the user is authorized to make this request.
+     */
+    public function authorize(): bool
+    {
+        return true;
+    }
+
+    /**
+     * Get the validation rules that apply to the request.
+     */
+    public function rules(): array
+    {
+        return [
+            'phone' => ['required', 'string', 'max:20', 'unique:users,phone'],
+            'password' => [
+                'required',
+                'confirmed',
+                Password::min(8)
+                    ->letters()
+                    ->mixedCase()
+                    ->numbers()
+                    ->symbols(),
+            ],
+
+            'policy_accepted' => ['required', 'boolean', 'accepted'],
+        ];
+    }
+}
