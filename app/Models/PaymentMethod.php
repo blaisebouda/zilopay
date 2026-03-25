@@ -6,6 +6,7 @@ use App\Models\Enums\ModelStatus;
 use App\Models\Enums\PaymentMethodCode;
 use App\Models\Enums\PaymentMethodType;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class PaymentMethod extends Model
 {
@@ -41,6 +42,11 @@ class PaymentMethod extends Model
     public function country()
     {
         return $this->belongsTo(Country::class);
+    }
+
+    public function logoUrl()
+    {
+        return Storage::disk('public')->url(PAYMENT_METHOD_LOGO_PATH . $this->logo);
     }
 
     public function scopeActive($query)
