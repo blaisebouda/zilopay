@@ -1,6 +1,7 @@
 <?php
 
-namespace App\Http\Controllers\Transactions;
+
+namespace App\Http\Controllers\Api\Transactions;
 
 use App\Http\Controllers\Api\ApiController;
 use App\Http\Requests\Transactions\StoreWithdrawalRequest;

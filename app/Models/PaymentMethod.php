@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Models\Enums\ModelStatus;
+use App\Models\Enums\PaymentMethodCode;
 use App\Models\Enums\PaymentMethodType;
 use Illuminate\Database\Eloquent\Model;
 
@@ -34,5 +36,15 @@ class PaymentMethod extends Model
             'fee_fixed' => 'decimal:2',
             'type' => PaymentMethodType::class,
         ];
+    }
+
+    public function country()
+    {
+        return $this->belongsTo(Country::class);
+    }
+
+    public function scopeActive($query)
+    {
+        return $query->where('status', ModelStatus::ACTIVE);
     }
 }

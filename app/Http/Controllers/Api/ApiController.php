@@ -5,22 +5,6 @@ namespace App\Http\Controllers\Api;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-/**
- * @OA\Info(
- *      title="Zilopay API Documentation",
- *      version="1.0.0",
- *      description="API documentation for Zilopay payment methods",
- *
- *      @OA\Contact(
- *          email="support@zilopay.com"
- *      )
- * )
- *
- * @OA\Server(
- *      url=L5_SWAGGER_CONST_HOST,
- *      description="Development Server"
- * )
- */
 abstract class ApiController
 {
     protected const PER_PAGE = 15;

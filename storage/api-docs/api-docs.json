@@ -1,0 +1,132 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "ZiloPay API",
+        "description": "Payment Processing and Money Transfer API",
+        "contact": {
+            "name": "ZiloPay Support",
+            "email": "support@zilopay.com"
+        },
+        "license": {
+            "name": "MIT License",
+            "url": "https://opensource.org/licenses/MIT"
+        },
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:8000/api",
+            "description": "API Server"
+        }
+    ],
+    "paths": {
+        "/payment-methods": {
+            "get": {
+                "tags": [
+                    "Payment Methods"
+                ],
+                "summary": "Get list of payment methods",
+                "operationId": "630a4dbcf2b61bea0323f39806f2f28a",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/PaymentMethod"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "PaymentMethod": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "contry_id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Orange Money"
+                    },
+                    "logo": {
+                        "type": "string",
+                        "example": "orange_money.png"
+                    },
+                    "type": {
+                        "type": "string",
+                        "example": "mobile_money",
+                        "enum": [
+                            "mobile_money",
+                            "card",
+                            "bank_transfer",
+                            "cash"
+                        ]
+                    },
+                    "code": {
+                        "type": "string",
+                        "example": "OM"
+                    },
+                    "min_amount": {
+                        "type": "number",
+                        "example": 100
+                    },
+                    "max_amount": {
+                        "type": "number",
+                        "example": 1000000
+                    },
+                    "fee_percent": {
+                        "type": "number",
+                        "example": 2.5
+                    },
+                    "fee_fixed": {
+                        "type": "number",
+                        "example": 50
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object"
+            }
+        },
+        "securitySchemes": {
+            "sanctum": {
+                "type": "http",
+                "description": "Login with username and password to get the authentication token",
+                "name": "Token based auth",
+                "in": "header",
+                "bearerFormat": "JWT",
+                "scheme": "bearer"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Payment Methods",
+            "description": "Payment Methods"
+        }
+    ]
+}

@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('name', 100);
             $table->string('logo', 50);
             $table->string('code', 50)->unique();
-            $table->integer('type')->comment('1: mobile_money, 2: card, 3: bank');
+            $table->string('type', 50)->comment('mobile_money, card, bank');
             $table->decimal('min_amount', 15, 2);
             $table->decimal('max_amount', 15, 2);
             $table->decimal('fee_percent', 5, 2)->default(0);
