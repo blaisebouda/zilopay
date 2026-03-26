@@ -102,7 +102,7 @@ class Transaction extends BaseModel
 
     public function formatAmount(): string
     {
-        $amount = number_format($this->amount, 2, ' ') . ' ' . $this->currency?->code;
+        $amount = number_format($this->amount, 2, '.', " ") . ' ' . $this->currency?->code;
 
         return $this->isDeposit() ? '+' . $amount : '-' . $amount;
     }
@@ -118,7 +118,7 @@ class Transaction extends BaseModel
         }
 
         if ($this->isTransfer()) {
-            return $this->transfer?->target ?? 'N/A';
+            return $this->transfer?->metadata['receiver_name'] ?? 'N/A';
         }
         return 'N/A';
     }
