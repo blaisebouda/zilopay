@@ -140,16 +140,14 @@ use OpenApi\Attributes as OA;
         new OA\Property(property: 'fee_percent', type: 'number', example: 2.5),
         new OA\Property(property: 'fee_fixed', type: 'number', example: 50),
         new OA\Property(property: 'created_at', type: 'string', format: 'date-time'),
-        new OA\Property(property: 'updated_at', type: 'string', format: 'date-time')
+        new OA\Property(property: 'updated_at', type: 'string', format: 'date-time'),
     ]
 )]
-class PaymentMethodAnnotations
+class PaymentMethodAnot
 {
-
-
-    #[OA\PathItem(
-        path: '/payment-methods',
-        get: new OA\Get(
+    #[
+        OA\Get(
+            path: '/payment-methods',
             summary: 'Get list of payment methods',
             tags: ['Payment Methods'],
             // security: [['sanctum' => []]],
@@ -164,12 +162,12 @@ class PaymentMethodAnnotations
                                 property: 'data',
                                 type: 'array',
                                 items: new OA\Items(ref: '#/components/schemas/PaymentMethod')
-                            )
+                            ),
                         ]
                     )
-                )
+                ),
             ]
         )
-    )]
+    ]
     public function index() {}
 }

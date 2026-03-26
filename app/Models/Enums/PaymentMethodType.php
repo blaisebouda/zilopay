@@ -16,6 +16,6 @@ enum PaymentMethodType: string implements AdvancedEnumInterface
 
     public function label(): string
     {
-        return __('enums.payment_method_type.' . $this->value);
+        return __('enums.payment_method_type.'.$this->value);
     }
 }

@@ -4,18 +4,15 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Resources\PaymentMethodResource;
 use App\Models\PaymentMethod;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
-
-
 class PaymentMethodController extends ApiController
 {
-
     public function index(): AnonymousResourceCollection
     {
         $paymentMethods = PaymentMethod::active()->get();
-
 
         return PaymentMethodResource::collection($paymentMethods);
     }
@@ -24,7 +21,6 @@ class PaymentMethodController extends ApiController
     {
         return new PaymentMethodResource($paymentMethod);
     }
-
 
     public function store(Request $request): PaymentMethodResource
     {
@@ -45,7 +41,6 @@ class PaymentMethodController extends ApiController
         return new PaymentMethodResource($paymentMethod);
     }
 
-
     public function update(Request $request, PaymentMethod $paymentMethod): PaymentMethodResource
     {
         $validated = $request->validate([
@@ -53,7 +48,7 @@ class PaymentMethodController extends ApiController
             'name' => 'sometimes|required|string|max:255',
             'logo' => 'nullable|string|max:255',
             'type' => 'sometimes|required|string|in:mobile_money,card,bank_transfer,cash',
-            'code' => 'sometimes|required|string|max:50|unique:payment_methods,code,' . $paymentMethod->id,
+            'code' => 'sometimes|required|string|max:50|unique:payment_methods,code,'.$paymentMethod->id,
             'min_amount' => 'sometimes|required|numeric|min:0',
             'max_amount' => 'sometimes|required|numeric|min:0',
             'fee_percent' => 'sometimes|required|numeric|min:0|max:100',
@@ -65,8 +60,7 @@ class PaymentMethodController extends ApiController
         return new PaymentMethodResource($paymentMethod);
     }
 
-
-    public function destroy(PaymentMethod $paymentMethod): \Illuminate\Http\JsonResponse
+    public function destroy(PaymentMethod $paymentMethod): JsonResponse
     {
         $paymentMethod->delete();
 

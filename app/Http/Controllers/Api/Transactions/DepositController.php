@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Api\Transactions;
 
 use App\Http\Controllers\Api\ApiController;
 use App\Http\Requests\Transactions\StoreDepositRequest;
+use App\Http\Resources\TransactionResource;
 use App\Services\Transactions\DepositService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Log;
 
 class DepositController extends ApiController
@@ -18,72 +20,48 @@ class DepositController extends ApiController
     /**
      * Create a new deposit
      */
-    public function store(StoreDepositRequest $request): JsonResponse
+    public function init(StoreDepositRequest $request): JsonResponse|JsonResource
     {
         try {
-            $deposit = $this->depositService->createDeposit(
+            $deposit = $this->depositService->create(
                 $request->user(),
                 $request->validated()
             );
 
-            return response()->json([
-                'success' => true,
-                'message' => 'Deposit initiated successfully',
-                'data' => [
-                    'id' => $deposit->id,
-                    'reference' => $deposit->reference,
-                    'amount' => $deposit->amount,
-                    'status' => $deposit->status->label(),
-                    'external_reference' => $deposit->external_reference,
-                    'created_at' => $deposit->created_at,
-                ],
-            ], 201);
+            return $this->successResourceResponse(TransactionResource::make($deposit), 'Deposit created successfully');
         } catch (\InvalidArgumentException $e) {
-            return response()->json([
-                'success' => false,
-                'message' => $e->getMessage(),
-            ], 422);
+            return $this->errorResponse($e->getMessage(), 422);
         } catch (\Exception $e) {
             Log::error('Deposit creation failed', [
                 'user_id' => $request->user()->id,
                 'error' => $e->getMessage(),
             ]);
 
-            return response()->json([
-                'success' => false,
-                'message' => 'Failed to create deposit',
-            ], 500);
+            return $this->errorResponse('Failed to create deposit', 500);
         }
     }
 
     /**
      * Handle deposit callback from gateway
      */
-    public function callback(Request $request, string $reference): JsonResponse
+    public function confirm(Request $request, string $reference): JsonResponse
     {
         try {
             $gatewayData = $request->all();
 
-            $deposit = $this->depositService->confirmDeposit($reference, $gatewayData);
+            $deposit = $this->depositService->confirm($reference, $gatewayData);
 
-            return response()->json([
-                'success' => true,
-                'message' => 'Deposit confirmed',
-                'data' => [
-                    'reference' => $deposit->reference,
-                    'status' => $deposit->status->label(),
-                ],
-            ]);
+            return $this->successResponse([
+                'reference' => $deposit->reference,
+                'status' => $deposit->status->label(),
+            ], 'Deposit confirmed');
         } catch (\Exception $e) {
             Log::error('Deposit callback failed', [
                 'reference' => $reference,
                 'error' => $e->getMessage(),
             ]);
 
-            return response()->json([
-                'success' => false,
-                'message' => $e->getMessage(),
-            ], 400);
+            return $this->errorResponse($e->getMessage(), 400);
         }
     }
 
@@ -93,24 +71,17 @@ class DepositController extends ApiController
     public function cancel(Request $request, string $reference): JsonResponse
     {
         try {
-            $deposit = $this->depositService->cancelDeposit(
+            $deposit = $this->depositService->cancel(
                 $reference,
                 $request->input('reason', 'User cancelled')
             );
 
-            return response()->json([
-                'success' => true,
-                'message' => 'Deposit cancelled successfully',
-                'data' => [
-                    'reference' => $deposit->reference,
-                    'status' => $deposit->status->label(),
-                ],
-            ]);
+            return $this->successResponse([
+                'reference' => $deposit->reference,
+                'status' => $deposit->status->label(),
+            ], 'Deposit cancelled successfully');
         } catch (\Exception $e) {
-            return response()->json([
-                'success' => false,
-                'message' => $e->getMessage(),
-            ], 400);
+            return $this->errorResponse($e->getMessage(), 400);
         }
     }
 }

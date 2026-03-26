@@ -14,7 +14,7 @@ class UserSeeder extends Seeder
     {
         User::factory()->create([
             'name' => 'Zilo Pay User',
-            'email' => 'zilo@zilopay.com',
+            'email' => 'user@zilopay.com',
         ]);
     }
 }

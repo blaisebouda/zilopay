@@ -20,13 +20,72 @@
         }
     ],
     "paths": {
+        "/auth/login": {
+            "post": {
+                "tags": [
+                    "Authentification"
+                ],
+                "summary": "Login a user",
+                "operationId": "46365e1225df2e0f2d69fecdd16a8587",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "identifier",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "identifier": {
+                                        "type": "string",
+                                        "example": "user@zilopay.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "password"
+                                    },
+                                    "remember": {
+                                        "type": "boolean",
+                                        "example": false
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/User"
+                                        },
+                                        "token": {
+                                            "type": "string",
+                                            "example": "1|abcdef..."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/payment-methods": {
             "get": {
                 "tags": [
                     "Payment Methods"
                 ],
                 "summary": "Get list of payment methods",
-                "operationId": "630a4dbcf2b61bea0323f39806f2f28a",
+                "operationId": "0a06e207f8b48b2bbe5d0d576a552252",
                 "responses": {
                     "200": {
                         "description": "Successful operation",
@@ -48,10 +107,289 @@
                     }
                 }
             }
+        },
+        "/transactions/init-deposit": {
+            "post": {
+                "tags": [
+                    "Transactions"
+                ],
+                "summary": "Initiate a new deposit",
+                "operationId": "5696aafdbf21aa94c00837ca87260a43",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "wallet_id",
+                                    "amount",
+                                    "payment_method_id",
+                                    "phone_number"
+                                ],
+                                "properties": {
+                                    "wallet_id": {
+                                        "description": "Wallet ID to credit",
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "amount": {
+                                        "description": "Deposit amount",
+                                        "type": "number",
+                                        "example": 5000,
+                                        "maximum": 10000000,
+                                        "minimum": 100
+                                    },
+                                    "payment_method_id": {
+                                        "description": "Payment method ID",
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "phone_number": {
+                                        "description": "Phone number for payment",
+                                        "type": "string",
+                                        "pattern": "^[0-9]{8,15}$",
+                                        "example": "1234567890"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Deposit initiated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Deposit created successfully"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/Transaction"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 422
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Validation failed"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 500
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Failed to create deposit"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/transactions/confirm-deposit/{reference}": {
+            "post": {
+                "tags": [
+                    "Transactions"
+                ],
+                "summary": "Confirm a deposit from gateway callback",
+                "operationId": "98c99f154c78bbf6b927f8df477290f6",
+                "parameters": [
+                    {
+                        "name": "reference",
+                        "in": "path",
+                        "description": "Deposit reference",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "description": "Gateway callback data"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Deposit confirmed successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Deposit confirmed"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "reference": {
+                                                    "type": "string",
+                                                    "example": "deposit-123456"
+                                                },
+                                                "status": {
+                                                    "type": "string",
+                                                    "example": "confirmed"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 400
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Invalid reference"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "components": {
         "schemas": {
+            "User": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "John Doe"
+                    },
+                    "email": {
+                        "type": "string",
+                        "example": "john.doe@example.com"
+                    },
+                    "pseudo": {
+                        "type": "string",
+                        "example": "johndoe"
+                    },
+                    "email_verified_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2021-01-01 10:00:00"
+                    },
+                    "phone": {
+                        "type": "string",
+                        "example": "+22500000000"
+                    },
+                    "first_name": {
+                        "type": "string",
+                        "example": "John"
+                    },
+                    "last_name": {
+                        "type": "string",
+                        "example": "Doe"
+                    },
+                    "full_name": {
+                        "type": "string",
+                        "example": "John Doe"
+                    },
+                    "is_verified": {
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object"
+            },
             "PaymentMethod": {
                 "properties": {
                     "id": {
@@ -110,6 +448,67 @@
                     }
                 },
                 "type": "object"
+            },
+            "Transaction": {
+                "properties": {
+                    "type": {
+                        "description": "Transaction type",
+                        "type": "string",
+                        "example": "deposit"
+                    },
+                    "target": {
+                        "description": "Transaction target",
+                        "type": "string",
+                        "example": "Wallet #1"
+                    },
+                    "reference": {
+                        "description": "Unique transaction reference",
+                        "type": "string",
+                        "example": "deposit-123456"
+                    },
+                    "amount": {
+                        "description": "Formatted amount",
+                        "type": "string",
+                        "example": "5,000 CFA"
+                    },
+                    "status": {
+                        "description": "Transaction status",
+                        "type": "string",
+                        "example": "pending"
+                    },
+                    "status_color": {
+                        "description": "Status color code",
+                        "type": "string",
+                        "example": "#FFA500"
+                    },
+                    "date": {
+                        "description": "Transaction date",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2024-01-15 10:30:00"
+                    },
+                    "operator": {
+                        "description": "Payment operator",
+                        "type": "string",
+                        "example": "Orange Money"
+                    },
+                    "is_deposit": {
+                        "description": "Is deposit transaction",
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "is_withdrawal": {
+                        "description": "Is withdrawal transaction",
+                        "type": "boolean",
+                        "example": false
+                    },
+                    "is_transfer": {
+                        "description": "Is transfer transaction",
+                        "type": "boolean",
+                        "example": false
+                    }
+                },
+                "type": "object"
             }
         },
         "securitySchemes": {
@@ -124,6 +523,13 @@
         }
     },
     "tags": [
+        {
+            "name": "Transactions"
+        },
+        {
+            "name": "Authentification",
+            "description": "Authentification"
+        },
         {
             "name": "Payment Methods",
             "description": "Payment Methods"

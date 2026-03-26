@@ -46,7 +46,7 @@ class PaymentMethod extends Model
 
     public function logoUrl()
     {
-        return Storage::disk('public')->url(PAYMENT_METHOD_LOGO_PATH . $this->logo);
+        return Storage::disk('public')->url(PAYMENT_METHOD_LOGO_PATH.$this->logo);
     }
 
     public function scopeActive($query)

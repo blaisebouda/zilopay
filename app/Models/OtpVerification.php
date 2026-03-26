@@ -29,7 +29,7 @@ class OtpVerification extends Model
         'verified_at' => 'datetime',
         'is_used' => 'boolean',
         'attempts' => 'integer',
-        'type' => OtpType::class
+        'type' => OtpType::class,
     ];
 
     /**

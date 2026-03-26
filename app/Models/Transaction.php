@@ -85,6 +85,28 @@ class Transaction extends BaseModel
         return $this->status->equals(TransactionStatus::SUCCESS);
     }
 
+    public function isDeposit(): bool
+    {
+        return $this->transaction_type->equals(TransactionType::DEPOSIT);
+    }
+
+    public function isWithdrawal(): bool
+    {
+        return $this->transaction_type->equals(TransactionType::WITHDRAWAL);
+    }
+
+    public function isTransfer(): bool
+    {
+        return $this->transaction_type->equals(TransactionType::TRANSFER);
+    }
+
+    public function formatAmount(): string
+    {
+        $amount = number_format($this->amount, 2).' '.$this->currency?->code;
+
+        return $this->isDeposit() ? '+'.$amount : '-'.$amount;
+    }
+
     // Scopes
     public function scopeOfType($query, TransactionType $type)
     {

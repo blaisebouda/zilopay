@@ -9,23 +9,14 @@ abstract class ApiController
 {
     protected const PER_PAGE = 15;
 
-    public function successJson(JsonResource $jsonResource, string $message = 'Success'): JsonResource
+    public function successResourceResponse(JsonResource $resource, string $message = 'Success'): JsonResource
     {
-        return $jsonResource->additional([
-            ...$jsonResource->additional,
+        return $resource->additional([
+            ...$resource->additional,
             'success' => true,
             'status' => 200,
             'message' => $message,
         ]);
-    }
-
-    public function errorJson(string $message, int $status = 400): JsonResponse
-    {
-        return response()->json([
-            'success' => false,
-            'status' => $status,
-            'message' => $message,
-        ], $status);
     }
 
     /**

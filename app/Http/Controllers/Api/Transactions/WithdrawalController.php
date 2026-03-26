@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Http\Controllers\Api\Transactions;
 
 use App\Http\Controllers\Api\ApiController;
