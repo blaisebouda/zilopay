@@ -20,6 +20,7 @@ return new class extends Migration
 
             $table->decimal('balance', 20, 8)->default(0.00000000);
             $table->boolean('is_default')->default(false);
+            $table->string('code')->unique();
             $table->integer('status')->default(ModelStatus::ACTIVE->value);
 
             $table->unique(['user_id', 'currency_id']);

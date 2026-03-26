@@ -14,5 +14,8 @@ Route::prefix('transactions')->middleware('auth:sanctum')->group(function () {
     Route::post('/confirm-withdrawal/{reference}', [App\Http\Controllers\Api\Transactions\WithdrawalController::class, 'confirm']);
 
     // Transfer routes
-    Route::post('/transfer', [App\Http\Controllers\Api\Transactions\TransferController::class, 'init']);
+    Route::post('/transfer', [App\Http\Controllers\Api\Transactions\TransferController::class, 'store']);
+
+    // History routes
+    Route::get('/history', [App\Http\Controllers\Api\Transactions\TransactionHistoryController::class, 'index']);
 });

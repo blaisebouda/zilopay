@@ -3,16 +3,18 @@
 namespace App\Http\Controllers\Api\Transactions;
 
 use App\Http\Controllers\Api\ApiController;
+use App\Http\Resources\TransactionResource;
 use App\Models\Transaction;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\JsonResource;
 
 class TransactionHistoryController extends ApiController
 {
     /**
      * Get transaction history for authenticated user
      */
-    public function index(Request $request): JsonResponse
+    public function index(Request $request): JsonResource
     {
         $query = Transaction::forUser($request->user()->id)
             ->with(['currency', 'paymentMethod', 'deposit', 'withdrawal', 'transfer']);
@@ -33,14 +35,11 @@ class TransactionHistoryController extends ApiController
         }
 
         // Pagination
-        $perPage = $request->input('per_page', 20);
+        $perPage = $request->input('per_page', self::PER_PAGE);
         $transactions = $query->orderBy('created_at', 'desc')
-            ->paginate($perPage);
+            ->simplePaginate($perPage);
 
-        return response()->json([
-            'success' => true,
-            'data' => $transactions,
-        ]);
+        return $this->successResourceResponse(TransactionResource::collection($transactions));
     }
 
     /**

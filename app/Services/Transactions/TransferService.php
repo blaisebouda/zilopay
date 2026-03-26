@@ -105,11 +105,13 @@ class TransferService extends AbstractTransactionService implements TransactionS
             balanceAfter: $receiverWalletLocked->balance
         );
 
+
+
         $transfer = $this->createTransferRecord(
-            $senderTransaction,
-            $senderWalletLocked,
-            $receiverWalletLocked,
-            $note
+            senderTransaction: $senderTransaction,
+            senderWallet: $senderWalletLocked,
+            receiverWallet: $receiverWalletLocked,
+            note: $note
         );
 
         $this->logTransfer(
@@ -167,11 +169,18 @@ class TransferService extends AbstractTransactionService implements TransactionS
         Wallet $receiverWallet,
         ?string $note
     ): Transfer {
+
+        $metaData = [
+            'sender_name' => $senderWallet->user->name,
+            'receiver_name' => $receiverWallet->user->name,
+        ];
+
         return Transfer::create([
             'transaction_id' => $senderTransaction->id,
             'sender_wallet_id' => $senderWallet->id,
             'receiver_wallet_id' => $receiverWallet->id,
             'note' => $note,
+            'metadata' => $this->buildMetadata($metaData)
         ]);
     }
 

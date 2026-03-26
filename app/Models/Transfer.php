@@ -15,7 +15,15 @@ class Transfer extends Model
         'receiver_wallet_id',
         'note',
         'transaction_id',
+        'metadata'
     ];
+
+    protected function casts(): array
+    {
+        return [
+            'metadata' => 'array',
+        ];
+    }
 
     public function senderWallet(): BelongsTo
     {

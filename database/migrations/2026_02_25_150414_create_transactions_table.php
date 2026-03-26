@@ -20,7 +20,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('currency_id')->constrained();
             $table->foreignId('payment_method_id')->nullable()->constrained();
-            $table->integer('transaction_type');
+            $table->integer('type');
 
             // Montants (Centralisés)
             $table->decimal('amount', 20, 8)->default(0);
@@ -35,9 +35,9 @@ return new class extends Migration
 
             // Indexes indispensables ici.
             $table->index(['user_id', 'created_at']);
-            $table->index(['user_id', 'transaction_type', 'created_at']);
+            $table->index(['user_id', 'type', 'created_at']);
             $table->index(['user_id', 'status', 'created_at']);
-            $table->index(['transaction_type', 'status', 'created_at']);
+            $table->index(['type', 'status', 'created_at']);
             $table->index(['payment_method_id', 'status']);
         });
     }

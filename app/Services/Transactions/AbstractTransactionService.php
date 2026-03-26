@@ -44,7 +44,7 @@ abstract class AbstractTransactionService
         $transaction = Transaction::create([
             'user_id' => $userId,
             'currency_id' => $currencyId,
-            'transaction_type' => $this->getTransactionType(),
+            'type' => $this->getTransactionType(),
             'amount' => $amountWithFee->amount,
             'status' => $status,
             'fee_fixed' => $amountWithFee->fixed,

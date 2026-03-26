@@ -14,8 +14,8 @@ class StoreTransferRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'sender_wallet_id' => ['required', 'integer', 'exists:wallets,id'],
-            'receiver_wallet_id' => ['required', 'integer', 'exists:wallets,id', 'different:sender_wallet_id'],
+            'sender_wallet_id' => ['required', 'string', 'exists:wallets,code'],
+            'receiver_wallet_id' => ['required', 'string', 'exists:wallets,code', 'different:sender_wallet_id'],
             'amount' => ['required', 'numeric', 'min:100', 'max:10000000'],
             'note' => ['nullable', 'string', 'max:255'],
         ];

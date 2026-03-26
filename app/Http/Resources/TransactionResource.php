@@ -15,13 +15,14 @@ class TransactionResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'type' => $this->transaction_type->label(),
-            'target' => $this->target,
+            'type' => $this->type->label(),
+            'target' => $this->target(),
             'reference' => $this->uuid,
             'amount' => $this->formatAmount(),
             'status' => $this->status->label(),
             'status_color' => $this->status->color(),
-            'date' => $this->created_at->format('Y-m-d H:i:s'),
+            'created_at' => $this->created_at,
+            'date' => $this->created_at->format('m d, H:i'), //	Oct 23, 09:45
             'operator' => $this->paymentMethod?->name ?? 'N/A',
             'is_deposit' => $this->isDeposit(),
             'is_withdrawal' => $this->isWithdrawal(),

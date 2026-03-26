@@ -7,12 +7,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class Wallet extends Model
+class Wallet extends BaseModel
 {
     use HasFactory;
 
     protected $fillable = [
         'user_id',
+        'code',
         'currency_id',
         'balance',
         'is_default',
@@ -73,10 +74,22 @@ class Wallet extends Model
         $this->save();
     }
 
+    public function generateCode(): string
+    {
+        return "ZP" . self::generateUniqueCode('code', 8);
+    }
+
     public static function getDefaultForUser(int $userId): ?self
     {
         return self::where('user_id', $userId)
             ->where('is_default', true)
             ->first();
+    }
+
+    protected static function booted(): void
+    {
+        static::creating(function (Wallet $wallet) {
+            $wallet->code = $wallet->generateCode();
+        });
     }
 }

@@ -136,4 +136,85 @@ class TransactionAnot
         ]
     )]
     public function confirmDeposit() {}
+
+    #[OA\Get(
+        path: '/transactions/history',
+        summary: 'Get transaction history',
+        tags: ['Transactions'],
+        security: [['sanctum' => []]],
+        responses: [
+            new OA\Response(
+                response: 200,
+                description: 'Transaction history retrieved successfully',
+                content: new OA\JsonContent(
+                    type: 'object',
+                    properties: [
+                        new OA\Property(
+                            property: 'data',
+                            type: 'array',
+                            items: new OA\Items(ref: '#/components/schemas/Transaction')
+                        ),
+                    ]
+                )
+            ),
+
+        ]
+    )]
+    public function history() {}
+
+    #[OA\Post(
+        path: '/transactions/transfer',
+        summary: 'Create a new transfer',
+        tags: ['Transactions'],
+        security: [['sanctum' => []]],
+        requestBody: new OA\RequestBody(
+            required: true,
+            content: new OA\JsonContent(
+                required: ['sender_wallet_id', 'receiver_wallet_id', 'amount'],
+                properties: [
+                    new OA\Property(property: 'sender_wallet_id', type: 'string', example: 'ZP00000000', description: 'Sender wallet code'),
+                    new OA\Property(property: 'receiver_wallet_id', type: 'string', example: 'ZP00000001', description: 'Receiver wallet code'),
+                    new OA\Property(property: 'amount', type: 'number', example: 5000, minimum: 100, maximum: 10000000, description: 'Transfer amount'),
+                    new OA\Property(property: 'note', type: 'string', example: 'Payment for services', description: 'Transfer note (optional)')
+                ]
+            )
+        ),
+        responses: [
+            new OA\Response(
+                response: 200,
+                description: 'Transfer completed successfully',
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(property: 'success', type: 'boolean', example: true),
+                        new OA\Property(property: 'status', type: 'integer', example: 200),
+                        new OA\Property(property: 'message', type: 'string', example: 'Request successful'),
+                        new OA\Property(property: 'data', ref: '#/components/schemas/Transaction')
+                    ]
+                )
+            ),
+            new OA\Response(
+                response: 422,
+                description: 'Validation error',
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(property: 'success', type: 'boolean', example: false),
+                        new OA\Property(property: 'status', type: 'integer', example: 422),
+                        new OA\Property(property: 'message', type: 'string', example: 'Validation failed')
+                    ]
+                )
+            ),
+            new OA\Response(
+                response: 500,
+                description: 'Server error',
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(property: 'success', type: 'boolean', example: false),
+                        new OA\Property(property: 'status', type: 'integer', example: 500),
+                        new OA\Property(property: 'message', type: 'string', example: 'Failed to complete transfer')
+                    ]
+                )
+            )
+        ]
+    )]
+    public function transfer() {}
 }

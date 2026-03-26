@@ -14,7 +14,7 @@ class Transaction extends BaseModel
         'user_id',
         'currency_id',
         'payment_method_id',
-        'transaction_type',
+        'type',
         'amount',
         'fee_fixed',
         'fee_percentage',
@@ -36,7 +36,7 @@ class Transaction extends BaseModel
             'balance_before' => 'float',
             'balance_after' => 'float',
             'status' => TransactionStatus::class,
-            'transaction_type' => TransactionType::class,
+            'type' => TransactionType::class,
         ];
     }
 
@@ -87,30 +87,47 @@ class Transaction extends BaseModel
 
     public function isDeposit(): bool
     {
-        return $this->transaction_type->equals(TransactionType::DEPOSIT);
+        return $this->type->equals(TransactionType::DEPOSIT);
     }
 
     public function isWithdrawal(): bool
     {
-        return $this->transaction_type->equals(TransactionType::WITHDRAWAL);
+        return $this->type->equals(TransactionType::WITHDRAWAL);
     }
 
     public function isTransfer(): bool
     {
-        return $this->transaction_type->equals(TransactionType::TRANSFER);
+        return $this->type->equals(TransactionType::TRANSFER);
     }
 
     public function formatAmount(): string
     {
-        $amount = number_format($this->amount, 2).' '.$this->currency?->code;
+        $amount = number_format($this->amount, 2, ' ') . ' ' . $this->currency?->code;
 
-        return $this->isDeposit() ? '+'.$amount : '-'.$amount;
+        return $this->isDeposit() ? '+' . $amount : '-' . $amount;
     }
+
+    public function target(): string
+    {
+        if ($this->isDeposit()) {
+            return "Portefeuille-Interne";
+        }
+
+        if ($this->isWithdrawal()) {
+            return $this->withdrawal?->target ?? 'N/A';
+        }
+
+        if ($this->isTransfer()) {
+            return $this->transfer?->target ?? 'N/A';
+        }
+        return 'N/A';
+    }
+
 
     // Scopes
     public function scopeOfType($query, TransactionType $type)
     {
-        return $query->where('transaction_type', $type);
+        return $query->where('type', $type);
     }
 
     public function scopeWithStatus($query, TransactionStatus $status)
@@ -120,22 +137,22 @@ class Transaction extends BaseModel
 
     public function scopeDeposits($query)
     {
-        return $query->where('transaction_type', TransactionType::DEPOSIT);
+        return $query->where('type', TransactionType::DEPOSIT);
     }
 
     public function scopeWithdrawals($query)
     {
-        return $query->where('transaction_type', TransactionType::WITHDRAWAL);
+        return $query->where('type', TransactionType::WITHDRAWAL);
     }
 
     public function scopeTransfers($query)
     {
-        return $query->where('transaction_type', TransactionType::TRANSFER);
+        return $query->where('type', TransactionType::TRANSFER);
     }
 
     public function scopePayments($query)
     {
-        return $query->where('transaction_type', TransactionType::PAYMENT);
+        return $query->where('type', TransactionType::PAYMENT);
     }
 
     public function scopePending($query)
@@ -161,6 +178,6 @@ class Transaction extends BaseModel
     public function scopeWhereUuidForType(Builder $query, string $uuid, TransactionType $type): Builder
     {
         return $query->whereUuid($uuid)
-            ->where('transaction_type', $type);
+            ->where('type', $type);
     }
 }

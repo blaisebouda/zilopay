@@ -13,9 +13,9 @@ class WalletValidator
      *
      * @throws \InvalidArgumentException
      */
-    public function validateOwnership(User $user, int $walletId): Wallet
+    public function validateOwnership(User $user, string $walletCode): Wallet
     {
-        $wallet = Wallet::where('id', $walletId)
+        $wallet = Wallet::where('code', $walletCode)
             ->where('user_id', $user->id)
             ->first();
 
@@ -31,10 +31,10 @@ class WalletValidator
      *
      * @throws \InvalidArgumentException
      */
-    public function validateExists(int $walletId): Wallet
+    public function validateExists(string $walletCode): Wallet
     {
         /** @var Wallet|null $wallet */
-        $wallet = Wallet::find($walletId);
+        $wallet = Wallet::where('code', $walletCode)->first();
 
         if (! $wallet) {
             throw new \InvalidArgumentException('Wallet not found');

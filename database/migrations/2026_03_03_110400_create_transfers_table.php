@@ -18,6 +18,7 @@ return new class extends Migration
             $table->foreignId('receiver_wallet_id')->constrained('wallets')->onDelete('cascade');
 
             $table->text('note')->nullable();
+            $table->json('metadata')->nullable();
             $table->timestamps();
 
             $table->index(['sender_wallet_id', 'created_at']);
