@@ -17,6 +17,6 @@ enum ActivityLogAction: string implements AdvancedEnumInterface
 
     public function label(): string
     {
-        return __('enums.activity_log_action.'.$this->value);
+        return __('enums.activity_log_action.'.$this->name);
     }
 }

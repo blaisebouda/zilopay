@@ -14,6 +14,6 @@ enum CurrencyType: string implements AdvancedEnumInterface
 
     public function label(): string
     {
-        return __('enums.currency_type.'.$this->value);
+        return __('enums.currency_type.' . $this->name);
     }
 }

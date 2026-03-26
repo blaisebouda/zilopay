@@ -56,7 +56,7 @@ class DepositService extends AbstractTransactionService implements TransactionSe
 
             $deposit = $this->createDepositRecord($transaction, $wallet);
 
-            $this->initiateGatewayPayment($deposit, $amount, $wallet, $data['phone_number'] ?? null);
+            //$this->initiateGatewayPayment($deposit, $amount, $wallet, $data['phone_number'] ?? null);
 
             return $transaction->fresh();
         });
@@ -78,7 +78,7 @@ class DepositService extends AbstractTransactionService implements TransactionSe
 
             if (! $verification['success']) {
                 $this->failDeposit($deposit, $verification, $gatewayData);
-                throw new \Exception('Deposit verification failed: '.($verification['message'] ?? 'Unknown error'));
+                throw new \Exception('Deposit verification failed: ' . ($verification['message'] ?? 'Unknown error'));
             }
 
             return $this->completeDeposit($deposit);

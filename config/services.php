@@ -35,4 +35,12 @@ return [
         ],
     ],
 
+    // Orange Money Gateway
+    'orange_money' => [
+        'base_url' => env('ORANGE_MONEY_BASE_URL', 'https://api.orange.com'),
+        'client_id' => env('ORANGE_MONEY_CLIENT_ID', ''),
+        'client_secret' => env('ORANGE_MONEY_CLIENT_SECRET', ''),
+        'merchant_id' => env('ORANGE_MONEY_MERCHANT_ID', ''),
+    ],
+
 ];

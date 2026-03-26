@@ -22,7 +22,7 @@ return new class extends Migration
             $table->boolean('is_default')->default(false);
             $table->integer('status')->default(ModelStatus::ACTIVE->value);
 
-            // $table->unique(['user_id', 'currency_id']);
+            $table->unique(['user_id', 'currency_id']);
 
             $table->timestamps();
         });

@@ -14,6 +14,6 @@ enum LangEnum: string implements AdvancedEnumInterface
 
     public function label(): string
     {
-        return __('enums.lang.'.$this->value);
+        return __('enums.lang.' . $this->name);
     }
 }

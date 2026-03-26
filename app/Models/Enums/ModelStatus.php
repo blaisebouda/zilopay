@@ -2,6 +2,7 @@
 
 namespace App\Models\Enums;
 
+use App\Constants\Colors;
 use App\Models\Enums\Contracts\AdvancedEnum;
 use App\Models\Enums\Contracts\AdvancedEnumInterface;
 
@@ -20,13 +21,13 @@ enum ModelStatus: int implements AdvancedEnumInterface
     public function getColor(): string
     {
         return match ($this) {
-            self::ACTIVE => 'success',
-            self::INACTIVE => 'danger',
+            self::ACTIVE => Colors::SUCCESS,
+            self::INACTIVE => Colors::FAILED,
         };
     }
 
     public function label(): string
     {
-        return __('enums.model_status.'.$this->value);
+        return __('enums.model_status.' . $this->name);
     }
 }

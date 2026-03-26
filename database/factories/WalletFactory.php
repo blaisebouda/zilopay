@@ -28,4 +28,11 @@ class WalletFactory extends Factory
             'status' => ModelStatus::random(),
         ];
     }
+
+    public function default(): static
+    {
+        return $this->state(fn(array $attributes) => [
+            'is_default' => true,
+        ]);
+    }
 }
