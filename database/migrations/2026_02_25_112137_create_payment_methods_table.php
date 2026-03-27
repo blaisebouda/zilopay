@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\Enums\ModelStatus;
+use App\Models\Enums\CommonStatus;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -23,7 +23,7 @@ return new class extends Migration
             $table->decimal('max_amount', 15, 2);
             $table->decimal('fee_percent', 5, 2)->default(0);
             $table->decimal('fee_fixed', 15, 2)->default(0);
-            $table->integer('status')->default(ModelStatus::ACTIVE->value);
+            $table->integer('status')->default(CommonStatus::ACTIVE->value);
             $table->timestamps();
         });
     }

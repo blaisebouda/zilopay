@@ -6,7 +6,7 @@ use App\Constants\Colors;
 use App\Models\Enums\Contracts\AdvancedEnum;
 use App\Models\Enums\Contracts\AdvancedEnumInterface;
 
-enum ModelStatus: int implements AdvancedEnumInterface
+enum CommonStatus: int implements AdvancedEnumInterface
 {
     use AdvancedEnum;
 

@@ -2,6 +2,7 @@
 
 namespace App\Services\Transactions;
 
+use App\Models\Enums\Currency;
 use App\Models\Enums\TransactionStatus;
 use App\Models\Enums\TransactionType;
 use App\Models\Transaction;
@@ -99,7 +100,7 @@ class TransferService extends AbstractTransactionService implements TransactionS
 
         $this->createReceiverTransaction(
             userId: $receiverWalletLocked->user_id,
-            currencyId: $receiverWalletLocked->currency_id,
+            currency: $receiverWalletLocked->currency,
             amount: $amountWithFee->amount,
             balanceBefore: $receiverBalanceBefore,
             balanceAfter: $receiverWalletLocked->balance
@@ -138,7 +139,7 @@ class TransferService extends AbstractTransactionService implements TransactionS
     ): Transaction {
         return $this->createTransaction(
             userId: $sender->id,
-            currencyId: $wallet->currency_id,
+            currency: $wallet->currency,
             amountWithFee: $amountWithFee,
             balanceBefore: $balanceBefore,
             balanceAfter: $balanceAfter,
@@ -148,14 +149,14 @@ class TransferService extends AbstractTransactionService implements TransactionS
 
     private function createReceiverTransaction(
         int $userId,
-        int $currencyId,
+        Currency $currency,
         float $amount,
         float $balanceBefore,
         float $balanceAfter
     ): Transaction {
         return $this->createTransaction(
             userId: $userId,
-            currencyId: $currencyId,
+            currency: $currency,
             amountWithFee: new AmountWithFeeResult($amount, 0, 0),
             balanceBefore: $balanceBefore,
             balanceAfter: $balanceAfter,

@@ -1,7 +1,7 @@
 <?php
 
 use App\Models\Enums\CurrencyType;
-use App\Models\Enums\ModelStatus;
+use App\Models\Enums\CommonStatus;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('exchange_from', 6)->default('local');
             $table->string('allowed_wallet_creation', 4)->default('No');
             $table->string('address', 191)->nullable();
-            $table->integer('status')->default(ModelStatus::ACTIVE->value);
+            $table->integer('status')->default(CommonStatus::ACTIVE->value);
             $table->timestamps();
         });
     }

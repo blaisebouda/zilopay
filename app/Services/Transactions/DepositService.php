@@ -46,7 +46,7 @@ class DepositService extends AbstractTransactionService implements TransactionSe
 
             $transaction = $this->createTransaction(
                 userId: $user->id,
-                currencyId: $wallet->currency_id,
+                currency: $wallet->currency,
                 amountWithFee: $amountWithFee,
                 status: TransactionStatus::PENDING,
                 paymentMethodId: $paymentMethod->id,

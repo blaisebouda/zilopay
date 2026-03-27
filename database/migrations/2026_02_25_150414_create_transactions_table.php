@@ -18,11 +18,11 @@ return new class extends Migration
 
             // Relations communes
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->foreignId('currency_id')->constrained();
             $table->foreignId('payment_method_id')->nullable()->constrained();
             $table->integer('type');
 
             // Montants (Centralisés)
+            $table->string('currency', 8);
             $table->decimal('amount', 20, 8)->default(0);
             $table->decimal('fee_fixed', 20, 8)->default(0);
             $table->decimal('fee_percentage', 20, 8)->default(0);

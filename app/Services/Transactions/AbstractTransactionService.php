@@ -2,6 +2,7 @@
 
 namespace App\Services\Transactions;
 
+use App\Models\Enums\Currency;
 use App\Models\Enums\TransactionStatus;
 use App\Models\Enums\TransactionType;
 use App\Models\Transaction;
@@ -34,7 +35,7 @@ abstract class AbstractTransactionService
      */
     protected function createTransaction(
         int $userId,
-        int $currencyId,
+        Currency $currency,
         AmountWithFeeResult $amountWithFee,
         float $balanceBefore,
         float $balanceAfter,
@@ -43,7 +44,7 @@ abstract class AbstractTransactionService
     ): Transaction {
         $transaction = Transaction::create([
             'user_id' => $userId,
-            'currency_id' => $currencyId,
+            'currency' => $currency->value,
             'type' => $this->getTransactionType(),
             'amount' => $amountWithFee->amount,
             'status' => $status,

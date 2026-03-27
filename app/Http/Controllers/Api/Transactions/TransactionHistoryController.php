@@ -17,7 +17,7 @@ class TransactionHistoryController extends ApiController
     public function index(Request $request): JsonResource
     {
         $query = Transaction::forUser($request->user()->id)
-            ->with(['currency', 'paymentMethod', 'deposit', 'withdrawal', 'transfer']);
+            ->with(['paymentMethod', 'deposit', 'withdrawal', 'transfer']);
 
         // Filter by type
         if ($request->has('type')) {
@@ -51,7 +51,7 @@ class TransactionHistoryController extends ApiController
 
         $transactions = Transaction::forUser($request->user()->id)
             ->recent($limit)
-            ->with(['currency', 'paymentMethod'])
+            ->with(['paymentMethod'])
             ->get();
 
         return response()->json([

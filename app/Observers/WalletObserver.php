@@ -16,10 +16,10 @@ class WalletObserver
         ActivityLog::create([
             'user_id' => $wallet->user_id,
             'action' => ActivityLogAction::WALLET_CREATED,
-            'description' => 'Wallet created for currency: '.$wallet->currency?->code,
+            'description' => 'Wallet created for currency: ' . $wallet->currency?->code,
             'data' => [
                 'wallet_id' => $wallet->id,
-                'currency_id' => $wallet->currency_id,
+                'currency' => $wallet->currency,
                 'initial_balance' => $wallet->balance,
             ],
             'ip_address' => request()->ip(),
@@ -51,7 +51,7 @@ class WalletObserver
                 ),
                 'data' => [
                     'wallet_id' => $wallet->id,
-                    'currency_id' => $wallet->currency_id,
+                    'currency' => $wallet->currency,
                     'old_balance' => $oldBalance,
                     'new_balance' => $newBalance,
                     'difference' => $difference,
@@ -65,10 +65,10 @@ class WalletObserver
             ActivityLog::create([
                 'user_id' => $wallet->user_id,
                 'action' => ActivityLogAction::WALLET_SET_DEFAULT,
-                'description' => 'Wallet set as default for currency: '.$wallet->currency?->code,
+                'description' => 'Wallet set as default for currency: ' . $wallet->currency?->code,
                 'data' => [
                     'wallet_id' => $wallet->id,
-                    'currency_id' => $wallet->currency_id,
+                    'currency' => $wallet->currency,
                 ],
                 'ip_address' => request()->ip(),
                 'user_agent' => request()->userAgent(),
@@ -84,10 +84,10 @@ class WalletObserver
         ActivityLog::create([
             'user_id' => $wallet->user_id,
             'action' => ActivityLogAction::WALLET_DELETED,
-            'description' => 'Wallet deleted for currency: '.$wallet->currency?->code,
+            'description' => 'Wallet deleted for currency: ' . $wallet->currency?->code,
             'data' => [
                 'wallet_id' => $wallet->id,
-                'currency_id' => $wallet->currency_id,
+                'currency' => $wallet->currency,
                 'final_balance' => $wallet->balance,
             ],
             'ip_address' => request()->ip(),

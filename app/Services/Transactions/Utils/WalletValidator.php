@@ -62,7 +62,7 @@ class WalletValidator
      */
     public function validateSameCurrency(Wallet $wallet1, Wallet $wallet2): void
     {
-        if ($wallet1->currency_id !== $wallet2->currency_id) {
+        if ($wallet1->currency->value !== $wallet2->currency->value) {
             throw new \InvalidArgumentException('Cross-currency transfers are not supported');
         }
     }

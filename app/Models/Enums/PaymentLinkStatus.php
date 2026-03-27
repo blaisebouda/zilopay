@@ -5,15 +5,15 @@ namespace App\Models\Enums;
 use App\Models\Enums\Contracts\AdvancedEnum;
 use App\Models\Enums\Contracts\AdvancedEnumInterface;
 
-enum CurrencyType: string implements AdvancedEnumInterface
+enum PaymentLinkStatus: int implements AdvancedEnumInterface
 {
     use AdvancedEnum;
 
-    case FIAT = 'fiat';
-    case CRYPTO = 'crypto';
+    case ACTIVE = 1;
+    case INACTIVE = 0;
 
     public function label(): string
     {
-        return __('enums.currency_type.' . $this->name);
+        return __('enums.payment_link_status.' . $this->name);
     }
 }

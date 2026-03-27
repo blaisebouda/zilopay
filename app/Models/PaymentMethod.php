@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Models\Enums\ModelStatus;
+use App\Models\Enums\CommonStatus;
 use App\Models\Enums\PaymentMethodCode;
 use App\Models\Enums\PaymentMethodType;
 use Illuminate\Database\Eloquent\Model;
@@ -46,11 +46,11 @@ class PaymentMethod extends Model
 
     public function logoUrl()
     {
-        return Storage::disk('public')->url(PAYMENT_METHOD_LOGO_PATH.$this->logo);
+        return Storage::disk('public')->url(PAYMENT_METHOD_LOGO_PATH . $this->logo);
     }
 
     public function scopeActive($query)
     {
-        return $query->where('status', ModelStatus::ACTIVE);
+        return $query->where('status', CommonStatus::ACTIVE);
     }
 }

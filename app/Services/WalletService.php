@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\Models\Currency;
+use App\Models\Enums\Currency;
 use App\Models\User;
 use App\Models\Wallet;
 
@@ -13,15 +13,11 @@ class WalletService
      */
     public static function createDefaultWallet(User $user): ?Wallet
     {
-        $defaultCurrency = Currency::default()->first();
 
-        if (! $defaultCurrency) {
-            return null;
-        }
 
         return Wallet::create([
             'user_id' => $user->id,
-            'currency_id' => $defaultCurrency->id,
+            'currency' => Currency::XOF->value,
             'balance' => 0,
             'is_default' => true,
         ]);
@@ -30,10 +26,10 @@ class WalletService
     /**
      * Create a wallet for a specific currency.
      */
-    public static function createWallet(User $user, int $currencyId): Wallet
+    public static function createWallet(User $user, Currency $currency): Wallet
     {
         $existingWallet = Wallet::where('user_id', $user->id)
-            ->where('currency_id', $currencyId)
+            ->where('currency', $currency->value)
             ->first();
 
         if ($existingWallet) {
@@ -42,7 +38,7 @@ class WalletService
 
         return Wallet::create([
             'user_id' => $user->id,
-            'currency_id' => $currencyId,
+            'currency' => $currency->value,
             'balance' => 0,
             'is_default' => false,
         ]);

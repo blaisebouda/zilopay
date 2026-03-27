@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\Enums\TransactionStatus;
 use App\Models\Enums\TransactionType;
+use App\Models\Enums\Currency;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -12,7 +13,6 @@ class Transaction extends BaseModel
 {
     protected $fillable = [
         'user_id',
-        'currency_id',
         'payment_method_id',
         'type',
         'amount',
@@ -22,6 +22,7 @@ class Transaction extends BaseModel
         'status',
         'balance_before',
         'balance_after',
+        'currency',
 
     ];
 
@@ -37,6 +38,7 @@ class Transaction extends BaseModel
             'balance_after' => 'float',
             'status' => TransactionStatus::class,
             'type' => TransactionType::class,
+            'currency' => Currency::class,
         ];
     }
 
@@ -45,10 +47,7 @@ class Transaction extends BaseModel
         return $this->belongsTo(User::class);
     }
 
-    public function currency(): BelongsTo
-    {
-        return $this->belongsTo(Currency::class);
-    }
+
 
     public function paymentMethod(): BelongsTo
     {
@@ -102,7 +101,7 @@ class Transaction extends BaseModel
 
     public function formatAmount(): string
     {
-        $amount = number_format($this->amount, 2, '.', " ") . ' ' . $this->currency?->code;
+        $amount = number_format($this->amount, 2, '.', " ") . ' ' . $this->currency->symbol();
 
         return $this->isDeposit() ? '+' . $amount : '-' . $amount;
     }

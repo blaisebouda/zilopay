@@ -2,9 +2,8 @@
 
 namespace App\Models;
 
-use App\Models\Enums\ModelStatus;
+use App\Models\Enums\CommonStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Wallet extends BaseModel
@@ -14,7 +13,7 @@ class Wallet extends BaseModel
     protected $fillable = [
         'user_id',
         'code',
-        'currency_id',
+        'currency',
         'balance',
         'is_default',
         'status',
@@ -30,7 +29,8 @@ class Wallet extends BaseModel
         return [
             'balance' => 'float',
             'is_default' => 'boolean',
-            'status' => ModelStatus::class,
+            'status' => CommonStatus::class,
+            'currency' => \App\Models\Enums\Currency::class,
         ];
     }
 
@@ -39,10 +39,6 @@ class Wallet extends BaseModel
         return $this->belongsTo(User::class);
     }
 
-    public function currency(): BelongsTo
-    {
-        return $this->belongsTo(Currency::class);
-    }
 
     public function scopeDefault($query)
     {

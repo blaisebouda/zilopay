@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Enums\Currency;
 use App\Models\Enums\TransactionStatus;
 use App\Models\Enums\TransactionType;
 use App\Models\PaymentMethod;
@@ -30,7 +31,7 @@ class TransactionFactory extends Factory
         return [
             'uuid' => Str::uuid(),
             'user_id' => User::factory(),
-            'currency_id' => 1,
+            'currency' => Currency::XOF->value,
             'payment_method_id' => fake()->randomElement([1, 2, 3]),
             'type' => fake()->randomElement(TransactionType::cases())->value,
             'amount' => $amount,
