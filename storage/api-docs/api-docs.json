@@ -878,13 +878,19 @@
                         "application/json": {
                             "schema": {
                                 "required": [
-                                    "amount"
+                                    "amount",
+                                    "wallet_id"
                                 ],
                                 "properties": {
                                     "amount": {
                                         "description": "Amount to deposit (minimum: 1)",
                                         "type": "number",
                                         "example": 50000
+                                    },
+                                    "wallet_id": {
+                                        "description": "Wallet ID",
+                                        "type": "string",
+                                        "example": "ZP00000000"
                                     },
                                     "description": {
                                         "description": "Transaction description (optional)",
@@ -1029,13 +1035,19 @@
                         "application/json": {
                             "schema": {
                                 "required": [
-                                    "amount"
+                                    "amount",
+                                    "wallet_id"
                                 ],
                                 "properties": {
                                     "amount": {
                                         "description": "Amount to withdraw (minimum: 1)",
                                         "type": "number",
                                         "example": 10000
+                                    },
+                                    "wallet_id": {
+                                        "description": "Wallet ID",
+                                        "type": "string",
+                                        "example": "ZP00000000"
                                     },
                                     "description": {
                                         "description": "Transaction description (optional)",

@@ -20,7 +20,7 @@ class UserSeeder extends Seeder
             'email' => 'user@zilopay.com',
         ]);
 
-        $user->defaultWallet->credit(8500);
+        $user->defaultWallet->credit(888500);
         $user->defaultWallet->update(['code' => "ZP00000000"]);
 
         // Test user
@@ -29,7 +29,7 @@ class UserSeeder extends Seeder
             'email' => 'test@zilopay.com',
         ]);
 
-        $testUser->defaultWallet->credit(5000);
+        $testUser->defaultWallet->credit(500000);
         $testUser->defaultWallet->update(['code' => "ZP00000001"]);
     }
 }

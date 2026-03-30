@@ -103,7 +103,7 @@ class VaultAnot
                     new OA\Property(property: 'description', type: 'string', example: 'Coffre-fort pour les vacances', description: 'Vault description (optional)'),
                     new OA\Property(property: 'currency', type: 'string', example: 'XOF', description: 'Currency code (3 letters)'),
                     new OA\Property(property: 'type', type: 'string', example: 'savings', description: 'Vault type: savings, investment, emergency'),
-                    new OA\Property(property: 'maturity_date', type: 'string', format: 'date-time', example: '2025-12-31', description: 'Maturity date (optional)'),
+                    new OA\Property(property: 'maturity_date', type: 'string', format: 'date-time', example: '2026-12-31', description: 'Maturity date (optional)'),
                 ]
             )
         ),
@@ -227,9 +227,10 @@ class VaultAnot
         requestBody: new OA\RequestBody(
             required: true,
             content: new OA\JsonContent(
-                required: ['amount'],
+                required: ['amount', 'wallet_id'],
                 properties: [
-                    new OA\Property(property: 'amount', type: 'number', example: 50000, description: 'Amount to deposit (minimum: 1)'),
+                    new OA\Property(property: 'amount', type: 'number', example: 5000, description: 'Amount to deposit (minimum: 1)'),
+                    new OA\Property(property: 'wallet_id', type: 'string', example: "ZP00000000", description: 'Wallet ID'),
                     new OA\Property(property: 'description', type: 'string', example: 'Dépôt mensuel', description: 'Transaction description (optional)'),
                 ]
             )
@@ -301,9 +302,10 @@ class VaultAnot
         requestBody: new OA\RequestBody(
             required: true,
             content: new OA\JsonContent(
-                required: ['amount'],
+                required: ['amount', 'wallet_id'],
                 properties: [
                     new OA\Property(property: 'amount', type: 'number', example: 10000, description: 'Amount to withdraw (minimum: 1)'),
+                    new OA\Property(property: 'wallet_id', type: 'string', example: "ZP00000000", description: 'Wallet ID'),
                     new OA\Property(property: 'description', type: 'string', example: 'Retrait VaultAnot achat', description: 'Transaction description (optional)'),
                 ]
             )

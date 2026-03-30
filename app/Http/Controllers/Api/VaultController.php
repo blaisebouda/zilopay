@@ -99,12 +99,13 @@ class VaultController extends ApiController
         try {
             $transaction = $this->vaultService->deposit(
                 $vault,
+                $request->input('wallet_id'),
                 $request->input('amount'),
                 $request->input('description')
             );
 
             return $this->successResponse(
-                new VaultTransactionResource($transaction),
+                new VaultTransactionResource($transaction->refresh()),
                 'Dépôt effectué avec succès'
             );
         } catch (\InvalidArgumentException $e) {
@@ -115,6 +116,8 @@ class VaultController extends ApiController
                 'user_id' => $request->user()->id,
                 'error' => $e->getMessage(),
             ]);
+
+            //return $this->debugResponse($e->getMessage());
 
             return $this->errorResponse('Échec du dépôt', 500);
         }
@@ -129,12 +132,13 @@ class VaultController extends ApiController
 
             $transaction = $this->vaultService->withdraw(
                 $vault,
+                $request->input('wallet_id'),
                 $request->input('amount'),
                 $request->input('description')
             );
 
             return $this->successResponse(
-                new VaultTransactionResource($transaction),
+                new VaultTransactionResource($transaction->refresh()),
                 'Retrait effectué avec succès'
             );
         } catch (\InvalidArgumentException $e) {
@@ -145,6 +149,8 @@ class VaultController extends ApiController
                 'user_id' => $request->user()->id,
                 'error' => $e->getMessage(),
             ]);
+
+            // return $this->debugResponse($e->getMessage());
 
             return $this->errorResponse('Échec du retrait', 500);
         }

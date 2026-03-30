@@ -7,11 +7,17 @@ use App\Models\Enums\VaultTransactionType;
 use App\Models\User;
 use App\Models\Vault;
 use App\Models\VaultTransaction;
+use App\Models\Wallet;
+use App\Services\Transactions\Utils\WalletValidator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class VaultService
 {
+    public function __construct(
+        private WalletValidator $walletValidator
+    ) {}
+
     /**
      * Create a new vault
      */
@@ -32,13 +38,19 @@ class VaultService
     /**
      * Deposit money into vault with atomic transaction
      */
-    public function deposit(Vault $vault, float $amount, ?string $description = null): VaultTransaction
+    public function deposit(Vault $vault, string $walletId, float $amount, ?string $description = null): VaultTransaction
     {
+        $wallet = $this->getAndValidateWallet($walletId, $vault->user);
+
         if (!$vault->isActive()) {
             throw new \InvalidArgumentException('Le coffre-fort doit être actif pour effectuer un dépôt');
         }
 
-        return DB::transaction(function () use ($vault, $amount, $description) {
+        if ($wallet->hasInsufficientBalance($amount)) {
+            throw new \InvalidArgumentException('Solde insuffisant dans le portefeuille');
+        }
+
+        return DB::transaction(function () use ($vault, $wallet, $amount, $description) {
             // Update vault balance
             $vault->credit($amount);
 
@@ -51,10 +63,16 @@ class VaultService
                 'metadata' => buildMetadata(),
             ]);
 
+            // Update wallet balance
+            $wallet->debit($amount);
+
             Log::info('Vault deposit completed', [
                 'vault_id' => $vault->id,
                 'transaction_id' => $transaction->id,
                 'amount' => $amount,
+                'wallet_id' => $wallet->id,
+                'vault_balance' => $vault->amount,
+                'wallet_balance' => $wallet->balance,
             ]);
 
             return $transaction;
@@ -64,8 +82,10 @@ class VaultService
     /**
      * Withdraw money from vault with atomic transaction
      */
-    public function withdraw(Vault $vault, float $amount, ?string $description = null): VaultTransaction
+    public function withdraw(Vault $vault, string $walletId, float $amount, ?string $description = null): VaultTransaction
     {
+        $wallet = $this->getAndValidateWallet($walletId, $vault->user);
+
         if ($vault->isLocked()) {
             throw new \InvalidArgumentException('Le coffre-fort est verrouillé. Déverrouillez-le pour effectuer un retrait');
         }
@@ -74,7 +94,7 @@ class VaultService
             throw new \InvalidArgumentException('Solde insuffisant dans le coffre-fort');
         }
 
-        return DB::transaction(function () use ($vault, $amount, $description) {
+        return DB::transaction(function () use ($vault, $wallet, $amount, $description) {
             // Update vault balance
             $vault->debit($amount);
 
@@ -87,10 +107,16 @@ class VaultService
                 'metadata' => buildMetadata(),
             ]);
 
+            // Add balance to wallet
+            $wallet->credit($amount);
+
             Log::info('Vault withdrawal completed', [
                 'vault_id' => $vault->id,
                 'transaction_id' => $transaction->id,
                 'amount' => $amount,
+                'wallet_id' => $wallet->id,
+                'vault_balance' => $vault->amount,
+                'wallet_balance' => $wallet->balance,
             ]);
 
             return $transaction;
@@ -128,5 +154,13 @@ class VaultService
     public function getUserVaults(User $user)
     {
         return $user->vaults()->latest()->get();
+    }
+
+    private function getAndValidateWallet(string $walletId, User $user): Wallet
+    {
+        $wallet = Wallet::findByCode($walletId);
+        $this->walletValidator->validateOwnership($user, $wallet->code);
+
+        return $wallet;
     }
 }

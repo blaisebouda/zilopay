@@ -82,6 +82,11 @@ class Wallet extends BaseModel
             ->first();
     }
 
+    public static function scopeFindByCode($query, string $code): ?self
+    {
+        return $query->where('code', $code)->first();
+    }
+
     protected static function booted(): void
     {
         static::creating(function (Wallet $wallet) {
