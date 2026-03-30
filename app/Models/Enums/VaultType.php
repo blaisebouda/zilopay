@@ -2,6 +2,7 @@
 
 namespace App\Models\Enums;
 
+use App\Constants\Colors;
 use App\Models\Enums\Contracts\AdvancedEnum;
 use App\Models\Enums\Contracts\AdvancedEnumInterface;
 
@@ -25,9 +26,9 @@ enum VaultType: string implements AdvancedEnumInterface
     public function color(): string
     {
         return match ($this) {
-            self::SAVINGS => '#28a745',
-            self::INVESTMENT => '#007bff',
-            self::EMERGENCY => '#dc3545',
+            self::SAVINGS => Colors::SUCCESS,
+            self::INVESTMENT => Colors::DEFAULT,
+            self::EMERGENCY => Colors::DESTRUCTIVE,
         };
     }
 }

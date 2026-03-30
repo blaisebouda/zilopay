@@ -14,7 +14,7 @@ class StoreDepositRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'wallet_id' => ['required', 'integer', 'exists:wallets,id'],
+            'wallet_id' => ['required', 'string', 'exists:wallets,code'],
             'amount' => ['required', 'numeric', 'min:100', 'max:10000000'],
             'payment_method_id' => ['required', 'integer', 'exists:payment_methods,id'],
             'phone_number' => ['required', 'string', 'regex:/^[0-9]{8,15}$/'],

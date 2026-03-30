@@ -172,6 +172,7 @@ class TransferService extends AbstractTransactionService implements TransactionS
     ): Transfer {
 
         $metaData = [
+            'operator' => 'Zilopay',
             'sender_name' => $senderWallet->user->name,
             'receiver_name' => $receiverWallet->user->name,
         ];

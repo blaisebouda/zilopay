@@ -122,6 +122,14 @@ class Transaction extends BaseModel
         return 'N/A';
     }
 
+    public function operator(): string
+    {
+        if ($this->isTransfer()) {
+            return $this->transfer?->metadata['operator'] ?? 'N/A';
+        }
+        return $this->paymentMethod?->name ?? 'N/A';
+    }
+
 
     // Scopes
     public function scopeOfType($query, TransactionType $type)

@@ -36,7 +36,7 @@ class TransactionAnot
             content: new OA\JsonContent(
                 required: ['wallet_id', 'amount', 'payment_method_id', 'phone_number'],
                 properties: [
-                    new OA\Property(property: 'wallet_id', type: 'integer', example: 1, description: 'Wallet ID to credit'),
+                    new OA\Property(property: 'wallet_id', type: 'string', example: 'ZP00000000', description: 'Wallet code to credit'),
                     new OA\Property(property: 'amount', type: 'number', example: 5000, minimum: 100, maximum: 10000000, description: 'Deposit amount'),
                     new OA\Property(property: 'payment_method_id', type: 'integer', example: 1, description: 'Payment method ID'),
                     new OA\Property(property: 'phone_number', type: 'string', example: '1234567890', pattern: '^[0-9]{8,15}$', description: 'Phone number for payment')

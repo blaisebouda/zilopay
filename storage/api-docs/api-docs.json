@@ -128,9 +128,9 @@
                                 ],
                                 "properties": {
                                     "wallet_id": {
-                                        "description": "Wallet ID to credit",
-                                        "type": "integer",
-                                        "example": 1
+                                        "description": "Wallet code to credit",
+                                        "type": "string",
+                                        "example": "ZP00000000"
                                     },
                                     "amount": {
                                         "description": "Deposit amount",
