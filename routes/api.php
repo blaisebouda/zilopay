@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\PaymentMethodController;
+use App\Http\Controllers\Api\VaultController;
 use Illuminate\Support\Facades\Route;
 
 // Authentication Routes

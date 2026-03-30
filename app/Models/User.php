@@ -59,6 +59,11 @@ class User extends Authenticatable
         return $this->hasMany(Wallet::class);
     }
 
+    public function vaults(): HasMany
+    {
+        return $this->hasMany(Vault::class);
+    }
+
     public function defaultWallet(): HasOne
     {
         return $this->hasOne(Wallet::class)->where('is_default', true);

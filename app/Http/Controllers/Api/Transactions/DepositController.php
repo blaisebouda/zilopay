@@ -28,7 +28,7 @@ class DepositController extends ApiController
                 $request->validated()
             );
 
-            return $this->successResourceResponse(TransactionResource::make($deposit), 'Deposit created successfully');
+            return $this->successResource(TransactionResource::make($deposit), 'Deposit created successfully');
         } catch (\InvalidArgumentException $e) {
             return $this->errorResponse($e->getMessage(), 422);
         } catch (\Exception $e) {

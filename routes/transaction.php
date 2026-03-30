@@ -19,3 +19,14 @@ Route::prefix('transactions')->middleware('auth:sanctum')->group(function () {
     // History routes
     Route::get('/history', [App\Http\Controllers\Api\Transactions\TransactionHistoryController::class, 'index']);
 });
+
+
+// Vault Routes
+Route::prefix('vaults')->middleware('auth:sanctum')->name('vaults.')->group(function () {
+    Route::get('/', [App\Http\Controllers\Api\VaultController::class, 'index'])->name('index');
+    Route::post('/', [App\Http\Controllers\Api\VaultController::class, 'store'])->name('store');
+    Route::get('{vault:uuid}', [App\Http\Controllers\Api\VaultController::class, 'show'])->middleware('can:view,vault')->name('show');
+    Route::post('{vault:uuid}/deposit', [App\Http\Controllers\Api\VaultController::class, 'deposit'])->middleware('can:deposit,vault')->name('deposit');
+    Route::post('{vault:uuid}/withdraw', [App\Http\Controllers\Api\VaultController::class, 'withdraw'])->middleware('can:withdraw,vault')->name('withdraw');
+    Route::post('{vault:uuid}/toggle', [App\Http\Controllers\Api\VaultController::class, 'toggle'])->middleware('can:update,vault')->name('toggle-status');
+});

@@ -22,3 +22,14 @@ if (! function_exists('tomorrow')) {
         return today()->addDay();
     }
 }
+
+if (! function_exists('buildMetadata')) {
+    function buildMetadata(array $data = []): array
+    {
+        return array_merge([
+            'ip_address' => request()?->ip(),
+            'user_agent' => request()?->userAgent(),
+            'timestamp' => now()->toIso8601String(),
+        ], $data);
+    }
+}

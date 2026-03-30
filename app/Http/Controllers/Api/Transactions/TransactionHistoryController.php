@@ -39,7 +39,7 @@ class TransactionHistoryController extends ApiController
         $transactions = $query->orderBy('created_at', 'desc')
             ->simplePaginate($perPage);
 
-        return $this->successResourceResponse(TransactionResource::collection($transactions));
+        return $this->successResource(TransactionResource::collection($transactions));
     }
 
     /**

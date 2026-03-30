@@ -43,7 +43,7 @@ class AuthController extends ApiController
 
             DB::commit();
 
-            return $this->successResourceResponse(UserResource::make($user)->additional([
+            return $this->successResource(UserResource::make($user)->additional([
                 'otp_expires_in' => $otp->expires_at->diffInSeconds(now()),
             ]), 'Inscription réussie. Un code OTP a été envoyé à votre numéro de téléphone.');
         } catch (\Exception $e) {
@@ -76,7 +76,7 @@ class AuthController extends ApiController
         $tokenName = $request->remember ? 'remember_token' : 'auth_token';
         $token = $user->createToken($tokenName)->plainTextToken;
 
-        return $this->successResourceResponse(UserResource::make($user->refresh())->additional([
+        return $this->successResource(UserResource::make($user->refresh())->additional([
             'token' => $token,
         ]), 'Connexion réussie.');
     }
@@ -92,7 +92,7 @@ class AuthController extends ApiController
     {
         $request->user()->tokens()->delete();
 
-        return $this->successResourceResponse(new JsonResource([]), 'Déconnexion réussie de tous les appareils.');
+        return $this->successResource(new JsonResource([]), 'Déconnexion réussie de tous les appareils.');
     }
 
     public function me(Request $request): JsonResource

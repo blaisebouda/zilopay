@@ -9,7 +9,7 @@ abstract class ApiController
 {
     protected const PER_PAGE = 15;
 
-    public function successResourceResponse(JsonResource $resource, string $message = 'Success'): JsonResource
+    public function successResource(JsonResource $resource, string $message = 'Success'): JsonResource
     {
         return $resource->additional([
             ...$resource->additional,
@@ -44,5 +44,14 @@ abstract class ApiController
             'message' => $message,
             ...$additional,
         ], $code);
+    }
+
+    public function debugResponse($data = null, string $message = 'Debug'): JsonResponse
+    {
+        return response()->json([
+            'success' => false,
+            'message' => $message,
+            'data' => $data,
+        ]);
     }
 }

@@ -28,7 +28,7 @@ class TransferController extends ApiController
                 $request->validated()
             );
 
-            return $this->successResourceResponse(TransactionResource::make($transfer));
+            return $this->successResource(TransactionResource::make($transfer));
         } catch (\InvalidArgumentException $e) {
             return $this->errorResponse($e->getMessage(), 422);
         } catch (\Exception $e) {
