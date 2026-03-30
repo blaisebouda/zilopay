@@ -14,7 +14,6 @@ class WalletService
     public static function createDefaultWallet(User $user): ?Wallet
     {
 
-
         return Wallet::create([
             'user_id' => $user->id,
             'currency' => Currency::XOF->value,

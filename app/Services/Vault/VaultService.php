@@ -2,6 +2,7 @@
 
 namespace App\Services\Vault;
 
+use App\Models\Enums\Currency;
 use App\Models\Enums\VaultStatus;
 use App\Models\Enums\VaultTransactionType;
 use App\Models\User;
@@ -27,7 +28,7 @@ class VaultService
             'user_id' => $user->id,
             'name' => $data['name'],
             'description' => $data['description'] ?? null,
-            'currency' => $data['currency'] ?? \App\Models\Enums\Currency::XOF,
+            'currency' => $data['currency'] ?? Currency::XOF,
             'type' => $data['type'],
             'maturity_date' => $data['maturity_date'] ?? null,
             'amount' => 0,
@@ -42,7 +43,7 @@ class VaultService
     {
         $wallet = $this->getAndValidateWallet($walletId, $vault->user);
 
-        if (!$vault->isActive()) {
+        if (! $vault->isActive()) {
             throw new \InvalidArgumentException('Le coffre-fort doit être actif pour effectuer un dépôt');
         }
 
@@ -90,7 +91,7 @@ class VaultService
             throw new \InvalidArgumentException('Le coffre-fort est verrouillé. Déverrouillez-le pour effectuer un retrait');
         }
 
-        if (!$vault->hasSufficientBalance($amount)) {
+        if (! $vault->hasSufficientBalance($amount)) {
             throw new \InvalidArgumentException('Solde insuffisant dans le coffre-fort');
         }
 

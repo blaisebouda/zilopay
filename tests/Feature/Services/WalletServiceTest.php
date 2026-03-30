@@ -1,6 +1,5 @@
 <?php
 
-
 use App\Models\User;
 use App\Models\Wallet;
 use App\Services\WalletService;
@@ -58,8 +57,8 @@ describe('createWallet', function () {
             'currency_id' => $currency->id,
         ]);
 
-        expect(fn() => WalletService::createWallet($this->user, $currency->id))
-            ->toThrow(\Exception::class, 'Wallet already exists for this currency');
+        expect(fn () => WalletService::createWallet($this->user, $currency->id))
+            ->toThrow(Exception::class, 'Wallet already exists for this currency');
     });
 });
 

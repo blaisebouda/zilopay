@@ -230,7 +230,7 @@ class VaultAnot
                 required: ['amount', 'wallet_id'],
                 properties: [
                     new OA\Property(property: 'amount', type: 'number', example: 5000, description: 'Amount to deposit (minimum: 1)'),
-                    new OA\Property(property: 'wallet_id', type: 'string', example: "ZP00000000", description: 'Wallet ID'),
+                    new OA\Property(property: 'wallet_id', type: 'string', example: 'ZP00000000', description: 'Wallet ID'),
                     new OA\Property(property: 'description', type: 'string', example: 'Dépôt mensuel', description: 'Transaction description (optional)'),
                 ]
             )
@@ -305,7 +305,7 @@ class VaultAnot
                 required: ['amount', 'wallet_id'],
                 properties: [
                     new OA\Property(property: 'amount', type: 'number', example: 10000, description: 'Amount to withdraw (minimum: 1)'),
-                    new OA\Property(property: 'wallet_id', type: 'string', example: "ZP00000000", description: 'Wallet ID'),
+                    new OA\Property(property: 'wallet_id', type: 'string', example: 'ZP00000000', description: 'Wallet ID'),
                     new OA\Property(property: 'description', type: 'string', example: 'Retrait VaultAnot achat', description: 'Transaction description (optional)'),
                 ]
             )

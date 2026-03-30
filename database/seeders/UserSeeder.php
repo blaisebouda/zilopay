@@ -3,8 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\User;
-use App\Models\Wallet;
-use App\Services\WalletService;
 use Illuminate\Database\Seeder;
 
 class UserSeeder extends Seeder
@@ -21,7 +19,7 @@ class UserSeeder extends Seeder
         ]);
 
         $user->defaultWallet->credit(888500);
-        $user->defaultWallet->update(['code' => "ZP00000000"]);
+        $user->defaultWallet->update(['code' => 'ZP00000000']);
 
         // Test user
         $testUser = User::factory()->create([
@@ -30,6 +28,6 @@ class UserSeeder extends Seeder
         ]);
 
         $testUser->defaultWallet->credit(500000);
-        $testUser->defaultWallet->update(['code' => "ZP00000001"]);
+        $testUser->defaultWallet->update(['code' => 'ZP00000001']);
     }
 }

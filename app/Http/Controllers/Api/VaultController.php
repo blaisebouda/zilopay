@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Api\ApiController;
 use App\Http\Requests\Vault\DepositRequest;
 use App\Http\Requests\Vault\StoreVaultRequest;
 use App\Http\Requests\Vault\WithdrawRequest;
@@ -11,7 +10,6 @@ use App\Http\Resources\VaultTransactionResource;
 use App\Models\Vault;
 use App\Services\Vault\VaultService;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Log;
 
 class VaultController extends ApiController
@@ -117,7 +115,7 @@ class VaultController extends ApiController
                 'error' => $e->getMessage(),
             ]);
 
-            //return $this->debugResponse($e->getMessage());
+            // return $this->debugResponse($e->getMessage());
 
             return $this->errorResponse('Échec du dépôt', 500);
         }
@@ -162,7 +160,6 @@ class VaultController extends ApiController
     public function toggle(Vault $vault): JsonResponse
     {
         try {
-
 
             $vault = $this->vaultService->toggleLock($vault);
 

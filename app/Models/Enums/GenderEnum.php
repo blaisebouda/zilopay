@@ -14,6 +14,6 @@ enum GenderEnum: string implements AdvancedEnumInterface
 
     public function label(): string
     {
-        return __('enums.gender.' . $this->name);
+        return __('enums.gender.'.$this->name);
     }
 }

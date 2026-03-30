@@ -35,7 +35,6 @@ class BaseModel extends Model
     //     return $query->where('user_id', $userId);
     // }
 
-
     public function scopeForDateRange($query, string $startDate, string $endDate)
     {
         return $query->whereBetween('created_at', [$startDate, $endDate]);

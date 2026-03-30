@@ -5,7 +5,6 @@ namespace App\Models\Enums;
 use App\Models\Enums\Contracts\AdvancedEnum;
 use App\Models\Enums\Contracts\AdvancedEnumInterface;
 
-
 enum Currency: string implements AdvancedEnumInterface
 {
     use AdvancedEnum;

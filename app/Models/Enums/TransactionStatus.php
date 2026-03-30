@@ -19,7 +19,7 @@ enum TransactionStatus: int implements AdvancedEnumInterface
 
     public function label(): string
     {
-        return __('enums.transaction_status.' . $this->name);
+        return __('enums.transaction_status.'.$this->name);
     }
 
     public function color(): string

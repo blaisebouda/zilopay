@@ -14,6 +14,6 @@ enum PaymentLinkStatus: int implements AdvancedEnumInterface
 
     public function label(): string
     {
-        return __('enums.payment_link_status.' . $this->name);
+        return __('enums.payment_link_status.'.$this->name);
     }
 }

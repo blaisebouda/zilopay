@@ -28,6 +28,6 @@ enum CommonStatus: int implements AdvancedEnumInterface
 
     public function label(): string
     {
-        return __('enums.model_status.' . $this->name);
+        return __('enums.model_status.'.$this->name);
     }
 }

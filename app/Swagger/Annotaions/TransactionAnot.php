@@ -21,7 +21,7 @@ use OpenApi\Attributes as OA;
         new OA\Property(property: 'operator', type: 'string', example: 'Orange Money', description: 'Payment operator'),
         new OA\Property(property: 'is_deposit', type: 'boolean', example: true, description: 'Is deposit transaction'),
         new OA\Property(property: 'is_withdrawal', type: 'boolean', example: false, description: 'Is withdrawal transaction'),
-        new OA\Property(property: 'is_transfer', type: 'boolean', example: false, description: 'Is transfer transaction')
+        new OA\Property(property: 'is_transfer', type: 'boolean', example: false, description: 'Is transfer transaction'),
     ]
 )]
 class TransactionAnot
@@ -39,7 +39,7 @@ class TransactionAnot
                     new OA\Property(property: 'wallet_id', type: 'string', example: 'ZP00000000', description: 'Wallet code to credit'),
                     new OA\Property(property: 'amount', type: 'number', example: 5000, minimum: 100, maximum: 10000000, description: 'Deposit amount'),
                     new OA\Property(property: 'payment_method_id', type: 'integer', example: 1, description: 'Payment method ID'),
-                    new OA\Property(property: 'phone_number', type: 'string', example: '1234567890', pattern: '^[0-9]{8,15}$', description: 'Phone number for payment')
+                    new OA\Property(property: 'phone_number', type: 'string', example: '1234567890', pattern: '^[0-9]{8,15}$', description: 'Phone number for payment'),
                 ]
             )
         ),
@@ -52,7 +52,7 @@ class TransactionAnot
                         new OA\Property(property: 'success', type: 'boolean', example: true),
                         new OA\Property(property: 'status', type: 'integer', example: 200),
                         new OA\Property(property: 'message', type: 'string', example: 'Deposit created successfully'),
-                        new OA\Property(property: 'data', ref: '#/components/schemas/Transaction')
+                        new OA\Property(property: 'data', ref: '#/components/schemas/Transaction'),
                     ]
                 )
             ),
@@ -63,7 +63,7 @@ class TransactionAnot
                     properties: [
                         new OA\Property(property: 'success', type: 'boolean', example: false),
                         new OA\Property(property: 'status', type: 'integer', example: 422),
-                        new OA\Property(property: 'message', type: 'string', example: 'Validation failed')
+                        new OA\Property(property: 'message', type: 'string', example: 'Validation failed'),
                     ]
                 )
             ),
@@ -74,10 +74,10 @@ class TransactionAnot
                     properties: [
                         new OA\Property(property: 'success', type: 'boolean', example: false),
                         new OA\Property(property: 'status', type: 'integer', example: 500),
-                        new OA\Property(property: 'message', type: 'string', example: 'Failed to create deposit')
+                        new OA\Property(property: 'message', type: 'string', example: 'Failed to create deposit'),
                     ]
                 )
-            )
+            ),
         ]
     )]
     public function initDeposit() {}
@@ -94,7 +94,7 @@ class TransactionAnot
                 required: true,
                 schema: new OA\Schema(type: 'string'),
                 description: 'Deposit reference'
-            )
+            ),
         ],
         requestBody: new OA\RequestBody(
             required: true,
@@ -116,9 +116,9 @@ class TransactionAnot
                             type: 'object',
                             properties: [
                                 new OA\Property(property: 'reference', type: 'string', example: 'deposit-123456'),
-                                new OA\Property(property: 'status', type: 'string', example: 'confirmed')
+                                new OA\Property(property: 'status', type: 'string', example: 'confirmed'),
                             ]
-                        )
+                        ),
                     ]
                 )
             ),
@@ -129,10 +129,10 @@ class TransactionAnot
                     properties: [
                         new OA\Property(property: 'success', type: 'boolean', example: false),
                         new OA\Property(property: 'status', type: 'integer', example: 400),
-                        new OA\Property(property: 'message', type: 'string', example: 'Invalid reference')
+                        new OA\Property(property: 'message', type: 'string', example: 'Invalid reference'),
                     ]
                 )
-            )
+            ),
         ]
     )]
     public function confirmDeposit() {}
@@ -175,7 +175,7 @@ class TransactionAnot
                     new OA\Property(property: 'sender_wallet_id', type: 'string', example: 'ZP00000000', description: 'Sender wallet code'),
                     new OA\Property(property: 'receiver_wallet_id', type: 'string', example: 'ZP00000001', description: 'Receiver wallet code'),
                     new OA\Property(property: 'amount', type: 'number', example: 5000, minimum: 100, maximum: 10000000, description: 'Transfer amount'),
-                    new OA\Property(property: 'note', type: 'string', example: 'Payment for services', description: 'Transfer note (optional)')
+                    new OA\Property(property: 'note', type: 'string', example: 'Payment for services', description: 'Transfer note (optional)'),
                 ]
             )
         ),
@@ -188,7 +188,7 @@ class TransactionAnot
                         new OA\Property(property: 'success', type: 'boolean', example: true),
                         new OA\Property(property: 'status', type: 'integer', example: 200),
                         new OA\Property(property: 'message', type: 'string', example: 'Request successful'),
-                        new OA\Property(property: 'data', ref: '#/components/schemas/Transaction')
+                        new OA\Property(property: 'data', ref: '#/components/schemas/Transaction'),
                     ]
                 )
             ),
@@ -199,7 +199,7 @@ class TransactionAnot
                     properties: [
                         new OA\Property(property: 'success', type: 'boolean', example: false),
                         new OA\Property(property: 'status', type: 'integer', example: 422),
-                        new OA\Property(property: 'message', type: 'string', example: 'Validation failed')
+                        new OA\Property(property: 'message', type: 'string', example: 'Validation failed'),
                     ]
                 )
             ),
@@ -210,10 +210,10 @@ class TransactionAnot
                     properties: [
                         new OA\Property(property: 'success', type: 'boolean', example: false),
                         new OA\Property(property: 'status', type: 'integer', example: 500),
-                        new OA\Property(property: 'message', type: 'string', example: 'Failed to complete transfer')
+                        new OA\Property(property: 'message', type: 'string', example: 'Failed to complete transfer'),
                     ]
                 )
-            )
+            ),
         ]
     )]
     public function transfer() {}

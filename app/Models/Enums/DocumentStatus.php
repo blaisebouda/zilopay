@@ -9,12 +9,12 @@ enum DocumentStatus: int implements AdvancedEnumInterface
 {
     use AdvancedEnum;
 
-    case PENDING  = 0;
+    case PENDING = 0;
     case APPROVED = 1;
     case REJECTED = 2;
 
     public function label(): string
     {
-        return __('enums.document_status.' . $this->name);
+        return __('enums.document_status.'.$this->name);
     }
 }

@@ -4,12 +4,9 @@ namespace App\Policies;
 
 use App\Models\User;
 use App\Models\Vault;
-use Illuminate\Auth\Access\Response;
 
 class VaultPolicy
 {
-
-
     /**
      * Determine whether the user can view the model.
      */
@@ -17,7 +14,6 @@ class VaultPolicy
     {
         return $user->id === $vault->user_id;
     }
-
 
     /**
      * Détermine si l'utilisateur peut retirer de l'argent.
@@ -64,8 +60,6 @@ class VaultPolicy
     {
         return $user->id === $vault->user_id;
     }
-
-
 
     /**
      * Determine whether the user can permanently delete the model.

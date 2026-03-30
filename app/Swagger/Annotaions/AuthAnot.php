@@ -25,7 +25,6 @@ use OpenApi\Attributes as OA;
 
 class AuthAnot
 {
-
     #[OA\Post(
         path: '/auth/login',
         summary: 'Login a user',

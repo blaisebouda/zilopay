@@ -16,6 +16,6 @@ enum TransactionType: int implements AdvancedEnumInterface
 
     public function label(): string
     {
-        return __('enums.transaction_type.' . $this->name);
+        return __('enums.transaction_type.'.$this->name);
     }
 }

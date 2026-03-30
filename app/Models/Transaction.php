@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
+use App\Models\Enums\Currency;
 use App\Models\Enums\TransactionStatus;
 use App\Models\Enums\TransactionType;
-use App\Models\Enums\Currency;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -46,8 +46,6 @@ class Transaction extends BaseModel
     {
         return $this->belongsTo(User::class);
     }
-
-
 
     public function paymentMethod(): BelongsTo
     {
@@ -101,15 +99,15 @@ class Transaction extends BaseModel
 
     public function formatAmount(): string
     {
-        $amount = number_format($this->amount, 2, '.', " ") . ' ' . $this->currency->symbol();
+        $amount = number_format($this->amount, 2, '.', ' ').' '.$this->currency->symbol();
 
-        return $this->isDeposit() ? '+' . $amount : '-' . $amount;
+        return $this->isDeposit() ? '+'.$amount : '-'.$amount;
     }
 
     public function target(): string
     {
         if ($this->isDeposit()) {
-            return "Portefeuille-Interne";
+            return 'Portefeuille-Interne';
         }
 
         if ($this->isWithdrawal()) {
@@ -119,6 +117,7 @@ class Transaction extends BaseModel
         if ($this->isTransfer()) {
             return $this->transfer?->metadata['receiver_name'] ?? 'N/A';
         }
+
         return 'N/A';
     }
 
@@ -127,9 +126,9 @@ class Transaction extends BaseModel
         if ($this->isTransfer()) {
             return $this->transfer?->metadata['operator'] ?? 'N/A';
         }
+
         return $this->paymentMethod?->name ?? 'N/A';
     }
-
 
     // Scopes
     public function scopeOfType($query, TransactionType $type)

@@ -2,7 +2,7 @@
 
 return [
 
-    //Transaction Status
+    // Transaction Status
     'transaction_status.PENDING' => 'En attente',
     'transaction_status.SUCCESS' => 'Succès',
     'transaction_status.REFUND' => 'Remboursement',
@@ -10,12 +10,10 @@ return [
     'transaction_status.CANCELLED' => 'Annulé',
     'transaction_status.FAILED' => 'Échoué',
 
-    //Transaction Type
+    // Transaction Type
     'transaction_type.DEPOSIT' => 'Dépôt',
     'transaction_type.WITHDRAWAL' => 'Retrait',
     'transaction_type.TRANSFER' => 'Transfert',
     'transaction_type.PAYMENT' => 'Paiement',
-
-
 
 ];

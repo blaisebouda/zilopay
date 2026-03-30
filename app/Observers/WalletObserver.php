@@ -16,7 +16,7 @@ class WalletObserver
         ActivityLog::create([
             'user_id' => $wallet->user_id,
             'action' => ActivityLogAction::WALLET_CREATED,
-            'description' => 'Wallet created for currency: ' . $wallet->currency->value,
+            'description' => 'Wallet created for currency: '.$wallet->currency->value,
             'data' => [
                 'wallet_id' => $wallet->id,
                 'currency' => $wallet->currency,
@@ -65,7 +65,7 @@ class WalletObserver
             ActivityLog::create([
                 'user_id' => $wallet->user_id,
                 'action' => ActivityLogAction::WALLET_SET_DEFAULT,
-                'description' => 'Wallet set as default for currency: ' . $wallet->currency->value,
+                'description' => 'Wallet set as default for currency: '.$wallet->currency->value,
                 'data' => [
                     'wallet_id' => $wallet->id,
                     'currency' => $wallet->currency,
@@ -84,7 +84,7 @@ class WalletObserver
         ActivityLog::create([
             'user_id' => $wallet->user_id,
             'action' => ActivityLogAction::WALLET_DELETED,
-            'description' => 'Wallet deleted for currency: ' . $wallet->currency->value,
+            'description' => 'Wallet deleted for currency: '.$wallet->currency->value,
             'data' => [
                 'wallet_id' => $wallet->id,
                 'currency' => $wallet->currency,

@@ -16,6 +16,6 @@ enum OtpType: string implements AdvancedEnumInterface
 
     public function label(): string
     {
-        return __('enums.otp_type.' . $this->name);
+        return __('enums.otp_type.'.$this->name);
     }
 }

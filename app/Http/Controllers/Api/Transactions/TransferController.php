@@ -36,6 +36,7 @@ class TransferController extends ApiController
                 'user_id' => $request->user()->id,
                 'error' => $e->getMessage(),
             ]);
+
             return response()->json([
                 'success' => false,
                 'message' => $e->getMessage(),

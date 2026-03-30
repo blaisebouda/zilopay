@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Vault;
 
+use App\Models\Enums\Currency;
 use App\Models\Enums\VaultType;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\Enum;
@@ -18,7 +19,7 @@ class StoreVaultRequest extends FormRequest
         return [
             'name' => ['required', 'string', 'max:255'],
             'description' => ['nullable', 'string', 'max:1000'],
-            'currency' => ['required', 'string', new Enum(\App\Models\Enums\Currency::class)],
+            'currency' => ['required', 'string', new Enum(Currency::class)],
             'type' => ['required', 'string', new Enum(VaultType::class)],
             'maturity_date' => ['nullable', 'date', 'after:today'],
         ];

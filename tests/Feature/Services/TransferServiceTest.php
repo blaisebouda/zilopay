@@ -112,7 +112,7 @@ describe('create', function () {
         ];
 
         expect(fn () => $this->transferService->create($this->sender, $data))
-            ->toThrow(\InvalidArgumentException::class, 'Cannot transfer to your own wallet');
+            ->toThrow(InvalidArgumentException::class, 'Cannot transfer to your own wallet');
     });
 
     it('throws exception for cross-currency transfer', function () {
@@ -130,7 +130,7 @@ describe('create', function () {
         ];
 
         expect(fn () => $this->transferService->create($this->sender, $data))
-            ->toThrow(\InvalidArgumentException::class, 'Cross-currency transfers are not supported');
+            ->toThrow(InvalidArgumentException::class, 'Cross-currency transfers are not supported');
     });
 
     it('throws exception for insufficient balance', function () {
@@ -141,7 +141,7 @@ describe('create', function () {
         ];
 
         expect(fn () => $this->transferService->create($this->sender, $data))
-            ->toThrow(\InvalidArgumentException::class, 'Insufficient balance');
+            ->toThrow(InvalidArgumentException::class, 'Insufficient balance');
     });
 
     it('throws exception for invalid sender wallet', function () {
@@ -158,7 +158,7 @@ describe('create', function () {
         ];
 
         expect(fn () => $this->transferService->create($this->sender, $data))
-            ->toThrow(\InvalidArgumentException::class, 'Wallet not found or does not belong to user');
+            ->toThrow(InvalidArgumentException::class, 'Wallet not found or does not belong to user');
     });
 
     it('throws exception for non-existent receiver wallet', function () {
@@ -169,7 +169,7 @@ describe('create', function () {
         ];
 
         expect(fn () => $this->transferService->create($this->sender, $data))
-            ->toThrow(\InvalidArgumentException::class, 'Wallet not found');
+            ->toThrow(InvalidArgumentException::class, 'Wallet not found');
     });
 
     it('throws exception for amount below minimum', function () {
@@ -182,7 +182,7 @@ describe('create', function () {
         ];
 
         expect(fn () => $this->transferService->create($this->sender, $data))
-            ->toThrow(\InvalidArgumentException::class, 'Minimum transfer amount is');
+            ->toThrow(InvalidArgumentException::class, 'Minimum transfer amount is');
     });
 
     it('throws exception for amount above maximum', function () {
@@ -195,7 +195,7 @@ describe('create', function () {
         ];
 
         expect(fn () => $this->transferService->create($this->sender, $data))
-            ->toThrow(\InvalidArgumentException::class, 'Maximum transfer amount is');
+            ->toThrow(InvalidArgumentException::class, 'Maximum transfer amount is');
     });
 
     it('throws exception for negative amount', function () {
@@ -206,7 +206,7 @@ describe('create', function () {
         ];
 
         expect(fn () => $this->transferService->create($this->sender, $data))
-            ->toThrow(\InvalidArgumentException::class, 'Amount must be greater than 0');
+            ->toThrow(InvalidArgumentException::class, 'Amount must be greater than 0');
     });
 
     it('applies transfer fee correctly', function () {
@@ -277,14 +277,14 @@ describe('create', function () {
 describe('confirm', function () {
     it('throws BadMethodCallException', function () {
         expect(fn () => $this->transferService->confirm('uuid', []))
-            ->toThrow(\BadMethodCallException::class, 'Transfers are completed immediately and cannot be confirmed');
+            ->toThrow(BadMethodCallException::class, 'Transfers are completed immediately and cannot be confirmed');
     });
 });
 
 describe('cancel', function () {
     it('throws BadMethodCallException', function () {
         expect(fn () => $this->transferService->cancel('uuid', 'reason'))
-            ->toThrow(\BadMethodCallException::class, 'Transfers cannot be cancelled');
+            ->toThrow(BadMethodCallException::class, 'Transfers cannot be cancelled');
     });
 });
 

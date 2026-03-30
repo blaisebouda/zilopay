@@ -30,7 +30,7 @@ class OrangeMoneyGateway
     {
         try {
             $response = Http::withHeaders([
-                'Authorization' => 'Bearer ' . $this->getAccessToken(),
+                'Authorization' => 'Bearer '.$this->getAccessToken(),
                 'Content-Type' => 'application/json',
             ])->post("{$this->baseUrl}/payment/v1/deposits", [
                 'amount' => $data['amount'],
@@ -66,7 +66,7 @@ class OrangeMoneyGateway
 
             return [
                 'success' => false,
-                'message' => 'Gateway error: ' . $e->getMessage(),
+                'message' => 'Gateway error: '.$e->getMessage(),
             ];
         }
     }
@@ -78,7 +78,7 @@ class OrangeMoneyGateway
     {
         try {
             $response = Http::withHeaders([
-                'Authorization' => 'Bearer ' . $this->getAccessToken(),
+                'Authorization' => 'Bearer '.$this->getAccessToken(),
             ])->get("{$this->baseUrl}/payment/v1/deposits/{$reference}");
 
             if ($response->successful()) {
@@ -104,7 +104,7 @@ class OrangeMoneyGateway
 
             return [
                 'success' => false,
-                'message' => 'Verification error: ' . $e->getMessage(),
+                'message' => 'Verification error: '.$e->getMessage(),
             ];
         }
     }
@@ -120,7 +120,7 @@ class OrangeMoneyGateway
 
         try {
             $response = Http::withHeaders([
-                'Authorization' => 'Bearer ' . $this->getAccessToken(),
+                'Authorization' => 'Bearer '.$this->getAccessToken(),
             ])->post("{$this->baseUrl}/payment/v1/deposits/{$externalReference}/cancel");
 
             return [
@@ -134,7 +134,7 @@ class OrangeMoneyGateway
 
             return [
                 'success' => false,
-                'message' => 'Cancel error: ' . $e->getMessage(),
+                'message' => 'Cancel error: '.$e->getMessage(),
             ];
         }
     }
@@ -146,7 +146,7 @@ class OrangeMoneyGateway
     {
         try {
             $response = Http::withHeaders([
-                'Authorization' => 'Bearer ' . $this->getAccessToken(),
+                'Authorization' => 'Bearer '.$this->getAccessToken(),
                 'Content-Type' => 'application/json',
             ])->post("{$this->baseUrl}/payment/v1/payouts", [
                 'amount' => $data['amount'],
@@ -181,7 +181,7 @@ class OrangeMoneyGateway
 
             return [
                 'success' => false,
-                'message' => 'Gateway error: ' . $e->getMessage(),
+                'message' => 'Gateway error: '.$e->getMessage(),
             ];
         }
     }
@@ -193,7 +193,7 @@ class OrangeMoneyGateway
     {
         try {
             $response = Http::withHeaders([
-                'Authorization' => 'Bearer ' . $this->getAccessToken(),
+                'Authorization' => 'Bearer '.$this->getAccessToken(),
             ])->get("{$this->baseUrl}/payment/v1/payouts/{$reference}");
 
             if ($response->successful()) {
@@ -219,7 +219,7 @@ class OrangeMoneyGateway
 
             return [
                 'success' => false,
-                'message' => 'Verification error: ' . $e->getMessage(),
+                'message' => 'Verification error: '.$e->getMessage(),
             ];
         }
     }

@@ -15,7 +15,7 @@ class Transfer extends Model
         'receiver_wallet_id',
         'note',
         'transaction_id',
-        'metadata'
+        'metadata',
     ];
 
     protected function casts(): array

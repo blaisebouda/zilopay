@@ -9,13 +9,13 @@ enum MerchantStatus: int implements AdvancedEnumInterface
 {
     use AdvancedEnum;
 
-    case PENDING   = 0;
-    case APPROVED  = 1;
-    case REJECTED  = 2;
+    case PENDING = 0;
+    case APPROVED = 1;
+    case REJECTED = 2;
     case SUSPENDED = 3;
 
     public function label(): string
     {
-        return __('enums.merchant_status.' . $this->name);
+        return __('enums.merchant_status.'.$this->name);
     }
 }

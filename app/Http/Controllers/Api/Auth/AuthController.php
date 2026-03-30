@@ -62,7 +62,6 @@ class AuthController extends ApiController
             // ->orWhere('phone', $request->identifier)
             ->first();
 
-
         if (! $user || ! Hash::check($request->password, $user->password)) {
             return $this->errorResponse('Identifiants invalides.', 404);
         }

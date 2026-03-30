@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Enums\Currency;
 use App\Models\Enums\VaultStatus;
 use App\Models\Enums\VaultType;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -30,7 +31,7 @@ class Vault extends BaseModel
             'amount' => 'float',
             'type' => VaultType::class,
             'status' => VaultStatus::class,
-            'currency' => \App\Models\Enums\Currency::class,
+            'currency' => Currency::class,
             'maturity_date' => 'datetime',
         ];
     }
@@ -68,7 +69,7 @@ class Vault extends BaseModel
 
     public function debit(float $amount): void
     {
-        if (!$this->hasSufficientBalance($amount)) {
+        if (! $this->hasSufficientBalance($amount)) {
             throw new \InvalidArgumentException('Solde insuffisant dans le coffre-fort');
         }
         $this->amount -= $amount;

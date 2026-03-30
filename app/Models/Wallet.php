@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Enums\CommonStatus;
+use App\Models\Enums\Currency;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -30,7 +31,7 @@ class Wallet extends BaseModel
             'balance' => 'float',
             'is_default' => 'boolean',
             'status' => CommonStatus::class,
-            'currency' => \App\Models\Enums\Currency::class,
+            'currency' => Currency::class,
         ];
     }
 
@@ -38,7 +39,6 @@ class Wallet extends BaseModel
     {
         return $this->belongsTo(User::class);
     }
-
 
     public function scopeDefault($query)
     {
@@ -72,7 +72,7 @@ class Wallet extends BaseModel
 
     public function generateCode(): string
     {
-        return "ZP" . self::generateUniqueCode('code', 8);
+        return 'ZP'.self::generateUniqueCode('code', 8);
     }
 
     public static function getDefaultForUser(int $userId): ?self

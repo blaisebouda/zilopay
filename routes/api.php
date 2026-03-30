@@ -1,15 +1,13 @@
 <?php
 
 use App\Http\Controllers\Api\PaymentMethodController;
-use App\Http\Controllers\Api\VaultController;
 use Illuminate\Support\Facades\Route;
 
 // Authentication Routes
-require __DIR__ . '/auth.php';
+require __DIR__.'/auth.php';
 
 // Transaction Routes
-require __DIR__ . '/transaction.php';
-
+require __DIR__.'/transaction.php';
 
 Route::prefix('payment-methods')->name('payment-methods.')->group(function () {
     Route::get('/', [PaymentMethodController::class, 'index'])->name('index');
