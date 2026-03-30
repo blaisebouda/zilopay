@@ -9,7 +9,7 @@ use App\Models\User;
 use App\Models\Vault;
 use App\Models\VaultTransaction;
 use App\Models\Wallet;
-use App\Services\Transactions\Utils\WalletValidator;
+use App\Services\Wallet\Utils\WalletValidator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 

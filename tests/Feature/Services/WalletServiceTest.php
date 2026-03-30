@@ -2,7 +2,7 @@
 
 use App\Models\User;
 use App\Models\Wallet;
-use App\Services\WalletService;
+use App\Services\Wallet\WalletService;
 
 beforeEach(function () {
     /** @var User $user */

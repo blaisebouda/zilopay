@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Wallet;
 
 use App\Models\Enums\Currency;
 use App\Models\User;

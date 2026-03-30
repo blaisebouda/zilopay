@@ -10,7 +10,7 @@ use App\Models\Wallet;
 use App\Services\Transactions\TransferService;
 use App\Services\Transactions\Utils\AmountValidator;
 use App\Services\Transactions\Utils\FeeCalculator;
-use App\Services\Transactions\Utils\WalletValidator;
+use App\Services\Wallet\Utils\WalletValidator;
 
 beforeEach(function () {
     $this->currency = Currency::factory()->create();

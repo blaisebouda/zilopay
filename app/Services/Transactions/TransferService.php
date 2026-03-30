@@ -13,7 +13,7 @@ use App\Services\Transactions\Contracts\TransactionServiceInterface;
 use App\Services\Transactions\Utils\AmountValidator;
 use App\Services\Transactions\Utils\AmountWithFeeResult;
 use App\Services\Transactions\Utils\FeeCalculator;
-use App\Services\Transactions\Utils\WalletValidator;
+use App\Services\Wallet\Utils\WalletValidator;
 use Illuminate\Database\Eloquent\Collection;
 
 class TransferService extends AbstractTransactionService implements TransactionServiceInterface
