@@ -58,7 +58,7 @@ class AuthController extends ApiController
     public function login(LoginRequest $request)
     {
         // Find user by email or phone
-        $user = User::where('email', $request->identifier)
+        $user = User::where('email', $request->email)
             // ->orWhere('phone', $request->identifier)
             ->first();
 

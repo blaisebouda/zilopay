@@ -10,11 +10,11 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('transactions')->middleware('auth:sanctum')->group(function () {
     // Deposit routes
     Route::post('/init-deposit', [DepositController::class, 'init']);
-    Route::post('/confirm-deposit/{reference}', [DepositController::class, 'confirm']);
+    Route::post('/{reference}/confirm-deposit', [DepositController::class, 'confirm']);
 
     // Withdrawal routes
     Route::post('/init-withdrawal', [WithdrawalController::class, 'init']);
-    Route::post('/confirm-withdrawal/{reference}', [WithdrawalController::class, 'confirm']);
+    Route::post('/{reference}/confirm-withdrawal', [WithdrawalController::class, 'confirm']);
 
     // Transfer routes
     Route::post('/transfer', [TransferController::class, 'store']);

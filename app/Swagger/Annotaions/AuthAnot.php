@@ -32,9 +32,9 @@ class AuthAnot
         requestBody: new OA\RequestBody(
             required: true,
             content: new OA\JsonContent(
-                required: ['identifier', 'password'],
+                required: ['email', 'password'],
                 properties: [
-                    new OA\Property(property: 'identifier', type: 'string', example: 'user@zilopay.com'),
+                    new OA\Property(property: 'email', type: 'string', example: 'user@zilopay.com'),
                     new OA\Property(property: 'password', type: 'string', format: 'password', example: 'password'),
                     new OA\Property(property: 'remember', type: 'boolean', example: false),
                 ]

@@ -83,7 +83,7 @@ class TransactionAnot
     public function initDeposit() {}
 
     #[OA\Post(
-        path: '/transactions/confirm-deposit/{reference}',
+        path: '/transactions/{reference}confirm-deposit/',
         summary: 'Confirm a deposit from gateway callback',
         tags: ['Transactions'],
         security: [['sanctum' => []]],

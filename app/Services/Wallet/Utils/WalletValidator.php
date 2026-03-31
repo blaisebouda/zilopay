@@ -97,4 +97,17 @@ class WalletValidator
 
         return $paymentMethod;
     }
+
+    /**
+     * Get and validate wallet
+     *
+     * @throws \InvalidArgumentException
+     */
+    public function getAndValidateWallet(string $walletId, User $user): Wallet
+    {
+        $wallet = Wallet::findByCode($walletId);
+        $this->validateOwnership($user, $wallet->code);
+
+        return $wallet;
+    }
 }

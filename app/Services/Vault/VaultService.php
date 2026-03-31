@@ -8,7 +8,6 @@ use App\Models\Enums\VaultTransactionType;
 use App\Models\User;
 use App\Models\Vault;
 use App\Models\VaultTransaction;
-use App\Models\Wallet;
 use App\Services\Wallet\Utils\WalletValidator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -41,7 +40,7 @@ class VaultService
      */
     public function deposit(Vault $vault, string $walletId, float $amount, ?string $description = null): VaultTransaction
     {
-        $wallet = $this->getAndValidateWallet($walletId, $vault->user);
+        $wallet = $this->walletValidator->getAndValidateWallet($walletId, $vault->user);
 
         if (! $vault->isActive()) {
             throw new \InvalidArgumentException('Le coffre-fort doit être actif pour effectuer un dépôt');
@@ -85,7 +84,7 @@ class VaultService
      */
     public function withdraw(Vault $vault, string $walletId, float $amount, ?string $description = null): VaultTransaction
     {
-        $wallet = $this->getAndValidateWallet($walletId, $vault->user);
+        $wallet = $this->walletValidator->getAndValidateWallet($walletId, $vault->user);
 
         if ($vault->isLocked()) {
             throw new \InvalidArgumentException('Le coffre-fort est verrouillé. Déverrouillez-le pour effectuer un retrait');
@@ -155,13 +154,5 @@ class VaultService
     public function getUserVaults(User $user)
     {
         return $user->vaults()->latest()->get();
-    }
-
-    private function getAndValidateWallet(string $walletId, User $user): Wallet
-    {
-        $wallet = Wallet::findByCode($walletId);
-        $this->walletValidator->validateOwnership($user, $wallet->code);
-
-        return $wallet;
     }
 }
