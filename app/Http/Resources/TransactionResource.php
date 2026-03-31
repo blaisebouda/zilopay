@@ -22,7 +22,7 @@ class TransactionResource extends JsonResource
             'status' => $this->status->label(),
             'status_color' => $this->status->color(),
             'created_at' => $this->created_at,
-            'date' => $this->created_at->format('m d, H:i'), //	Oct 23, 09:45
+            'date' => $this->created_at->format('M d, H:i'), //	Oct 23, 09:45
             'operator' => $this->operator(),
             'is_deposit' => $this->isDeposit(),
             'is_withdrawal' => $this->isWithdrawal(),
