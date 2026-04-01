@@ -14,6 +14,13 @@ class StoreVaultRequest extends FormRequest
         return true;
     }
 
+    protected function prepareForValidation()
+    {
+        $this->merge([
+            'currency' => $this->currency ?? Currency::XOF->value,
+        ]);
+    }
+
     public function rules(): array
     {
         return [
