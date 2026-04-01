@@ -21,6 +21,7 @@ Route::prefix('transactions')->middleware('auth:sanctum')->group(function () {
 
     // History routes
     Route::get('/history', [TransactionHistoryController::class, 'index']);
+    Route::get('/dashboard', [TransactionHistoryController::class, 'dashboard']);
 });
 
 // Vault Routes

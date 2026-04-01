@@ -64,9 +64,9 @@ class User extends Authenticatable
         return $this->hasMany(Vault::class);
     }
 
-    public function defaultWallet(): HasOne
+    public function defaultWallet(): Wallet
     {
-        return $this->hasOne(Wallet::class)->where('is_default', true);
+        return Wallet::forUser($this->id)->where('is_default', true)->first();
     }
 
     protected static function booted(): void

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\Transactions;
 
 use App\Http\Controllers\Api\ApiController;
 use App\Http\Resources\TransactionResource;
+use App\Http\Resources\WalletResource;
 use App\Models\Transaction;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -90,6 +91,22 @@ class TransactionHistoryController extends ApiController
                 'total_transfers' => abs($transfers),
                 'net_flow' => $deposits - abs($withdrawals) - abs($transfers),
             ],
+        ]);
+    }
+
+    public function dashboard(Request $request): JsonResponse
+    {
+        $user = $request->user();
+
+        $transactions = Transaction::forUser($user->id)
+            ->with(['paymentMethod'])
+            ->orderBy('created_at', 'desc')
+            ->limit(8)
+            ->get();
+
+        return $this->successResponse([
+            'transactions' => TransactionResource::collection($transactions),
+            'wallet' => WalletResource::make($user->defaultWallet()),
         ]);
     }
 }

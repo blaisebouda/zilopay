@@ -33,11 +33,11 @@
                         "application/json": {
                             "schema": {
                                 "required": [
-                                    "identifier",
+                                    "email",
                                     "password"
                                 ],
                                 "properties": {
-                                    "identifier": {
+                                    "email": {
                                         "type": "string",
                                         "example": "user@zilopay.com"
                                     },
@@ -240,13 +240,13 @@
                 ]
             }
         },
-        "/transactions/confirm-deposit/{reference}": {
+        "/transactions/{reference}confirm-deposit/": {
             "post": {
                 "tags": [
                     "Transactions"
                 ],
                 "summary": "Confirm a deposit from gateway callback",
-                "operationId": "98c99f154c78bbf6b927f8df477290f6",
+                "operationId": "cd87e10ac5142f6868af473bbe6addf8",
                 "parameters": [
                     {
                         "name": "reference",

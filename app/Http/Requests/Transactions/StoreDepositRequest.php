@@ -32,6 +32,8 @@ class StoreDepositRequest extends FormRequest
             'payment_method_id.required' => 'Veuillez sélectionner un mode de paiement',
             'phone_number.required' => 'Le numéro de téléphone est requis',
             'phone_number.regex' => 'Le numéro de téléphone est invalide',
+            'phone_code.required' => 'Le code du téléphone est requis',
+            'phone_code.regex' => 'Le code du téléphone est invalide',
         ];
     }
 }

@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\ApiController;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\RegisterRequest;
 use App\Http\Resources\UserResource;
+use App\Http\Resources\WalletResource;
 use App\Models\User;
 use App\Services\OtpService;
 use Illuminate\Http\Request;
@@ -75,9 +76,11 @@ class AuthController extends ApiController
         $tokenName = $request->remember ? 'remember_token' : 'auth_token';
         $token = $user->createToken($tokenName)->plainTextToken;
 
-        return $this->successResource(UserResource::make($user->refresh())->additional([
+        return $this->successResponse([
             'token' => $token,
-        ]), 'Connexion réussie.');
+            'user' => UserResource::make($user),
+            'wallet' => WalletResource::make($user->defaultWallet()),
+        ], 'Connexion réussie.');
     }
 
     public function logout(Request $request): JsonResponse
