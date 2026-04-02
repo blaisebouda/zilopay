@@ -22,6 +22,7 @@ return new class extends Migration
             $table->decimal('amount', 20, 8)->default(0);
             $table->string('currency', 8)->default(Currency::XOF->value);
             $table->string('type'); // savings, investment, emergency
+            $table->decimal('goal_amount', 20, 8)->default(0);
             $table->string('status')->default('active'); // active, locked, matured
             $table->timestamp('maturity_date')->nullable();
             $table->timestamps();

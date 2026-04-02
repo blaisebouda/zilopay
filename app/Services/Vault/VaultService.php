@@ -32,6 +32,7 @@ class VaultService
             'maturity_date' => $data['maturity_date'] ?? null,
             'amount' => 0,
             'status' => VaultStatus::ACTIVE,
+            'goal_amount' => $data['goal_amount'] ?? 0,
         ]);
     }
 

@@ -20,7 +20,8 @@ class LoginRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => ['required', 'email'],
+            'email' => ['required_without:phone_number', 'email'],
+            'phone_number' => ['required_without:email', 'string', 'regex:/^[0-9]{8,15}$/'],
             'password' => ['required', 'string'],
             'remember' => ['nullable', 'boolean'],
         ];
@@ -29,11 +30,14 @@ class LoginRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'email.required' => 'L\'email est requis',
+            'email.required_without' => 'L\'email est requis sans numéro de téléphone',
             'email.email' => 'L\'email doit être valide',
             'password.required' => 'Le mot de passe est requis',
             'password.string' => 'Le mot de passe doit être une chaîne',
             'remember.boolean' => 'Le champ remember doit être un booléen',
+            'phone_number.required_without' => 'Le numéro de téléphone est requis sans email',
+            'phone_number.string' => 'Le numéro de téléphone doit être une chaîne',
+            'phone_number.regex' => 'Le numéro de téléphone doit contenir 8 à 15 chiffres',
         ];
     }
 }

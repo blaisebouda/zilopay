@@ -20,6 +20,87 @@
         }
     ],
     "paths": {
+        "/auth/register": {
+            "post": {
+                "tags": [
+                    "Authentification"
+                ],
+                "summary": "Register a new user",
+                "operationId": "8d6d4aca826ebc5a3d708e78d10829c3",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "email",
+                                    "password",
+                                    "password_confirmation",
+                                    "phone"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "John Doe"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "user@zilopay.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "Password123!"
+                                    },
+                                    "password_confirmation": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "Password123!"
+                                    },
+                                    "phone": {
+                                        "type": "string",
+                                        "example": "+22500000000"
+                                    },
+                                    "policy_accepted": {
+                                        "type": "boolean",
+                                        "example": true
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful registration",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Inscription réussie."
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "user": {
+                                                    "$ref": "#/components/schemas/User"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/auth/login": {
             "post": {
                 "tags": [
@@ -58,17 +139,29 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "Successful operation",
+                        "description": "Successful login",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "properties": {
-                                        "data": {
-                                            "$ref": "#/components/schemas/User"
-                                        },
-                                        "token": {
+                                        "message": {
                                             "type": "string",
-                                            "example": "1|abcdef..."
+                                            "example": "Connexion réussie."
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "token": {
+                                                    "type": "string",
+                                                    "example": "1|abcdef..."
+                                                },
+                                                "user": {
+                                                    "$ref": "#/components/schemas/User"
+                                                },
+                                                "wallet": {
+                                                    "$ref": "#/components/schemas/Wallet"
+                                                }
+                                            },
+                                            "type": "object"
                                         }
                                     },
                                     "type": "object"
@@ -77,6 +170,150 @@
                         }
                     }
                 }
+            }
+        },
+        "/auth/logout": {
+            "post": {
+                "tags": [
+                    "Authentification"
+                ],
+                "summary": "Logout user",
+                "operationId": "e8782b6ef732cb1bb4bd0f02035b4951",
+                "responses": {
+                    "200": {
+                        "description": "Successful logout",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Déconnexion réussie."
+                                        },
+                                        "data": {
+                                            "type": "object",
+                                            "example": []
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/auth/logout-all": {
+            "post": {
+                "tags": [
+                    "Authentification"
+                ],
+                "summary": "Logout user from all devices",
+                "operationId": "da6e7f1089967b398d1143a1fdd585fa",
+                "responses": {
+                    "200": {
+                        "description": "Successful logout from all devices",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Déconnexion réussie de tous les appareils."
+                                        },
+                                        "data": {
+                                            "type": "object",
+                                            "example": []
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/auth/me": {
+            "get": {
+                "tags": [
+                    "Authentification"
+                ],
+                "summary": "Get current user",
+                "operationId": "106018214eef2b9da2310d4062eb0378",
+                "responses": {
+                    "200": {
+                        "description": "Current user data",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/User"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/auth/refresh": {
+            "post": {
+                "tags": [
+                    "Authentification"
+                ],
+                "summary": "Refresh authentication token",
+                "operationId": "6bc6507ba64e131d0c4f8ee9f37d630e",
+                "responses": {
+                    "200": {
+                        "description": "Token refreshed successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Token rafraîchi avec succès."
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "token": {
+                                                    "type": "string",
+                                                    "example": "1|newtoken..."
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             }
         },
         "/payment-methods": {
@@ -608,7 +845,6 @@
                             "schema": {
                                 "required": [
                                     "name",
-                                    "currency",
                                     "type"
                                 ],
                                 "properties": {
@@ -637,6 +873,11 @@
                                         "type": "string",
                                         "format": "date-time",
                                         "example": "2026-12-31"
+                                    },
+                                    "goal_amount": {
+                                        "description": "Goal amount (optional)",
+                                        "type": "number",
+                                        "example": 100000
                                     }
                                 },
                                 "type": "object"
@@ -1310,43 +1551,28 @@
                     "email": {
                         "type": "string",
                         "example": "john.doe@example.com"
-                    },
-                    "pseudo": {
+                    }
+                },
+                "type": "object"
+            },
+            "Wallet": {
+                "properties": {
+                    "id": {
                         "type": "string",
-                        "example": "johndoe"
+                        "example": "WALLET123"
                     },
-                    "email_verified_at": {
+                    "balance": {
+                        "type": "number",
+                        "format": "float",
+                        "example": 1000.5
+                    },
+                    "currency": {
                         "type": "string",
-                        "format": "date-time",
-                        "example": "2021-01-01 10:00:00"
+                        "example": "XOF"
                     },
-                    "phone": {
+                    "currency_symbol": {
                         "type": "string",
-                        "example": "+22500000000"
-                    },
-                    "first_name": {
-                        "type": "string",
-                        "example": "John"
-                    },
-                    "last_name": {
-                        "type": "string",
-                        "example": "Doe"
-                    },
-                    "full_name": {
-                        "type": "string",
-                        "example": "John Doe"
-                    },
-                    "is_verified": {
-                        "type": "boolean",
-                        "example": true
-                    },
-                    "created_at": {
-                        "type": "string",
-                        "format": "date-time"
-                    },
-                    "updated_at": {
-                        "type": "string",
-                        "format": "date-time"
+                        "example": "CFA"
                     }
                 },
                 "type": "object"

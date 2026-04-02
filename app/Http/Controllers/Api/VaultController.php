@@ -27,7 +27,7 @@ class VaultController extends ApiController
             $vaults = $this->vaultService->getUserVaults(request()->user());
 
             return $this->successResponse(
-                VaultResource::collection($vaults),
+                VaultResource::collection($vaults->load('transactions')),
                 'Coffres-forts récupérés avec succès'
             );
         } catch (\Exception $e) {
@@ -168,7 +168,7 @@ class VaultController extends ApiController
                 : 'Coffre-fort déverrouillé avec succès';
 
             return $this->successResponse(
-                new VaultResource($vault),
+                new VaultResource($vault->load('transactions')),
                 $message
             );
         } catch (\Exception $e) {

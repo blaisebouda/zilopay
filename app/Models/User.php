@@ -26,6 +26,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'phone_number',
+        'policy_accepted_at',
     ];
 
     /**
@@ -51,6 +53,7 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
             'two_factor_confirmed_at' => 'datetime',
+            'policy_accepted_at' => 'datetime',
         ];
     }
 
@@ -64,9 +67,9 @@ class User extends Authenticatable
         return $this->hasMany(Vault::class);
     }
 
-    public function defaultWallet(): Wallet
+    public function defaultWallet(): HasOne
     {
-        return Wallet::forUser($this->id)->where('is_default', true)->first();
+        return $this->hasOne(Wallet::class)->where('is_default', true);
     }
 
     protected static function booted(): void

@@ -29,6 +29,7 @@ class StoreVaultRequest extends FormRequest
             'currency' => ['required', 'string', new Enum(Currency::class)],
             'type' => ['required', 'string', new Enum(VaultType::class)],
             'maturity_date' => ['nullable', 'date', 'after:today'],
+            'goal_amount' => ['nullable', 'numeric', 'min:1000'],
         ];
     }
 
@@ -42,6 +43,7 @@ class StoreVaultRequest extends FormRequest
             'type.required' => 'Le type de coffre-fort est requis',
             'type.enum' => 'Le type doit être l\'un des suivants : savings, investment, emergency',
             'maturity_date.after' => 'La date de maturité doit être dans le futur',
+            'goal_amount.min' => 'Le montant cible doit être d\'au moins 1 000 FCFA',
         ];
     }
 }

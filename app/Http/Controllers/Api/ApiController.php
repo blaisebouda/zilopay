@@ -9,15 +9,7 @@ abstract class ApiController
 {
     protected const PER_PAGE = 15;
 
-    public function successResource(JsonResource $resource, string $message = 'Success'): JsonResource
-    {
-        return $resource->additional([
-            ...$resource->additional,
-            'success' => true,
-            'status' => 200,
-            'message' => $message,
-        ]);
-    }
+
 
     /**
      * Return a successful response.

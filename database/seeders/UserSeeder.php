@@ -16,6 +16,7 @@ class UserSeeder extends Seeder
         $user = User::factory()->create([
             'name' => 'Zilo Pay User',
             'email' => 'user@zilopay.com',
+            'phone_number' => '22670000000',
         ]);
 
         $user->defaultWallet->credit(888500);
@@ -23,8 +24,9 @@ class UserSeeder extends Seeder
 
         // Test user
         $testUser = User::factory()->create([
-            'name' => 'Test User',
+            'name' => 'Phone Test User',
             'email' => 'test@zilopay.com',
+            'phone_number' => '22670000001',
         ]);
 
         $testUser->defaultWallet->credit(500000);

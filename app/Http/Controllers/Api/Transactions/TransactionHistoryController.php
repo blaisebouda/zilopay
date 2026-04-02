@@ -15,7 +15,7 @@ class TransactionHistoryController extends ApiController
     /**
      * Get transaction history for authenticated user
      */
-    public function index(Request $request): JsonResource
+    public function index(Request $request): JsonResponse
     {
         $query = Transaction::forUser($request->user()->id)
             ->with(['paymentMethod', 'deposit', 'withdrawal', 'transfer']);
@@ -40,7 +40,7 @@ class TransactionHistoryController extends ApiController
         $transactions = $query->orderBy('created_at', 'desc')
             ->simplePaginate($perPage);
 
-        return $this->successResource(TransactionResource::collection($transactions));
+        return $this->successResponse(TransactionResource::collection($transactions));
     }
 
     /**
@@ -106,7 +106,7 @@ class TransactionHistoryController extends ApiController
 
         return $this->successResponse([
             'transactions' => TransactionResource::collection($transactions),
-            'wallet' => WalletResource::make($user->defaultWallet()),
+            'wallet' => WalletResource::make($user->defaultWallet),
         ]);
     }
 }

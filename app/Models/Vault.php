@@ -23,6 +23,7 @@ class Vault extends BaseModel
         'type',
         'status',
         'maturity_date',
+        'goal_amount',
     ];
 
     protected function casts(): array
@@ -33,6 +34,7 @@ class Vault extends BaseModel
             'status' => VaultStatus::class,
             'currency' => Currency::class,
             'maturity_date' => 'datetime',
+            'goal_amount' => 'float',
         ];
     }
 
@@ -46,9 +48,17 @@ class Vault extends BaseModel
         return $this->hasMany(VaultTransaction::class);
     }
 
+    public function isGoalReached(): bool
+    {
+        if ($this->goal_amount === 0) {
+            return false;
+        }
+        return $this->amount >= $this->goal_amount;
+    }
+
     public function isLocked(): bool
     {
-        return $this->status->equals(VaultStatus::LOCKED);
+        return $this->status->equals(VaultStatus::LOCKED) || !$this->isGoalReached();
     }
 
     public function isActive(): bool

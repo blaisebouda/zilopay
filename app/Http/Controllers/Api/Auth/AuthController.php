@@ -31,28 +31,27 @@ class AuthController extends ApiController
 
             // Create user
             $user = User::create([
-                'phone' => $request->phone,
+                'name' => $request->name,
+                'phone_number' => trim($request->phone),
+                'email' => $request->email,
                 'password' => Hash::make($request->password),
-                'account_type' => $request->account_type,
-                'guardian_for' => $request->guardian_for,
-                'policy' => $request->islamic_charter_accepted ? now() : null,
+                'policy_accepted_at' => $request->policy_accepted ? now() : null,
                 'is_verified' => false,
             ]);
 
             // Generate and send OTP
-            $otp = $this->otpService->generate($user->phone, 'registration', $user);
+            //  $otp = $this->otpService->generate($user->phone, 'registration', $user);
 
             DB::commit();
 
-            return $this->successResource(UserResource::make($user)->additional([
-                'otp_expires_in' => $otp->expires_at->diffInSeconds(now()),
-            ]), 'Inscription réussie. Un code OTP a été envoyé à votre numéro de téléphone.');
+            return $this->successResponse([
+                'user' => UserResource::make($user),
+                //'otp_expires_in' => $otp->expires_at->diffInSeconds(now()),
+            ], 'Inscription réussie.');
         } catch (\Exception $e) {
             DB::rollBack();
 
-            return response()->json([
-                'error' => $e->getMessage(),
-            ], 500);
+            return $this->errorResponse($e->getMessage(), 500);
         }
     }
 
@@ -60,17 +59,12 @@ class AuthController extends ApiController
     {
         // Find user by email or phone
         $user = User::where('email', $request->email)
-            // ->orWhere('phone', $request->identifier)
+            ->orWhere('phone_number', trim($request->phone_number))
             ->first();
 
         if (! $user || ! Hash::check($request->password, $user->password)) {
             return $this->errorResponse('Identifiants invalides.', 404);
         }
-
-        // // Check if user is active
-        // if (! $user->is_active) {
-        //     return $this->errorResponse('Votre compte a été désactivé.', 403);
-        // }
 
         // Create token
         $tokenName = $request->remember ? 'remember_token' : 'auth_token';
@@ -79,7 +73,7 @@ class AuthController extends ApiController
         return $this->successResponse([
             'token' => $token,
             'user' => UserResource::make($user),
-            'wallet' => WalletResource::make($user->defaultWallet()),
+            'wallet' => WalletResource::make($user->defaultWallet),
         ], 'Connexion réussie.');
     }
 
@@ -90,11 +84,11 @@ class AuthController extends ApiController
         return $this->successResponse([], 'Déconnexion réussie.');
     }
 
-    public function logoutAll(Request $request): JsonResource
+    public function logoutAll(Request $request): JsonResponse
     {
         $request->user()->tokens()->delete();
 
-        return $this->successResource(new JsonResource([]), 'Déconnexion réussie de tous les appareils.');
+        return $this->successResponse([], 'Déconnexion réussie de tous les appareils.');
     }
 
     public function me(Request $request): JsonResource
