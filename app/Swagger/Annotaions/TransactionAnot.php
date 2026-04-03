@@ -217,4 +217,34 @@ class TransactionAnot
         ]
     )]
     public function transfer() {}
+
+    #[OA\Get(
+        path: '/transactions/dashboard',
+        summary: 'Get transaction dashboard',
+        description: 'Retrieve transaction dashboard data',
+        tags: ['Transactions'],
+        security: [['sanctum' => []]],
+        responses: [
+            new OA\Response(
+                response: 200,
+                description: 'Transaction dashboard retrieved successfully',
+                content: new OA\JsonContent(
+                    type: 'object',
+                    properties: [
+                        new OA\Property(
+                            property: 'transactions',
+                            type: 'array',
+                            items: new OA\Items(ref: '#/components/schemas/Transaction')
+                        ),
+                        new OA\Property(property: 'wallet', ref: '#/components/schemas/Wallet'),
+
+                    ],
+
+                )
+            ),
+
+        ]
+
+    )]
+    public function dashboard() {}
 }

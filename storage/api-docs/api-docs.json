@@ -739,6 +739,44 @@
                 ]
             }
         },
+        "/transactions/dashboard": {
+            "get": {
+                "tags": [
+                    "Transactions"
+                ],
+                "summary": "Get transaction dashboard",
+                "description": "Retrieve transaction dashboard data",
+                "operationId": "64fe5c118b4ca531787717e8e6d68a78",
+                "responses": {
+                    "200": {
+                        "description": "Transaction dashboard retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "transactions": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Transaction"
+                                            }
+                                        },
+                                        "wallet": {
+                                            "$ref": "#/components/schemas/Wallet"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
         "/vaults": {
             "get": {
                 "tags": [
