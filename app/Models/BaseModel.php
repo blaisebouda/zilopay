@@ -10,10 +10,7 @@ class BaseModel extends Model
 {
     use HasFactory;
 
-    public function scopeForUser($query, int $userId)
-    {
-        return $query->where('user_id', $userId);
-    }
+
 
     /**
      * Generate a unique code.
@@ -27,13 +24,11 @@ class BaseModel extends Model
         return $code;
     }
 
-    /**
-     * Scope a query to only include transactions for a specific user.
-     */
-    // public function scopeForUser(Builder $query, int $userId): Builder
-    // {
-    //     return $query->where('user_id', $userId);
-    // }
+    public function scopeForUser($query, int $userId)
+    {
+        return $query->where('user_id', $userId);
+    }
+
 
     public function scopeForDateRange($query, string $startDate, string $endDate)
     {

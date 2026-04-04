@@ -6,7 +6,7 @@ use App\Models\Enums\Currency;
 use App\Models\Enums\TransactionStatus;
 use App\Models\Enums\TransactionType;
 use App\Models\Transaction;
-use App\Services\Transactions\Utils\AmountWithFeeResult;
+use App\Utils\AmountWithFeeResult;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 

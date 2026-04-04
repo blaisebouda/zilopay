@@ -19,7 +19,7 @@ class WithdrawalService extends AbstractTransactionService implements Transactio
     public function __construct(
         private WalletValidator $walletValidator,
         private AmountValidator $amountValidator,
-        private FeeCalculator $feeCalculator,
+        private MerchantFeeCalculator $feeCalculator,
         private OrangeMoneyGateway $gateway
     ) {}
 
@@ -151,7 +151,7 @@ class WithdrawalService extends AbstractTransactionService implements Transactio
         if (! $gatewayResponse['success']) {
             $wallet->credit($totalDebit);
             $this->updateTransactionStatus($withdrawal->transaction, TransactionStatus::BLOCKED);
-            throw new \Exception('Gateway error: '.($gatewayResponse['message'] ?? 'Unknown error'));
+            throw new \Exception('Gateway error: ' . ($gatewayResponse['message'] ?? 'Unknown error'));
         }
 
         $withdrawal->update([
@@ -212,7 +212,7 @@ class WithdrawalService extends AbstractTransactionService implements Transactio
             'uuid' => $withdrawal->metadata['uuid'],
         ]);
 
-        throw new \Exception('Withdrawal verification failed: '.($verification['message'] ?? 'Unknown error'));
+        throw new \Exception('Withdrawal verification failed: ' . ($verification['message'] ?? 'Unknown error'));
     }
 
     private function rejectAndRefund(Withdrawal $withdrawal, string $reason): Transaction

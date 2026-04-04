@@ -17,9 +17,13 @@ return new class extends Migration
         Schema::create('merchant_transactions', function (Blueprint $table) {
             $table->id();
             $table->foreignId('merchant_id')->constrained();
+            $table->foreignId('payment_link_id')->nullable()->constrained()->cascadeOnDelete();
             $table->uuid()->default(DB::raw('gen_random_uuid()'))->unique();
-            $table->string("phone_number", 25)->nullable();
+            $table->string("customer_phone", 25)->nullable();
+            $table->string("customer_email", 255)->nullable();
 
+
+            $table->string("currency", 8);
             $table->decimal('gross_amount', 20, 8);     // 1000 — ce que le user a payé
             $table->decimal('platform_fee', 20, 8);     // 50  — la commission
             $table->decimal('net_amount', 20, 8);       // 950 — ce que reçoit le marchand

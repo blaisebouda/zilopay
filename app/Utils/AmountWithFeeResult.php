@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Transactions\Utils;
+namespace App\Utils;
 
 readonly class AmountWithFeeResult
 {
@@ -16,9 +16,14 @@ readonly class AmountWithFeeResult
         return $this->percentage + $this->fixed;
     }
 
-    public function getTotalDebit(): float
+    public function getGrossAmount(): float
     {
         return $this->amount + $this->getFeeTotal();
+    }
+
+    public function getNetAmount(): float
+    {
+        return $this->amount - $this->getFeeTotal();
     }
 
     /**

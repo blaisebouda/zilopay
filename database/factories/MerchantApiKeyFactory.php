@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Models\merchantApiKey;
+use App\Models\MerchantApiKey;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**

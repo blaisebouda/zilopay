@@ -316,6 +316,1081 @@
                 ]
             }
         },
+        "/merchant": {
+            "post": {
+                "tags": [
+                    "Merchants"
+                ],
+                "summary": "Create merchant profile",
+                "operationId": "a2c5a19a96cdc2e83b90bbb65142e740",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "business_name",
+                                    "business_email",
+                                    "country"
+                                ],
+                                "properties": {
+                                    "business_name": {
+                                        "type": "string",
+                                        "example": "My Shop"
+                                    },
+                                    "business_email": {
+                                        "type": "string",
+                                        "example": "contact@myshop.com"
+                                    },
+                                    "phone": {
+                                        "type": "string",
+                                        "example": "+22501234567"
+                                    },
+                                    "country": {
+                                        "type": "string",
+                                        "example": "CI"
+                                    },
+                                    "fee_fixed": {
+                                        "type": "number",
+                                        "example": 100
+                                    },
+                                    "fee_percentage": {
+                                        "type": "number",
+                                        "example": 2.5
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Merchant profile created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 201
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Merchant profile created successfully"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/Merchant"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    },
+                    "500": {
+                        "description": "Server error"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/merchant/{uuid}": {
+            "get": {
+                "tags": [
+                    "Merchants"
+                ],
+                "summary": "Get merchant by UUID",
+                "operationId": "13e2df4f79c4a1247b21f6479fda58d2",
+                "parameters": [
+                    {
+                        "name": "uuid",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Merchant retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Merchant retrieved successfully"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/Merchant"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "404": {
+                        "description": "Merchant not found"
+                    },
+                    "500": {
+                        "description": "Server error"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/merchant/dashboard": {
+            "get": {
+                "tags": [
+                    "Merchants"
+                ],
+                "summary": "Get merchant dashboard statistics",
+                "operationId": "b8c9c5aedc32f4f1b554ea2f1ffb13b1",
+                "responses": {
+                    "200": {
+                        "description": "Dashboard statistics retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Dashboard statistics retrieved successfully"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/MerchantDashboard"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Merchant not approved"
+                    },
+                    "500": {
+                        "description": "Server error"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/merchant/payment-links": {
+            "get": {
+                "tags": [
+                    "Merchants"
+                ],
+                "summary": "List all payment links",
+                "operationId": "b8258c7117c6cfb195755f5401bb8453",
+                "responses": {
+                    "200": {
+                        "description": "Payment links retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Payment links retrieved successfully"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/PaymentLink"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Merchant not approved"
+                    },
+                    "500": {
+                        "description": "Server error"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Merchants"
+                ],
+                "summary": "Create payment link",
+                "operationId": "82b253b440c3ff77997b909c56471c70",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "title"
+                                ],
+                                "properties": {
+                                    "title": {
+                                        "type": "string",
+                                        "example": "Product Payment"
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "Payment for product XYZ"
+                                    },
+                                    "amount": {
+                                        "type": "number",
+                                        "example": 5000,
+                                        "nullable": true
+                                    },
+                                    "currency": {
+                                        "type": "string",
+                                        "example": "XOF"
+                                    },
+                                    "max_uses": {
+                                        "type": "integer",
+                                        "example": 100
+                                    },
+                                    "expires_at": {
+                                        "type": "string",
+                                        "format": "date-time",
+                                        "example": "2024-12-31 23:59:59"
+                                    },
+                                    "metadata": {
+                                        "type": "object"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Payment link created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 201
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Payment link created successfully"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/PaymentLink"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Merchant not approved"
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    },
+                    "500": {
+                        "description": "Server error"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/merchant/payment-links/{paymentLink}": {
+            "get": {
+                "tags": [
+                    "Merchants"
+                ],
+                "summary": "Get payment link details",
+                "operationId": "71d140effcda3270c362949ea89f5618",
+                "parameters": [
+                    {
+                        "name": "paymentLink",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Payment link retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Payment link retrieved successfully"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/PaymentLink"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Merchant not approved or unauthorized"
+                    },
+                    "404": {
+                        "description": "Payment link not found"
+                    },
+                    "500": {
+                        "description": "Server error"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Merchants"
+                ],
+                "summary": "Update payment link",
+                "operationId": "bb8ef263a1c1bacac2c4a521a348da97",
+                "parameters": [
+                    {
+                        "name": "paymentLink",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "title": {
+                                        "type": "string",
+                                        "example": "Updated Payment"
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "Updated description"
+                                    },
+                                    "amount": {
+                                        "type": "number",
+                                        "example": 6000,
+                                        "nullable": true
+                                    },
+                                    "status": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "max_uses": {
+                                        "type": "integer",
+                                        "example": 200
+                                    },
+                                    "expires_at": {
+                                        "type": "string",
+                                        "format": "date-time",
+                                        "example": "2024-12-31 23:59:59"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Payment link updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Payment link updated successfully"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/PaymentLink"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Merchant not approved or unauthorized"
+                    },
+                    "404": {
+                        "description": "Payment link not found"
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    },
+                    "500": {
+                        "description": "Server error"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Merchants"
+                ],
+                "summary": "Delete payment link",
+                "operationId": "8c4c78b628f84292b39730d3a5c5a300",
+                "parameters": [
+                    {
+                        "name": "paymentLink",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Payment link deleted successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Payment link deleted successfully"
+                                        },
+                                        "data": {
+                                            "type": "null"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Merchant not approved or unauthorized"
+                    },
+                    "404": {
+                        "description": "Payment link not found"
+                    },
+                    "500": {
+                        "description": "Server error"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/merchant/api-keys": {
+            "post": {
+                "tags": [
+                    "Merchants"
+                ],
+                "summary": "Create API key",
+                "operationId": "cc091e9deb076f5fee8a763a7c32c20a",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Production Key"
+                                    },
+                                    "is_live": {
+                                        "type": "boolean",
+                                        "example": true
+                                    },
+                                    "expires_at": {
+                                        "type": "string",
+                                        "format": "date-time",
+                                        "example": "2025-12-31 23:59:59"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "API key created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 201
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "API key created successfully. Please save the secret, it will not be shown again."
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/MerchantApiKey"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Merchant not approved"
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    },
+                    "500": {
+                        "description": "Server error"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/merchant/api-keys/{api_key}": {
+            "delete": {
+                "tags": [
+                    "Merchants"
+                ],
+                "summary": "Delete API key",
+                "operationId": "d14f85bc8fdcb8ea33e7abed70c4e499",
+                "parameters": [
+                    {
+                        "name": "api_key",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "API key deleted successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "API key deleted successfully"
+                                        },
+                                        "data": {
+                                            "type": "null"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Merchant not approved or unauthorized"
+                    },
+                    "404": {
+                        "description": "API key not found"
+                    },
+                    "500": {
+                        "description": "Server error"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/merchant/payments/initiate": {
+            "post": {
+                "tags": [
+                    "Merchants"
+                ],
+                "summary": "Initiate payment via API",
+                "operationId": "f6382fe4a871f0ba5ac96e37ecc00c04",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "amount"
+                                ],
+                                "properties": {
+                                    "amount": {
+                                        "type": "number",
+                                        "example": 10000
+                                    },
+                                    "currency": {
+                                        "type": "string",
+                                        "example": "XOF"
+                                    },
+                                    "customer_email": {
+                                        "type": "string",
+                                        "example": "customer@example.com"
+                                    },
+                                    "customer_phone": {
+                                        "type": "string",
+                                        "example": "+22501234567"
+                                    },
+                                    "customer_name": {
+                                        "type": "string",
+                                        "example": "John Doe"
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "Payment for order #123"
+                                    },
+                                    "reference": {
+                                        "type": "string",
+                                        "example": "REF_123"
+                                    },
+                                    "metadata": {
+                                        "type": "object"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Payment initiated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 201
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Payment initiated successfully"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "transaction": {
+                                                    "$ref": "#/components/schemas/MerchantTransaction"
+                                                },
+                                                "fees": {
+                                                    "$ref": "#/components/schemas/FeeCalculation"
+                                                },
+                                                "payment_url": {
+                                                    "type": "string",
+                                                    "example": "https://api.zilopay.com/merchant/payments/550e8400-e29b-41d4-a716-446655440003"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Invalid API credentials"
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    },
+                    "500": {
+                        "description": "Server error"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ]
+            }
+        },
+        "/merchant/payments/{uuid}": {
+            "get": {
+                "tags": [
+                    "Merchants"
+                ],
+                "summary": "Get payment details via API",
+                "operationId": "c7a3d3804ea5450521dece537dc8db5c",
+                "parameters": [
+                    {
+                        "name": "uuid",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Payment retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Payment retrieved successfully"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "transaction": {
+                                                    "$ref": "#/components/schemas/MerchantTransaction"
+                                                },
+                                                "fees": {
+                                                    "$ref": "#/components/schemas/FeeCalculation"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Invalid API credentials"
+                    },
+                    "403": {
+                        "description": "Unauthorized"
+                    },
+                    "404": {
+                        "description": "Payment not found"
+                    },
+                    "500": {
+                        "description": "Server error"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ]
+            }
+        },
+        "/merchant/pay/{uuid}": {
+            "get": {
+                "tags": [
+                    "Merchants"
+                ],
+                "summary": "Get payment link details (public)",
+                "operationId": "527a3872b78982faea2375cae872106e",
+                "parameters": [
+                    {
+                        "name": "uuid",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Payment link retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Payment link retrieved successfully"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "payment_link": {
+                                                    "$ref": "#/components/schemas/PaymentLink"
+                                                },
+                                                "is_valid": {
+                                                    "type": "boolean",
+                                                    "example": true
+                                                },
+                                                "validation_message": {
+                                                    "type": "string",
+                                                    "example": null,
+                                                    "nullable": true
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Payment link not found"
+                    },
+                    "500": {
+                        "description": "Server error"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Merchants"
+                ],
+                "summary": "Process payment via payment link (public)",
+                "operationId": "c271f080c7e3d8a0c334f09466d0087f",
+                "parameters": [
+                    {
+                        "name": "uuid",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "amount": {
+                                        "type": "number",
+                                        "example": 5000,
+                                        "nullable": true
+                                    },
+                                    "customer_email": {
+                                        "type": "string",
+                                        "example": "customer@example.com"
+                                    },
+                                    "customer_phone": {
+                                        "type": "string",
+                                        "example": "+22501234567"
+                                    },
+                                    "customer_name": {
+                                        "type": "string",
+                                        "example": "John Doe"
+                                    },
+                                    "metadata": {
+                                        "type": "object"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Payment initiated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 201
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Payment initiated successfully"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/MerchantTransaction"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Payment link not found"
+                    },
+                    "422": {
+                        "description": "Validation error or payment link invalid"
+                    },
+                    "500": {
+                        "description": "Server error"
+                    }
+                }
+            }
+        },
         "/payment-methods": {
             "get": {
                 "tags": [
@@ -1615,6 +2690,368 @@
                 },
                 "type": "object"
             },
+            "Merchant": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "uuid": {
+                        "type": "string",
+                        "example": "550e8400-e29b-41d4-a716-446655440000"
+                    },
+                    "business_name": {
+                        "type": "string",
+                        "example": "ZiloShop"
+                    },
+                    "business_email": {
+                        "type": "string",
+                        "example": "contact@ziloshop.com"
+                    },
+                    "phone": {
+                        "type": "string",
+                        "example": "+22501234567"
+                    },
+                    "country": {
+                        "type": "string",
+                        "example": "CI"
+                    },
+                    "fee_fixed": {
+                        "type": "number",
+                        "format": "float",
+                        "example": 100
+                    },
+                    "fee_percentage": {
+                        "type": "number",
+                        "format": "float",
+                        "example": 2.5
+                    },
+                    "status": {
+                        "type": "integer",
+                        "example": 0
+                    },
+                    "status_label": {
+                        "type": "string",
+                        "example": "Pending"
+                    },
+                    "approved_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": null,
+                        "nullable": true
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2024-01-15 10:30:00"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2024-01-15 10:30:00"
+                    }
+                },
+                "type": "object"
+            },
+            "PaymentLink": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "uuid": {
+                        "type": "string",
+                        "example": "550e8400-e29b-41d4-a716-446655440001"
+                    },
+                    "merchant_id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "title": {
+                        "type": "string",
+                        "example": "Product Payment"
+                    },
+                    "description": {
+                        "type": "string",
+                        "example": "Payment for product XYZ"
+                    },
+                    "amount": {
+                        "type": "number",
+                        "format": "float",
+                        "example": 5000,
+                        "nullable": true
+                    },
+                    "currency": {
+                        "type": "string",
+                        "example": "XOF"
+                    },
+                    "status": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "status_label": {
+                        "type": "string",
+                        "example": "Active"
+                    },
+                    "max_uses": {
+                        "type": "integer",
+                        "example": 100,
+                        "nullable": true
+                    },
+                    "uses_count": {
+                        "type": "integer",
+                        "example": 5
+                    },
+                    "remaining_uses": {
+                        "type": "integer",
+                        "example": 95,
+                        "nullable": true
+                    },
+                    "expires_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2024-12-31 23:59:59",
+                        "nullable": true
+                    },
+                    "is_expired": {
+                        "type": "boolean",
+                        "example": false
+                    },
+                    "payment_url": {
+                        "type": "string",
+                        "example": "https://api.zilopay.com/merchant/pay/550e8400-e29b-41d4-a716-446655440001"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2024-01-15 10:30:00"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2024-01-15 10:30:00"
+                    }
+                },
+                "type": "object"
+            },
+            "MerchantApiKey": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "uuid": {
+                        "type": "string",
+                        "example": "550e8400-e29b-41d4-a716-446655440002"
+                    },
+                    "merchant_id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Production Key"
+                    },
+                    "key": {
+                        "type": "string",
+                        "example": "mk_live_abc123xyz456"
+                    },
+                    "public_key": {
+                        "type": "string",
+                        "example": "mk_pub_live_def789uvw012"
+                    },
+                    "secret": {
+                        "description": "Only shown once when created",
+                        "type": "string",
+                        "example": "sec_abc123xyz789"
+                    },
+                    "secret_warning": {
+                        "type": "string",
+                        "example": "This secret will only be displayed once. Please save it securely."
+                    },
+                    "is_live": {
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "is_active": {
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "last_used_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2024-01-15 14:30:00",
+                        "nullable": true
+                    },
+                    "expires_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": null,
+                        "nullable": true
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2024-01-15 10:30:00"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2024-01-15 10:30:00"
+                    }
+                },
+                "type": "object"
+            },
+            "MerchantTransaction": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "uuid": {
+                        "type": "string",
+                        "example": "550e8400-e29b-41d4-a716-446655440003"
+                    },
+                    "merchant_id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "payment_link_id": {
+                        "type": "integer",
+                        "example": 1,
+                        "nullable": true
+                    },
+                    "amount": {
+                        "type": "number",
+                        "format": "float",
+                        "example": 5000
+                    },
+                    "currency": {
+                        "type": "string",
+                        "example": "XOF"
+                    },
+                    "status": {
+                        "type": "string",
+                        "example": "pending"
+                    },
+                    "customer_email": {
+                        "type": "string",
+                        "example": "customer@example.com",
+                        "nullable": true
+                    },
+                    "customer_phone": {
+                        "type": "string",
+                        "example": "+22501234567",
+                        "nullable": true
+                    },
+                    "customer_name": {
+                        "type": "string",
+                        "example": "John Doe",
+                        "nullable": true
+                    },
+                    "description": {
+                        "type": "string",
+                        "example": "Payment for order #123",
+                        "nullable": true
+                    },
+                    "reference": {
+                        "type": "string",
+                        "example": "ZPAY_abc123"
+                    },
+                    "metadata": {
+                        "type": "object",
+                        "nullable": true
+                    },
+                    "paid_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": null,
+                        "nullable": true
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2024-01-15 10:30:00"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2024-01-15 10:30:00"
+                    }
+                },
+                "type": "object"
+            },
+            "MerchantDashboard": {
+                "properties": {
+                    "merchant": {
+                        "$ref": "#/components/schemas/Merchant"
+                    },
+                    "statistics": {
+                        "properties": {
+                            "total_revenue": {
+                                "type": "number",
+                                "format": "float",
+                                "example": 150000
+                            },
+                            "pending_payments_count": {
+                                "type": "integer",
+                                "example": 3
+                            },
+                            "payment_links_count": {
+                                "type": "integer",
+                                "example": 10
+                            },
+                            "active_payment_links_count": {
+                                "type": "integer",
+                                "example": 7
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "recent_payments": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/MerchantTransaction"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "FeeCalculation": {
+                "properties": {
+                    "original_amount": {
+                        "type": "number",
+                        "format": "float",
+                        "example": 10000
+                    },
+                    "fixed_fee": {
+                        "type": "number",
+                        "format": "float",
+                        "example": 100
+                    },
+                    "percentage_fee": {
+                        "type": "number",
+                        "format": "float",
+                        "example": 2.5
+                    },
+                    "percentage_fee_amount": {
+                        "type": "number",
+                        "format": "float",
+                        "example": 250
+                    },
+                    "total_fee": {
+                        "type": "number",
+                        "format": "float",
+                        "example": 350
+                    },
+                    "net_amount": {
+                        "type": "number",
+                        "format": "float",
+                        "example": 9650
+                    }
+                },
+                "type": "object"
+            },
             "PaymentMethod": {
                 "properties": {
                     "id": {
@@ -1840,6 +3277,12 @@
             }
         },
         "securitySchemes": {
+            "api_key": {
+                "type": "apiKey",
+                "description": "API Key authentication",
+                "name": "X-API-Key",
+                "in": "header"
+            },
             "sanctum": {
                 "type": "http",
                 "description": "Login with username and password to get the authentication token",
@@ -1851,6 +3294,9 @@
         }
     },
     "tags": [
+        {
+            "name": "Merchants"
+        },
         {
             "name": "Transactions"
         },

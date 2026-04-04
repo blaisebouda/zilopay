@@ -8,7 +8,6 @@ use App\Http\Resources\TransactionResource;
 use App\Services\Transactions\DepositService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Log;
 
 class DepositController extends ApiController
@@ -20,7 +19,7 @@ class DepositController extends ApiController
     /**
      * Create a new deposit
      */
-    public function init(StoreDepositRequest $request): JsonResponse|JsonResource
+    public function init(StoreDepositRequest $request): JsonResponse
     {
         try {
             $deposit = $this->depositService->create(
@@ -28,7 +27,7 @@ class DepositController extends ApiController
                 $request->validated()
             );
 
-            return $this->successResource(TransactionResource::make($deposit), 'Deposit created successfully');
+            return $this->successResponse(TransactionResource::make($deposit), 'Deposit created successfully');
         } catch (\InvalidArgumentException $e) {
             return $this->errorResponse($e->getMessage(), 422);
         } catch (\Exception $e) {

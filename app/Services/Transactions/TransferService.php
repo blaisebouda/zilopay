@@ -11,7 +11,7 @@ use App\Models\User;
 use App\Models\Wallet;
 use App\Services\Transactions\Contracts\TransactionServiceInterface;
 use App\Services\Transactions\Utils\AmountValidator;
-use App\Services\Transactions\Utils\AmountWithFeeResult;
+use App\Utils\AmountWithFeeResult;
 use App\Services\Transactions\Utils\FeeCalculator;
 use App\Services\Wallet\Utils\WalletValidator;
 use Illuminate\Database\Eloquent\Collection;
@@ -21,7 +21,7 @@ class TransferService extends AbstractTransactionService implements TransactionS
     public function __construct(
         private WalletValidator $walletValidator,
         private AmountValidator $amountValidator,
-        private FeeCalculator $feeCalculator
+        private MerchantFeeCalculator $feeCalculator
     ) {}
 
     protected function getTransactionType(): TransactionType

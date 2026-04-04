@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('title');
             $table->text('description')->nullable();
             $table->decimal('amount', 20, 8)->nullable();   // null = amount libre
-            $table->string('currency', 3)->default('XOF');
+            $table->string('currency', 3);
             $table->integer('status')->default(CommonStatus::ACTIVE->value);
             $table->integer('max_uses')->nullable();         // null = illimité
             $table->integer('uses_count')->default(0);
