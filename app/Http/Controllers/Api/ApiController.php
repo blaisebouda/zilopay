@@ -3,13 +3,10 @@
 namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Resources\Json\JsonResource;
 
 abstract class ApiController
 {
     protected const PER_PAGE = 15;
-
-
 
     /**
      * Return a successful response.

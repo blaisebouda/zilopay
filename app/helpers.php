@@ -33,3 +33,10 @@ if (! function_exists('buildMetadata')) {
         ], $data);
     }
 }
+
+if (! function_exists('roundAmount')) {
+    function roundAmount(float $amount): float
+    {
+        return round($amount, 8);
+    }
+}

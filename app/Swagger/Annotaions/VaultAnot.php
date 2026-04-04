@@ -100,8 +100,8 @@ class VaultAnot
                 required: ['name', 'type'],
                 properties: [
                     new OA\Property(property: 'name', type: 'string', example: 'Épargne vacances', description: 'Vault name'),
-                    new OA\Property(property: 'description',  type: 'string', example: 'Coffre-fort pour les vacances', description: 'Vault description (optional)'),
-                    new OA\Property(property: 'currency',  type: 'string', example: 'XOF', description: 'Currency code (3 letters)'),
+                    new OA\Property(property: 'description', type: 'string', example: 'Coffre-fort pour les vacances', description: 'Vault description (optional)'),
+                    new OA\Property(property: 'currency', type: 'string', example: 'XOF', description: 'Currency code (3 letters)'),
                     new OA\Property(property: 'type', type: 'string', example: 'savings', description: 'Vault type: savings, investment, emergency'),
                     new OA\Property(property: 'maturity_date', type: 'string', format: 'date-time', example: '2026-12-31', description: 'Maturity date (optional)'),
                     new OA\Property(property: 'goal_amount', type: 'number', example: 100000, description: 'Goal amount (optional)'),

@@ -5,13 +5,14 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Models\Enums\MerchantTransactionStatus;
+use Database\Factories\MerchantTransactionFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class MerchantTransaction extends Model
 {
-    /** @use HasFactory<\Database\Factories\MerchantTransactionFactory> */
+    /** @use HasFactory<MerchantTransactionFactory> */
     use HasFactory;
 
     /**

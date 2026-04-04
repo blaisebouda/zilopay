@@ -15,13 +15,13 @@ class MerchantApprovedMiddleware
     /**
      * Handle an incoming request.
      *
-     * @param Closure(Request): Response $next
+     * @param  Closure(Request): Response  $next
      */
     public function handle(Request $request, Closure $next): Response
     {
         $user = $request->user();
 
-        if (!$user) {
+        if (! $user) {
             return response()->json([
                 'success' => false,
                 'status' => 401,
@@ -31,7 +31,7 @@ class MerchantApprovedMiddleware
 
         $merchant = Merchant::where('user_id', $user->id)->first();
 
-        if (!$merchant) {
+        if (! $merchant) {
             return response()->json([
                 'success' => false,
                 'status' => 403,

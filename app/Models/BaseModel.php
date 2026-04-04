@@ -10,8 +10,6 @@ class BaseModel extends Model
 {
     use HasFactory;
 
-
-
     /**
      * Generate a unique code.
      */
@@ -28,7 +26,6 @@ class BaseModel extends Model
     {
         return $query->where('user_id', $userId);
     }
-
 
     public function scopeForDateRange($query, string $startDate, string $endDate)
     {

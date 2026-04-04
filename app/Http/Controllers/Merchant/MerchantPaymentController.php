@@ -9,6 +9,7 @@ use App\Http\Requests\Merchant\InitiatePaymentRequest;
 use App\Http\Resources\MerchantTransactionResource;
 use App\Models\Merchant;
 use App\Services\Merchant\MerchantPaymentService;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Log;
 
@@ -81,7 +82,7 @@ class MerchantPaymentController extends ApiController
                 ],
                 'Payment retrieved successfully'
             );
-        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+        } catch (ModelNotFoundException $e) {
             return $this->errorResponse('Payment not found', 404);
         } catch (\Exception $e) {
             Log::error('Failed to retrieve payment', [

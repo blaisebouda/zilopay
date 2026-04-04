@@ -8,7 +8,6 @@ use App\Http\Resources\WalletResource;
 use App\Models\Transaction;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\JsonResource;
 
 class TransactionHistoryController extends ApiController
 {

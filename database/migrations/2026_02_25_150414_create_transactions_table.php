@@ -23,10 +23,10 @@ return new class extends Migration
 
             // Montants (Centralisés)
             $table->string('currency', 8);
-            $table->decimal('amount', 20, 8)->default(0);
-            $table->decimal('fee_fixed', 20, 8)->default(0);
-            $table->decimal('fee_percentage', 20, 8)->default(0);
-            $table->decimal('total', 20, 8)->default(0);
+            $table->decimal('amount', 20, 8)->default(0); // 1000 — ce que le user a payé
+            $table->decimal('platform_fee_amount', 20, 8); // 50  — la commission
+            $table->decimal('net_amount', 20, 8); // 950 — ce que le user reçoit
+
             $table->decimal('balance_before', 20, 8)->nullable();
             $table->decimal('balance_after', 20, 8)->nullable();
 

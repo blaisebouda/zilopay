@@ -10,9 +10,8 @@ use App\Models\Wallet;
 use App\Models\Withdrawal;
 use App\Services\Gateways\OrangeMoneyGateway;
 use App\Services\Transactions\Contracts\TransactionServiceInterface;
-use App\Services\Transactions\Utils\AmountValidator;
-use App\Services\Transactions\Utils\FeeCalculator;
 use App\Services\Wallet\Utils\WalletValidator;
+use App\Utils\AmountValidator;
 
 class WithdrawalService extends AbstractTransactionService implements TransactionServiceInterface
 {
@@ -151,7 +150,7 @@ class WithdrawalService extends AbstractTransactionService implements Transactio
         if (! $gatewayResponse['success']) {
             $wallet->credit($totalDebit);
             $this->updateTransactionStatus($withdrawal->transaction, TransactionStatus::BLOCKED);
-            throw new \Exception('Gateway error: ' . ($gatewayResponse['message'] ?? 'Unknown error'));
+            throw new \Exception('Gateway error: '.($gatewayResponse['message'] ?? 'Unknown error'));
         }
 
         $withdrawal->update([
@@ -212,7 +211,7 @@ class WithdrawalService extends AbstractTransactionService implements Transactio
             'uuid' => $withdrawal->metadata['uuid'],
         ]);
 
-        throw new \Exception('Withdrawal verification failed: ' . ($verification['message'] ?? 'Unknown error'));
+        throw new \Exception('Withdrawal verification failed: '.($verification['message'] ?? 'Unknown error'));
     }
 
     private function rejectAndRefund(Withdrawal $withdrawal, string $reason): Transaction

@@ -80,6 +80,6 @@ class MerchantApiKey extends Model
      */
     public function isValid(): bool
     {
-        return $this->is_active && !$this->isExpired();
+        return $this->is_active && ! $this->isExpired();
     }
 }

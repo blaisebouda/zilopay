@@ -6,7 +6,6 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
-
 return new class extends Migration
 {
     /**
@@ -19,12 +18,11 @@ return new class extends Migration
             $table->foreignId('merchant_id')->constrained();
             $table->foreignId('payment_link_id')->nullable()->constrained()->cascadeOnDelete();
             $table->uuid()->default(DB::raw('gen_random_uuid()'))->unique();
-            $table->string("customer_phone", 25)->nullable();
-            $table->string("customer_email", 255)->nullable();
+            $table->string('customer_phone', 25)->nullable();
+            $table->string('customer_email', 255)->nullable();
 
-
-            $table->string("currency", 8);
-            $table->decimal('gross_amount', 20, 8);     // 1000 — ce que le user a payé
+            $table->string('currency', 8);
+            $table->decimal('amount', 20, 8);     // 1000 — ce que le user a payé
             $table->decimal('platform_fee', 20, 8);     // 50  — la commission
             $table->decimal('net_amount', 20, 8);       // 950 — ce que reçoit le marchand
 

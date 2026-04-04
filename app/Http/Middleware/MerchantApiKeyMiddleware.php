@@ -14,14 +14,14 @@ class MerchantApiKeyMiddleware
     /**
      * Handle an incoming request.
      *
-     * @param Closure(Request): Response $next
+     * @param  Closure(Request): Response  $next
      */
     public function handle(Request $request, Closure $next): Response
     {
         $apiKey = $request->header('X-API-Key');
         $apiSecret = $request->header('X-API-Secret');
 
-        if (!$apiKey || !$apiSecret) {
+        if (! $apiKey || ! $apiSecret) {
             return response()->json([
                 'success' => false,
                 'status' => 401,
@@ -37,7 +37,7 @@ class MerchantApiKeyMiddleware
             })
             ->first();
 
-        if (!$merchantApiKey) {
+        if (! $merchantApiKey) {
             return response()->json([
                 'success' => false,
                 'status' => 401,
@@ -45,7 +45,7 @@ class MerchantApiKeyMiddleware
             ], 401);
         }
 
-        if (!hash_equals($merchantApiKey->secret, hash('sha256', $apiSecret))) {
+        if (! hash_equals($merchantApiKey->secret, hash('sha256', $apiSecret))) {
             return response()->json([
                 'success' => false,
                 'status' => 401,

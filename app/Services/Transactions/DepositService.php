@@ -10,16 +10,15 @@ use App\Models\User;
 use App\Models\Wallet;
 use App\Services\Gateways\OrangeMoneyGateway;
 use App\Services\Transactions\Contracts\TransactionServiceInterface;
-use App\Services\Transactions\Utils\AmountValidator;
-use App\Services\Transactions\Utils\FeeCalculator;
 use App\Services\Wallet\Utils\WalletValidator;
+use App\Utils\AmountValidator;
+use App\Utils\FeeCalculator;
 
 class DepositService extends AbstractTransactionService implements TransactionServiceInterface
 {
     public function __construct(
         private WalletValidator $walletValidator,
         private AmountValidator $amountValidator,
-        private MerchantFeeCalculator $feeCalculator,
         private OrangeMoneyGateway $gateway
     ) {}
 
@@ -42,19 +41,23 @@ class DepositService extends AbstractTransactionService implements TransactionSe
             $amount = $data['amount'];
             $this->amountValidator->validateAgainstPaymentMethod($amount, $paymentMethod);
 
-            $amountWithFee = $this->feeCalculator->calculate($amount, $paymentMethod);
+            $fee = FeeCalculator::make(
+                amount: $amount,
+                fixedFeedAmount: $paymentMethod->fee_fixed,
+                percentageFee: $paymentMethod->fee_percent
+            );
 
             $transaction = $this->createTransaction(
                 userId: $user->id,
                 currency: $wallet->currency,
-                amountWithFee: $amountWithFee,
+                fee: $fee,
                 status: TransactionStatus::PENDING,
                 paymentMethodId: $paymentMethod->id,
                 balanceBefore: $wallet->balance,
                 balanceAfter: $wallet->balance,
             );
 
-            $deposit = $this->createDepositRecord($transaction, $wallet);
+            $deposit = $this->createDepositRecord($transaction, $wallet, $fee);
 
             // $this->initiateGatewayPayment($deposit, $amount, $wallet, $data['phone_number'] ?? null);
 
@@ -78,7 +81,7 @@ class DepositService extends AbstractTransactionService implements TransactionSe
 
             if (! $verification['success']) {
                 $this->failDeposit($deposit, $verification, $gatewayData);
-                throw new \Exception('Deposit verification failed: ' . ($verification['message'] ?? 'Unknown error'));
+                throw new \Exception('Deposit verification failed: '.($verification['message'] ?? 'Unknown error'));
             }
 
             return $this->completeDeposit($deposit);
@@ -112,12 +115,13 @@ class DepositService extends AbstractTransactionService implements TransactionSe
         });
     }
 
-    private function createDepositRecord(Transaction $transaction, Wallet $wallet): Deposit
+    private function createDepositRecord(Transaction $transaction, Wallet $wallet, FeeCalculator $fee): Deposit
     {
         return Deposit::create([
             'transaction_id' => $transaction->id,
             'wallet_id' => $wallet->id,
             'metadata' => $this->buildMetadata([
+                ...$fee->breakdown(),
                 'uuid' => $transaction->uuid,
                 'initiated_by' => $transaction->user_id,
             ]),

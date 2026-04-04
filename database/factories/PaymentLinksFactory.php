@@ -6,7 +6,7 @@ use App\Models\PaymentLinks;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends Factory<paymentLinks>
+ * @extends Factory<PaymentLinks>
  */
 class PaymentLinksFactory extends Factory
 {

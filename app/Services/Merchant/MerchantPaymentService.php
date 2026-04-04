@@ -8,7 +8,6 @@ use App\Models\Enums\MerchantTransactionStatus;
 use App\Models\Merchant;
 use App\Models\MerchantTransaction;
 use App\Models\PaymentLinks;
-use App\Models\User;
 use App\Services\Merchant\Utils\MerchantFeeCalculator;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -22,14 +21,14 @@ class MerchantPaymentService
     /**
      * Initiate a payment via API.
      *
-     * @param array<string, mixed> $data
+     * @param  array<string, mixed>  $data
      */
     public function initiate(Merchant $merchant, array $data): MerchantTransaction
     {
 
         $fees = MerchantFeeCalculator::calculate($data['amount'], $merchant);
 
-        $transaction =  MerchantTransaction::create([
+        $transaction = MerchantTransaction::create([
             'merchant_id' => $merchant->id,
             'gross_amount' => $data['amount'],
             'currency' => $data['currency'],
@@ -45,7 +44,7 @@ class MerchantPaymentService
     /**
      * Process a payment via payment link.
      *
-     * @param array<string, mixed> $data
+     * @param  array<string, mixed>  $data
      */
     public function processViaLink(PaymentLinks $paymentLink, array $data): MerchantTransaction
     {
@@ -54,13 +53,13 @@ class MerchantPaymentService
             $data['amount'] ?? null
         );
 
-        if (!$validation['valid']) {
+        if (! $validation['valid']) {
             throw new \InvalidArgumentException($validation['message']);
         }
 
         $amount = $paymentLink->amount ?? $data['amount'];
 
-        $transaction = new MerchantTransaction();
+        $transaction = new MerchantTransaction;
         $transaction->merchant_id = $paymentLink->merchant_id;
         $transaction->payment_link_id = $paymentLink->id;
         $transaction->amount = $amount;
@@ -127,6 +126,6 @@ class MerchantPaymentService
      */
     private function generateReference(): string
     {
-        return 'ZPAY_' . strtoupper(uniqid() . bin2hex(random_bytes(4)));
+        return 'ZPAY_'.strtoupper(uniqid().bin2hex(random_bytes(4)));
     }
 }

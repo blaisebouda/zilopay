@@ -53,12 +53,13 @@ class Vault extends BaseModel
         if ($this->goal_amount === 0) {
             return false;
         }
+
         return $this->amount >= $this->goal_amount;
     }
 
     public function isLocked(): bool
     {
-        return $this->status->equals(VaultStatus::LOCKED) || !$this->isGoalReached();
+        return $this->status->equals(VaultStatus::LOCKED) || ! $this->isGoalReached();
     }
 
     public function isActive(): bool

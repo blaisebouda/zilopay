@@ -15,13 +15,12 @@ class MerchantApiKeyService
     /**
      * Create a new API key for merchant.
      *
-     * @param array<string, mixed> $data
-     * @return object{api_key: merchantApiKey, plain_secret: string}
+     * @param  array<string, mixed>  $data
+     * @return object{api_key: MerchantApiKey, plain_secret: string}
      */
     public function create(Merchant $merchant, array $data): object
     {
         $keyPair = ApiKeyHasher::generateKeyPair($data['is_live'] ?? false);
-
 
         $apiKey = MerchantApiKey::create([
             'merchant_id' => $merchant->id,
@@ -53,7 +52,7 @@ class MerchantApiKeyService
     /**
      * Get all API keys for a merchant.
      *
-     * @return Collection<int, merchantApiKey>
+     * @return Collection<int, MerchantApiKey>
      */
     public function getAllForMerchant(Merchant $merchant): Collection
     {
@@ -90,11 +89,11 @@ class MerchantApiKeyService
             })
             ->first();
 
-        if (!$apiKey) {
+        if (! $apiKey) {
             return null;
         }
 
-        if (!ApiKeyHasher::verifySecret($secret, $apiKey->secret)) {
+        if (! ApiKeyHasher::verifySecret($secret, $apiKey->secret)) {
             return null;
         }
 

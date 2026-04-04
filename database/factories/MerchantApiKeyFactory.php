@@ -6,7 +6,7 @@ use App\Models\MerchantApiKey;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends Factory<merchantApiKey>
+ * @extends Factory<MerchantApiKey>
  */
 class MerchantApiKeyFactory extends Factory
 {

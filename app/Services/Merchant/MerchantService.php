@@ -14,7 +14,7 @@ class MerchantService
     /**
      * Create a new merchant profile.
      *
-     * @param array<string, mixed> $data
+     * @param  array<string, mixed>  $data
      */
     public function create(User $user, array $data): Merchant
     {
@@ -47,8 +47,6 @@ class MerchantService
     {
         return Merchant::where('uuid', $uuid)->firstOrFail();
     }
-
-
 
     /**
      * Check if merchant is approved.

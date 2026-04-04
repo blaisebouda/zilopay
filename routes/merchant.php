@@ -1,10 +1,9 @@
 <?php
 
-
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('merchant')->group(function () {
-    // Register and show merchant 
+    // Register and show merchant
     Route::middleware('auth:sanctum')->group(function () {
         Route::get('/{merchant:uuid}', [MerchantController::class, 'show']);
         Route::post('/', [MerchantController::class, 'store']);

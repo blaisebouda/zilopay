@@ -14,6 +14,7 @@ use App\Models\Merchant;
 use App\Models\PaymentLinks;
 use App\Services\Merchant\MerchantPaymentService;
 use App\Services\Merchant\PaymentLinkService;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Log;
 
@@ -91,7 +92,7 @@ class PaymentLinkController extends ApiController
                 ],
                 'Le lien de paiement a été récupéré avec succès'
             );
-        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+        } catch (ModelNotFoundException $e) {
             return $this->errorResponse('Le lien de paiement n\'existe pas', 404);
         } catch (\Exception $e) {
             Log::error('Failed to retrieve payment link', [
@@ -176,7 +177,7 @@ class PaymentLinkController extends ApiController
                 'Paiement initié avec succès',
                 201
             );
-        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+        } catch (ModelNotFoundException $e) {
             return $this->errorResponse('Le lien de paiement n\'existe pas', 404);
         } catch (\InvalidArgumentException $e) {
             return $this->errorResponse($e->getMessage(), 422);

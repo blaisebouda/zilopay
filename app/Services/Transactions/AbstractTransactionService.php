@@ -6,7 +6,7 @@ use App\Models\Enums\Currency;
 use App\Models\Enums\TransactionStatus;
 use App\Models\Enums\TransactionType;
 use App\Models\Transaction;
-use App\Utils\AmountWithFeeResult;
+use App\Utils\FeeCalculator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
@@ -36,21 +36,21 @@ abstract class AbstractTransactionService
     protected function createTransaction(
         int $userId,
         Currency $currency,
-        AmountWithFeeResult $amountWithFee,
+        FeeCalculator $fee,
         float $balanceBefore,
         float $balanceAfter,
         TransactionStatus $status,
         ?int $paymentMethodId = null
     ): Transaction {
+
         $transaction = Transaction::create([
             'user_id' => $userId,
             'currency' => $currency->value,
             'type' => $this->getTransactionType(),
-            'amount' => $amountWithFee->amount,
+            'amount' => $fee->getAmount(),
             'status' => $status,
-            'fee_fixed' => $amountWithFee->fixed,
-            'fee_percentage' => $amountWithFee->percentage,
-            'total' => $amountWithFee->getTotalDebit(),
+            'net_amount' => $fee->getNetAmount(),
+            'platform_fee_amount' => $fee->getPlatformFeeAmount(),
             'balance_before' => $balanceBefore,
             'balance_after' => $balanceAfter,
             'payment_method_id' => $paymentMethodId,
@@ -60,7 +60,7 @@ abstract class AbstractTransactionService
             'transaction_id' => $transaction->id,
             'user_id' => $userId,
             'type' => $this->getTransactionType()->name,
-            'amount' => $amountWithFee->amount,
+            'amount' => $fee->getAmount(),
             'status' => $status->name,
         ]);
 

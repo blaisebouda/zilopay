@@ -69,6 +69,7 @@ class AuthAnot
         ]
     )]
     public function register() {}
+
     #[OA\Post(
         path: '/auth/login',
         summary: 'Login a user',

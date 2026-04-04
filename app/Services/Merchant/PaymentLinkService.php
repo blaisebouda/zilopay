@@ -15,7 +15,7 @@ class PaymentLinkService
     /**
      * Create a new payment link.
      *
-     * @param array<string, mixed> $data
+     * @param  array<string, mixed>  $data
      */
     public function create(Merchant $merchant, array $data): PaymentLinks
     {
@@ -48,7 +48,7 @@ class PaymentLinkService
     /**
      * Get all payment links for a merchant.
      *
-     * @return Collection<int, paymentLinks>
+     * @return Collection<int, PaymentLinks>
      */
     public function getAllForMerchant(Merchant $merchant): Collection
     {
@@ -58,7 +58,7 @@ class PaymentLinkService
     /**
      * Update a payment link.
      *
-     * @param array<string, mixed> $data
+     * @param  array<string, mixed>  $data
      */
     public function update(PaymentLinks $paymentLink, array $data): PaymentLinks
     {
@@ -107,7 +107,7 @@ class PaymentLinkService
      */
     public function validateForPayment(PaymentLinks $paymentLink, ?float $amount = null): array
     {
-        if (!$paymentLink->isActive()) {
+        if (! $paymentLink->isActive()) {
             return [
                 'valid' => false,
                 'message' => 'Le lien de paiement n\'est pas actif.',
@@ -128,7 +128,7 @@ class PaymentLinkService
             ];
         }
 
-        if (!$paymentLink->amountIsMatching($amount)) {
+        if (! $paymentLink->amountIsMatching($amount)) {
             return [
                 'valid' => false,
                 'message' => 'Le montant ne correspond pas au montant requis.',

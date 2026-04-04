@@ -46,7 +46,7 @@ class AuthController extends ApiController
 
             return $this->successResponse([
                 'user' => UserResource::make($user),
-                //'otp_expires_in' => $otp->expires_at->diffInSeconds(now()),
+                // 'otp_expires_in' => $otp->expires_at->diffInSeconds(now()),
             ], 'Inscription réussie.');
         } catch (\Exception $e) {
             DB::rollBack();

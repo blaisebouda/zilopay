@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\ApiController;
 use App\Http\Requests\Merchant\StoreMerchantRequest;
 use App\Http\Resources\MerchantResource;
 use App\Services\Merchant\MerchantService;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Log;
 
@@ -57,7 +58,7 @@ class MerchantController extends ApiController
                 new MerchantResource($merchant),
                 'Merchant retrieved successfully'
             );
-        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+        } catch (ModelNotFoundException $e) {
             return $this->errorResponse('Marchant introuvable', 404);
         } catch (\Exception $e) {
             Log::error('Failed to retrieve merchant', [

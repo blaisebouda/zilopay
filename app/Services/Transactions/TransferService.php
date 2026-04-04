@@ -10,10 +10,9 @@ use App\Models\Transfer;
 use App\Models\User;
 use App\Models\Wallet;
 use App\Services\Transactions\Contracts\TransactionServiceInterface;
-use App\Services\Transactions\Utils\AmountValidator;
-use App\Utils\AmountWithFeeResult;
-use App\Services\Transactions\Utils\FeeCalculator;
 use App\Services\Wallet\Utils\WalletValidator;
+use App\Utils\AmountValidator;
+use App\Utils\FeeCalculator;
 use Illuminate\Database\Eloquent\Collection;
 
 class TransferService extends AbstractTransactionService implements TransactionServiceInterface
@@ -21,7 +20,7 @@ class TransferService extends AbstractTransactionService implements TransactionS
     public function __construct(
         private WalletValidator $walletValidator,
         private AmountValidator $amountValidator,
-        private MerchantFeeCalculator $feeCalculator
+
     ) {}
 
     protected function getTransactionType(): TransactionType
@@ -46,11 +45,11 @@ class TransferService extends AbstractTransactionService implements TransactionS
             $amount = $data['amount'];
             $this->amountValidator->validateTransferAmount($amount);
 
-            $amountWithFee = $this->feeCalculator->calculateTransferFee($amount);
+            $fee = $this->calculateTransferFee($amount);
 
-            $this->walletValidator->validateSufficientBalance($senderWallet, $amountWithFee->getTotalDebit());
+            $this->walletValidator->validateSufficientBalance($senderWallet, $fee->getTotalDebit());
 
-            return $this->executeTransfer($sender, $senderWallet, $receiverWallet, $amountWithFee, $data['note'] ?? null);
+            return $this->executeTransfer($sender, $senderWallet, $receiverWallet, $fee, $data['note'] ?? null);
         }, 3);
     }
 
@@ -77,7 +76,7 @@ class TransferService extends AbstractTransactionService implements TransactionS
         User $sender,
         Wallet $senderWallet,
         Wallet $receiverWallet,
-        AmountWithFeeResult $amountWithFee,
+        FeeCalculator $fee,
         ?string $note
     ): Transaction {
         $senderWalletLocked = Wallet::lockForUpdate()->find($senderWallet->id);
@@ -86,14 +85,14 @@ class TransferService extends AbstractTransactionService implements TransactionS
         $senderBalanceBefore = $senderWalletLocked->balance;
         $receiverBalanceBefore = $receiverWalletLocked->balance;
 
-        $totalDebit = $amountWithFee->getTotalDebit();
+        $totalDebit = $fee->getTotalDebit();
         $senderWalletLocked->debit($totalDebit);
-        $receiverWalletLocked->credit($amountWithFee->amount);
+        $receiverWalletLocked->credit($fee->getAmount());
 
         $senderTransaction = $this->createSenderTransaction(
             sender: $sender,
             wallet: $senderWalletLocked,
-            amountWithFee: $amountWithFee,
+            fee: $fee,
             balanceBefore: $senderBalanceBefore,
             balanceAfter: $senderWalletLocked->balance,
         );
@@ -101,7 +100,7 @@ class TransferService extends AbstractTransactionService implements TransactionS
         $this->createReceiverTransaction(
             userId: $receiverWalletLocked->user_id,
             currency: $receiverWalletLocked->currency,
-            amount: $amountWithFee->amount,
+            amount: $fee->getAmount(),
             balanceBefore: $receiverBalanceBefore,
             balanceAfter: $receiverWalletLocked->balance
         );
@@ -110,6 +109,7 @@ class TransferService extends AbstractTransactionService implements TransactionS
             senderTransaction: $senderTransaction,
             senderWallet: $senderWalletLocked,
             receiverWallet: $receiverWalletLocked,
+            fee: $fee,
             note: $note
         );
 
@@ -117,8 +117,8 @@ class TransferService extends AbstractTransactionService implements TransactionS
             $transfer,
             $sender,
             $receiverWalletLocked,
-            $amountWithFee->amount,
-            $amountWithFee->getFeeTotal(),
+            $fee->getAmount(),
+            $fee->getPlatformFeeAmount(),
             $senderBalanceBefore,
             $receiverBalanceBefore,
             $senderWalletLocked,
@@ -131,14 +131,14 @@ class TransferService extends AbstractTransactionService implements TransactionS
     private function createSenderTransaction(
         User $sender,
         Wallet $wallet,
-        AmountWithFeeResult $amountWithFee,
+        FeeCalculator $fee,
         float $balanceBefore,
         float $balanceAfter
     ): Transaction {
         return $this->createTransaction(
             userId: $sender->id,
             currency: $wallet->currency,
-            amountWithFee: $amountWithFee,
+            fee: $fee,
             balanceBefore: $balanceBefore,
             balanceAfter: $balanceAfter,
             status: TransactionStatus::SUCCESS,
@@ -155,7 +155,7 @@ class TransferService extends AbstractTransactionService implements TransactionS
         return $this->createTransaction(
             userId: $userId,
             currency: $currency,
-            amountWithFee: new AmountWithFeeResult($amount, 0, 0),
+            fee: new FeeCalculator($amount, 0, 0),
             balanceBefore: $balanceBefore,
             balanceAfter: $balanceAfter,
             status: TransactionStatus::SUCCESS,
@@ -166,10 +166,12 @@ class TransferService extends AbstractTransactionService implements TransactionS
         Transaction $senderTransaction,
         Wallet $senderWallet,
         Wallet $receiverWallet,
+        FeeCalculator $fee,
         ?string $note
     ): Transfer {
 
         $metaData = [
+            ...$fee->breakdown(),
             'operator' => 'Zilopay',
             'sender_name' => $senderWallet->user->name,
             'receiver_name' => $receiverWallet->user->name,
@@ -225,5 +227,24 @@ class TransferService extends AbstractTransactionService implements TransactionS
             'receiver_balance_before' => $receiverBalanceBefore,
             'receiver_balance_after' => $receiverWalletLocked->balance,
         ]);
+    }
+
+    /**
+     * Calculate transfer fee with configurable cap
+     */
+    private function calculateTransferFee(float $amount): FeeCalculator
+    {
+        $feePercent = config('transactions.transfer_fee_percent', 0.5);
+        $fixedFee = config('transactions.transfer_fixed_fee', 0);
+        $maxFee = config('transactions.max_transfer_fee', 5000);
+
+        $percentageFee = ($amount * $feePercent) / 100;
+        $cappedFee = min($percentageFee, $maxFee);
+
+        return new FeeCalculator(
+            amount: $amount,
+            fixedFeedAmount: $cappedFee,
+            percentageFee: $fixedFee,
+        );
     }
 }

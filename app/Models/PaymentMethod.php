@@ -18,8 +18,8 @@ class PaymentMethod extends Model
         'code',
         'min_amount',
         'max_amount',
-        'fee_percent',
         'fee_fixed',
+        'fee_percent',
     ];
 
     /**
@@ -31,10 +31,10 @@ class PaymentMethod extends Model
     {
         return [
             'code' => PaymentMethodCode::class,
-            'min_amount' => 'decimal:2',
-            'max_amount' => 'decimal:2',
-            'fee_percent' => 'decimal:2',
-            'fee_fixed' => 'decimal:2',
+            'min_amount' => 'float',
+            'max_amount' => 'float',
+            'fee_percent' => 'float',
+            'fee_fixed' => 'float',
             'type' => PaymentMethodType::class,
         ];
     }
