@@ -3,6 +3,8 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use App\Models\Enums\UserRole;
 use App\Services\Wallet\WalletService;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -28,6 +30,7 @@ class User extends Authenticatable
         'password',
         'phone_number',
         'policy_accepted_at',
+        'role',
     ];
 
     /**
@@ -54,6 +57,7 @@ class User extends Authenticatable
             'password' => 'hashed',
             'two_factor_confirmed_at' => 'datetime',
             'policy_accepted_at' => 'datetime',
+            'role' => UserRole::class,
         ];
     }
 
@@ -70,6 +74,21 @@ class User extends Authenticatable
     public function defaultWallet(): HasOne
     {
         return $this->hasOne(Wallet::class)->where('is_default', true);
+    }
+
+    public function isAdmin(): bool
+    {
+        return $this->role->equals(UserRole::ADMIN);
+    }
+
+    public function isMerchant(): bool
+    {
+        return $this->role->equals(UserRole::MERCHANT);
+    }
+
+    public function isUser(): bool
+    {
+        return $this->role->equals(UserRole::USER);
     }
 
     protected static function booted(): void
