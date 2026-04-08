@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace App\Http\Requests\Merchant;
 
+use App\Models\Enums\Country;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreMerchantRequest extends FormRequest
 {
@@ -28,7 +30,7 @@ class StoreMerchantRequest extends FormRequest
             'business_name' => ['required', 'string', 'max:255'],
             'business_email' => ['required', 'string', 'email', 'max:255', 'unique:merchants,business_email'],
             'phone_number' => ['nullable', 'string', 'max:20', 'regex:/^[0-9+\-\s()]+$/', 'unique:merchants,phone_number'],
-            'country' => ['required', 'string', 'size:4'],
+            'country' => ['required', 'string', Rule::enum(Country::class)],
         ];
     }
 

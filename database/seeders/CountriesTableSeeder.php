@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Country;
+use App\Models\Enums\Country as EnumsCountry;
 use Illuminate\Database\Seeder;
 
 class CountriesTableSeeder extends Seeder
