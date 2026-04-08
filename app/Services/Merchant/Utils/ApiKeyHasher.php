@@ -18,8 +18,8 @@ class ApiKeyHasher
         $prefix = $isLive ? 'mk_live_' : 'mk_test_';
         $publicPrefix = $isLive ? 'mk_pub_live_' : 'mk_pub_test_';
 
-        $key = $prefix.self::generateRandomString(32);
-        $publicKey = $publicPrefix.self::generateRandomString(32);
+        $key = $prefix . self::generateRandomString(32);
+        $publicKey = $publicPrefix . self::generateRandomString(32);
         $plainSecret = self::generateRandomString(48);
         $hashedSecret = self::hashSecret($plainSecret);
 
@@ -36,7 +36,7 @@ class ApiKeyHasher
      */
     public static function hashSecret(string $secret): string
     {
-        return Hash::make($secret);
+        return hash('sha256', $secret);
     }
 
     /**
@@ -44,7 +44,7 @@ class ApiKeyHasher
      */
     public static function verifySecret(string $secret, string $hashedSecret): bool
     {
-        return Hash::check($secret, $hashedSecret);
+        return hash_equals(hash('sha256', $secret), $hashedSecret);
     }
 
     /**

@@ -17,10 +17,10 @@ return new class extends Migration
             $table->foreignId('user_id')->unique()->constrained()->cascadeOnDelete();
             $table->string('business_name');
             $table->string('business_email')->unique();
-            $table->string('phone_number')->nullable();
-            $table->string('country', 4);
-            $table->decimal('fee_fixed', 20, 8);
-            $table->decimal('fee_percentage', 5, 2);
+            $table->string('phone_number')->nullable()->unique();
+            $table->string('country', 8);
+            $table->decimal('fee_fixed', 20, 8)->default(0);
+            $table->decimal('fee_percentage', 5, 2)->default(0);
             $table->integer('status')->default(MerchantStatus::PENDING->value);
             $table->timestamp('approved_at')->nullable();
             $table->foreignId('approved_by')->nullable()->constrained('users');

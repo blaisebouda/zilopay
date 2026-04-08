@@ -31,7 +31,7 @@ class WalletFactory extends Factory
 
     public function default(): static
     {
-        return $this->state(fn (array $attributes) => [
+        return $this->state(fn(array $attributes) => [
             'is_default' => true,
         ]);
     }
