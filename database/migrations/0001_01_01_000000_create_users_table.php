@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Enums\UserRole;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -16,7 +17,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('email')->unique()->nullable();
             $table->string('phone_number')->unique()->nullable();
-            $table->string('role')->default(\App\Models\Enums\UserRole::USER->value);
+            $table->string('role')->default(UserRole::USER->value);
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->timestamp('policy_accepted_at')->nullable();
