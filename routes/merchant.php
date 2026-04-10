@@ -1,11 +1,16 @@
 <?php
 
+use App\Http\Controllers\Merchant\MerchantApiKeyController;
+use App\Http\Controllers\Merchant\MerchantController;
+use App\Http\Controllers\Merchant\MerchantDashboardController;
+use App\Http\Controllers\Merchant\MerchantPaymentController;
+use App\Http\Controllers\Merchant\PaymentLinkController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('merchant')->group(function () {
     // Register and show merchant
     Route::middleware('auth:sanctum')->group(function () {
-        Route::get('/{merchant:uuid}', [MerchantController::class, 'show']);
+        Route::get('/', [MerchantController::class, 'show']);
         Route::post('/', [MerchantController::class, 'store']);
     });
 

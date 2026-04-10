@@ -11,6 +11,7 @@ use App\Services\Merchant\MerchantService;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Http\Request;
 
 class MerchantController extends ApiController
 {
@@ -49,10 +50,19 @@ class MerchantController extends ApiController
     /**
      * Display the specified merchant.
      */
-    public function show($uuid): JsonResponse
+    public function show(Request $request): JsonResponse
     {
         try {
-            $merchant = $this->merchantService->getByUuid($uuid);
+            /*
+            @var \App\Models\Merchant $merchant
+            */
+            $merchant = $request->user()->merchant;
+
+            if (!$merchant->isApproved()) {
+                return $this->successResponse(
+                    new MerchantResource($merchant),
+                );
+            }
 
             return $this->successResponse(
                 new MerchantResource($merchant),
@@ -62,7 +72,6 @@ class MerchantController extends ApiController
             return $this->errorResponse('Marchant introuvable', 404);
         } catch (\Exception $e) {
             Log::error('Failed to retrieve merchant', [
-                'uuid' => $uuid,
                 'error' => $e->getMessage(),
             ]);
 
