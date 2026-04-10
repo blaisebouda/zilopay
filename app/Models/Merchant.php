@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Models\Enums\Country;
 use App\Models\Enums\MerchantStatus;
 use Database\Factories\MerchantFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -45,6 +46,7 @@ class Merchant extends BaseModel
             'fee_fixed' => 'decimal:8',
             'fee_percentage' => 'decimal:2',
             'approved_at' => 'datetime',
+            'country' => Country::class,
         ];
     }
 
