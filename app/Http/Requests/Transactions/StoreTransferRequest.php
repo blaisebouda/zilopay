@@ -11,6 +11,13 @@ class StoreTransferRequest extends FormRequest
         return true;
     }
 
+    protected function prepareForValidation()
+    {
+        $this->merge([
+            'sender_wallet_id' => $this->user()->defaultWallet->code,
+        ]);
+    }
+
     public function rules(): array
     {
         return [
