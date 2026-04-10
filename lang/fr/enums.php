@@ -16,4 +16,9 @@ return [
     'transaction_type.TRANSFER' => 'Transfert',
     'transaction_type.PAYMENT' => 'Paiement',
 
+    // Merchant Status
+    'merchant_status.PENDING' => 'En attente',
+    'merchant_status.APPROVED' => 'Approuvé',
+    'merchant_status.REJECTED' => 'Rejeté',
+
 ];
