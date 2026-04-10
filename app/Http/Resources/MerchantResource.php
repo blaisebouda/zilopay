@@ -22,7 +22,7 @@ class MerchantResource extends JsonResource
             'uuid' => $this->uuid,
             'business_name' => $this->business_name,
             'business_email' => $this->business_email,
-            'phone' => $this->phone,
+            'phone' => $this->phone_number,
             'country' => $this->country->label(),
             'fee_fixed' => (float) $this->fee_fixed,
             'fee_percentage' => (float) $this->fee_percentage,
