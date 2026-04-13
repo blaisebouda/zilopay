@@ -11,6 +11,11 @@ use App\Services\Merchant\MerchantService;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Http\Request;
+use Illuminate\Routing\Attributes\Controllers\Authorize;
+use Illuminate\Support\Facades\Storage;
+use Symfony\Component\HttpFoundation\StreamedResponse;
+
 
 class MerchantController extends ApiController
 {
@@ -42,6 +47,7 @@ class MerchantController extends ApiController
                 'error' => $e->getMessage(),
             ]);
 
+
             return $this->errorResponse('Une erreur est survenue lors de la création du profil du marchand.', 500);
         }
     }
@@ -49,10 +55,19 @@ class MerchantController extends ApiController
     /**
      * Display the specified merchant.
      */
-    public function show($uuid): JsonResponse
+    public function show(Request $request): JsonResponse
     {
         try {
-            $merchant = $this->merchantService->getByUuid($uuid);
+            /*
+            @var \App\Models\Merchant $merchant
+            */
+            $merchant = $request->user()->merchant;
+
+            if (!$merchant->isApproved()) {
+                return $this->successResponse(
+                    new MerchantResource($merchant->load('documents')),
+                );
+            }
 
             return $this->successResponse(
                 new MerchantResource($merchant),
@@ -62,11 +77,33 @@ class MerchantController extends ApiController
             return $this->errorResponse('Marchant introuvable', 404);
         } catch (\Exception $e) {
             Log::error('Failed to retrieve merchant', [
-                'uuid' => $uuid,
                 'error' => $e->getMessage(),
             ]);
 
+
+
             return $this->errorResponse('Impossible de récupérer le marchand', 500);
+        }
+    }
+
+    #[Authorize('view', 'merchant')]
+    public function downloadDocument(Request $request, string $path): StreamedResponse|JsonResponse
+    {
+        try {
+
+            if (!Storage::disk('local')->exists($path)) {
+                return $this->errorResponse('Fichier non trouvé', 404);
+            }
+
+            return Storage::disk('local')->download($path, basename($path));
+        } catch (\Exception $e) {
+            Log::error('Failed to download merchant document', [
+                'user_id' => $request->user()->id,
+                'document_path' => $path,
+                'error' => $e->getMessage(),
+            ]);
+
+            return $this->errorResponse('Impossible de télécharger le document', 500);
         }
     }
 }

@@ -16,4 +16,23 @@ return [
     'transaction_type.TRANSFER' => 'Transfert',
     'transaction_type.PAYMENT' => 'Paiement',
 
+    // Merchant Status
+    'merchant_status.PENDING' => 'En attente',
+    'merchant_status.APPROVED' => 'Approuvé',
+    'merchant_status.REJECTED' => 'Rejeté',
+
+    // Vault Type
+    'vault_type.SAVINGS' => 'Épargne',
+    'vault_type.INVESTMENT' => 'Investissement',
+    'vault_type.EMERGENCY' => 'Urgence',
+    'vault_type.IMPREVUS' => 'Imprévus',
+    'vault_type.SANTE' => 'Santé',
+    'vault_type.FACTURES' => 'Factures',
+    'vault_type.FETES' => 'Fêtes',
+    'vault_type.ETUDES' => 'Études',
+    'vault_type.BUSINESS' => 'Business',
+    'vault_type.VOYAGE' => 'Voyage',
+    'vault_type.TONTINE' => 'Tontine',
+    'vault_type.AUTRES' => 'Autres',
+
 ];

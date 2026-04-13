@@ -18,19 +18,19 @@ class MerchantResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id' => $this->id,
             'uuid' => $this->uuid,
             'business_name' => $this->business_name,
             'business_email' => $this->business_email,
-            'phone' => $this->phone,
-            'country' => $this->country,
+            'phone_number' => $this->phone_number,
+            'country' => $this->country->label(),
             'fee_fixed' => (float) $this->fee_fixed,
             'fee_percentage' => (float) $this->fee_percentage,
             'status' => $this->status,
-            'status_label' => MerchantStatus::from($this->status)->label(),
+            'status_label' => $this->status->label(),
+            'status_color' => $this->status->color(),
             'approved_at' => $this->approved_at?->toIso8601String(),
             'created_at' => $this->created_at?->toIso8601String(),
-            'updated_at' => $this->updated_at?->toIso8601String(),
+            'documents' => MerchantDocumentResource::collection($this->whenLoaded('documents')),
         ];
     }
 }

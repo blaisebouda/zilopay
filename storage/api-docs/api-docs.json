@@ -317,6 +317,56 @@
             }
         },
         "/merchant": {
+            "get": {
+                "tags": [
+                    "Merchants"
+                ],
+                "summary": "Get merchant by UUID",
+                "operationId": "19815424c427f87fb840f8aefc4566ae",
+                "responses": {
+                    "200": {
+                        "description": "Merchant retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Merchant retrieved successfully"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/Merchant"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "404": {
+                        "description": "Merchant not found"
+                    },
+                    "500": {
+                        "description": "Server error"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
             "post": {
                 "tags": [
                     "Merchants"
@@ -326,7 +376,7 @@
                 "requestBody": {
                     "required": true,
                     "content": {
-                        "application/json": {
+                        "multipart/form-data": {
                             "schema": {
                                 "required": [
                                     "business_name",
@@ -342,7 +392,7 @@
                                         "type": "string",
                                         "example": "contact@myshop.com"
                                     },
-                                    "phone": {
+                                    "phone_number": {
                                         "type": "string",
                                         "example": "+22501234567"
                                     },
@@ -350,13 +400,20 @@
                                         "type": "string",
                                         "example": "CI"
                                     },
-                                    "fee_fixed": {
-                                        "type": "number",
-                                        "example": 100
+                                    "documents[id_card]": {
+                                        "description": "ID card PDF file (max 5MB)",
+                                        "type": "string",
+                                        "format": "binary"
                                     },
-                                    "fee_percentage": {
-                                        "type": "number",
-                                        "example": 2.5
+                                    "documents[business_license]": {
+                                        "description": "Business license PDF file (max 5MB)",
+                                        "type": "string",
+                                        "format": "binary"
+                                    },
+                                    "documents[tax_certificate]": {
+                                        "description": "Tax certificate PDF file (max 5MB)",
+                                        "type": "string",
+                                        "format": "binary"
                                     }
                                 },
                                 "type": "object"
@@ -409,17 +466,18 @@
                 ]
             }
         },
-        "/merchant/{uuid}": {
+        "/merchant/documents/{path}": {
             "get": {
                 "tags": [
                     "Merchants"
                 ],
-                "summary": "Get merchant by UUID",
-                "operationId": "13e2df4f79c4a1247b21f6479fda58d2",
+                "summary": "Download merchant document (PDF)",
+                "operationId": "85334c2ef47251ccda7fb87b69de6fd3",
                 "parameters": [
                     {
-                        "name": "uuid",
+                        "name": "path",
                         "in": "path",
+                        "description": "Path of the merchant document",
                         "required": true,
                         "schema": {
                             "type": "string"
@@ -428,28 +486,12 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Merchant retrieved successfully",
+                        "description": "PDF file downloaded successfully",
                         "content": {
-                            "application/json": {
+                            "application/pdf": {
                                 "schema": {
-                                    "properties": {
-                                        "success": {
-                                            "type": "boolean",
-                                            "example": true
-                                        },
-                                        "status": {
-                                            "type": "integer",
-                                            "example": 200
-                                        },
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Merchant retrieved successfully"
-                                        },
-                                        "data": {
-                                            "$ref": "#/components/schemas/Merchant"
-                                        }
-                                    },
-                                    "type": "object"
+                                    "type": "string",
+                                    "format": "binary"
                                 }
                             }
                         }
@@ -457,8 +499,11 @@
                     "401": {
                         "description": "Unauthenticated"
                     },
+                    "403": {
+                        "description": "Unauthorized - document does not belong to merchant"
+                    },
                     "404": {
-                        "description": "Merchant not found"
+                        "description": "Document or file not found"
                     },
                     "500": {
                         "description": "Server error"
