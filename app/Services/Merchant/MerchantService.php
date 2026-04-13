@@ -4,10 +4,16 @@ declare(strict_types=1);
 
 namespace App\Services\Merchant;
 
+use App\Models\Enums\DocumentStatus;
+use App\Models\Enums\DocumentType;
 use App\Models\Enums\MerchantStatus;
+use App\Models\Enums\PaymentLinkStatus;
 use App\Models\Merchant;
+use App\Models\MerchantDocument;
 use App\Models\User;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 
 class MerchantService
 {
@@ -28,15 +34,43 @@ class MerchantService
             'user_id' => $user->id,
             'business_name' => $data['business_name'],
             'business_email' => $data['business_email'],
-            'phone' => $data['phone'] ?? null,
+            'phone_number' => $data['phone_number'] ?? null,
             'country' => $data['country'],
             'fee_fixed' => 0,
             'fee_percentage' => 0,
-            'status' => MerchantStatus::PENDING->value,
+            'status' => MerchantStatus::PENDING,
         ]);
+
+        // Handle document uploads
+        if (!empty($data['documents'])) {
+            $this->uploadDocuments($merchant, $data['documents']);
+        }
 
         return $merchant->refresh();
     }
+
+    /**
+     * Upload merchant documents.
+     *
+     * @param  array<string, UploadedFile>  $documents
+     */
+    private function uploadDocuments(Merchant $merchant, array $documents): void
+    {
+        foreach ($documents as $type => $file) {
+            if ($file instanceof UploadedFile) {
+                $path = $file->store(MERCHANT_DOCUMENTS_PATH . $merchant->uuid, 'private');
+
+                MerchantDocument::create([
+                    'merchant_id' => $merchant->id,
+                    'type' => DocumentType::BUSINESS_LICENSE,
+                    'path' => $path,
+                    'status' => DocumentStatus::PENDING,
+                ]);
+            }
+        }
+    }
+
+
 
     /**
      * Get merchant by UUID.
@@ -53,7 +87,7 @@ class MerchantService
      */
     public function isApproved(Merchant $merchant): bool
     {
-        return $merchant->status === MerchantStatus::APPROVED->value;
+        return $merchant->status === MerchantStatus::APPROVED;
     }
 
     /**
@@ -78,7 +112,7 @@ class MerchantService
 
         $paymentLinksCount = $merchant->paymentLinks()->count();
         $activePaymentLinksCount = $merchant->paymentLinks()
-            ->where('status', 1)
+            ->where('status', PaymentLinkStatus::ACTIVE->value)
             ->count();
 
         return [

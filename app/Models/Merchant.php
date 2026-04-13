@@ -83,6 +83,14 @@ class Merchant extends BaseModel
     }
 
     /**
+     * Get the documents for the merchant.
+     */
+    public function documents(): HasMany
+    {
+        return $this->hasMany(MerchantDocument::class);
+    }
+
+    /**
      * Get the approver user.
      */
     public function approver(): BelongsTo

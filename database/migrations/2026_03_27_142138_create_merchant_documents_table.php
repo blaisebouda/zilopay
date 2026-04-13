@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignId('merchant_id')->constrained()->cascadeOnDelete();
             $table->string('type');           // 'id_card', 'business_license', 'tax_certificate'
             $table->string('path');           // chemin fichier stocké
-            $table->integer('status')->default(DocumentStatus::PENDING->value);
+            $table->string('status')->default(DocumentStatus::PENDING->value);
             $table->text('rejection_reason')->nullable();
             $table->timestamp('verified_at')->nullable();
             $table->timestamps();

@@ -12,6 +12,8 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class MerchantController extends ApiController
 {
@@ -76,6 +78,29 @@ class MerchantController extends ApiController
             ]);
 
             return $this->errorResponse('Impossible de récupérer le marchand', 500);
+        }
+    }
+
+    /**
+     * Download a merchant document (PDF).
+     */
+    public function downloadDocument(Request $request, string $document_path): StreamedResponse|JsonResponse
+    {
+        try {
+
+            if (!Storage::disk('private')->exists($document_path)) {
+                return $this->errorResponse('Fichier non trouvé', 404);
+            }
+
+            return Storage::disk('private')->download($document_path, basename($document_path));
+        } catch (\Exception $e) {
+            Log::error('Failed to download merchant document', [
+                'user_id' => $request->user()->id,
+                'document_path' => $document_path,
+                'error' => $e->getMessage(),
+            ]);
+
+            return $this->errorResponse('Impossible de télécharger le document', 500);
         }
     }
 }

@@ -134,16 +134,20 @@ class MerchantAnot
         security: [['sanctum' => []]],
         requestBody: new OA\RequestBody(
             required: true,
-            content: new OA\JsonContent(
-                required: ['business_name', 'business_email', 'country'],
-                properties: [
-                    new OA\Property(property: 'business_name', type: 'string', example: 'My Shop'),
-                    new OA\Property(property: 'business_email', type: 'string', example: 'contact@myshop.com'),
-                    new OA\Property(property: 'phone', type: 'string', example: '+22501234567'),
-                    new OA\Property(property: 'country', type: 'string', example: 'CI'),
-                    new OA\Property(property: 'fee_fixed', type: 'number', example: 100),
-                    new OA\Property(property: 'fee_percentage', type: 'number', example: 2.5),
-                ]
+            content: new OA\MediaType(
+                mediaType: 'multipart/form-data',
+                schema: new OA\Schema(
+                    required: ['business_name', 'business_email', 'country'],
+                    properties: [
+                        new OA\Property(property: 'business_name', type: 'string', example: 'My Shop'),
+                        new OA\Property(property: 'business_email', type: 'string', example: 'contact@myshop.com'),
+                        new OA\Property(property: 'phone_number', type: 'string', example: '+22501234567'),
+                        new OA\Property(property: 'country', type: 'string', example: 'CI'),
+                        new OA\Property(property: 'documents[id_card]', type: 'string', format: 'binary', description: 'ID card PDF file (max 5MB)'),
+                        new OA\Property(property: 'documents[business_license]', type: 'string', format: 'binary', description: 'Business license PDF file (max 5MB)'),
+                        new OA\Property(property: 'documents[tax_certificate]', type: 'string', format: 'binary', description: 'Tax certificate PDF file (max 5MB)'),
+                    ]
+                )
             )
         ),
         responses: [
@@ -198,6 +202,37 @@ class MerchantAnot
         ]
     )]
     public function show() {}
+
+    #[OA\Get(
+        path: '/merchant/documents/{documentId}',
+        summary: 'Download merchant document (PDF)',
+        tags: ['Merchants'],
+        security: [['sanctum' => []]],
+        parameters: [
+            new OA\Parameter(
+                name: 'documentId',
+                in: 'path',
+                required: true,
+                description: 'ID of the merchant document',
+                schema: new OA\Schema(type: 'integer')
+            ),
+        ],
+        responses: [
+            new OA\Response(
+                response: 200,
+                description: 'PDF file downloaded successfully',
+                content: new OA\MediaType(
+                    mediaType: 'application/pdf',
+                    schema: new OA\Schema(type: 'string', format: 'binary')
+                )
+            ),
+            new OA\Response(response: 401, description: 'Unauthenticated'),
+            new OA\Response(response: 403, description: 'Unauthorized - document does not belong to merchant'),
+            new OA\Response(response: 404, description: 'Document or file not found'),
+            new OA\Response(response: 500, description: 'Server error'),
+        ]
+    )]
+    public function downloadDocument() {}
 
     #[OA\Get(
         path: '/merchant/dashboard',
