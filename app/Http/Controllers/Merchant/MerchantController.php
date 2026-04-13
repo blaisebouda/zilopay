@@ -45,6 +45,7 @@ class MerchantController extends ApiController
                 'error' => $e->getMessage(),
             ]);
 
+
             return $this->errorResponse('Une erreur est survenue lors de la création du profil du marchand.', 500);
         }
     }
@@ -62,7 +63,7 @@ class MerchantController extends ApiController
 
             if (!$merchant->isApproved()) {
                 return $this->successResponse(
-                    new MerchantResource($merchant),
+                    new MerchantResource($merchant->load('documents')),
                 );
             }
 
@@ -77,6 +78,8 @@ class MerchantController extends ApiController
                 'error' => $e->getMessage(),
             ]);
 
+
+
             return $this->errorResponse('Impossible de récupérer le marchand', 500);
         }
     }
@@ -84,19 +87,19 @@ class MerchantController extends ApiController
     /**
      * Download a merchant document (PDF).
      */
-    public function downloadDocument(Request $request, string $document_path): StreamedResponse|JsonResponse
+    public function downloadDocument(Request $request, string $path): StreamedResponse|JsonResponse
     {
         try {
 
-            if (!Storage::disk('private')->exists($document_path)) {
+            if (!Storage::disk('local')->exists($path)) {
                 return $this->errorResponse('Fichier non trouvé', 404);
             }
 
-            return Storage::disk('private')->download($document_path, basename($document_path));
+            return Storage::disk('local')->download($path, basename($path));
         } catch (\Exception $e) {
             Log::error('Failed to download merchant document', [
                 'user_id' => $request->user()->id,
-                'document_path' => $document_path,
+                'document_path' => $path,
                 'error' => $e->getMessage(),
             ]);
 

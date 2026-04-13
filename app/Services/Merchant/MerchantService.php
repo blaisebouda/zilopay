@@ -13,6 +13,7 @@ use App\Models\MerchantDocument;
 use App\Models\User;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 class MerchantService
@@ -24,29 +25,31 @@ class MerchantService
      */
     public function create(User $user, array $data): Merchant
     {
-        $existingMerchant = Merchant::where('user_id', $user->id)->first();
+        // $existingMerchant = Merchant::where('user_id', $user->id)->first();
 
-        if ($existingMerchant) {
-            throw new \InvalidArgumentException('L\'utilisateur a déjà un profil marchand.');
-        }
+        // if ($existingMerchant) {
+        //     throw new \InvalidArgumentException('L\'utilisateur a déjà un profil marchand.');
+        // }
 
-        $merchant = Merchant::create([
-            'user_id' => $user->id,
-            'business_name' => $data['business_name'],
-            'business_email' => $data['business_email'],
-            'phone_number' => $data['phone_number'] ?? null,
-            'country' => $data['country'],
-            'fee_fixed' => 0,
-            'fee_percentage' => 0,
-            'status' => MerchantStatus::PENDING,
-        ]);
+        return DB::transaction(function () use ($user, $data) {
+            $merchant = Merchant::create([
+                'user_id' => $user->id,
+                'business_name' => $data['business_name'],
+                'business_email' => $data['business_email'],
+                'phone_number' => $data['phone_number'] ?? null,
+                'country' => $data['country'],
+                'fee_fixed' => 0,
+                'fee_percentage' => 0,
+                'status' => MerchantStatus::PENDING,
+            ]);
 
-        // Handle document uploads
-        if (!empty($data['documents'])) {
-            $this->uploadDocuments($merchant, $data['documents']);
-        }
+            // Handle document uploads
+            if (!empty($data['documents'])) {
+                $this->uploadDocuments($merchant, $data['documents']);
+            }
 
-        return $merchant->refresh();
+            return $merchant->refresh();
+        });
     }
 
     /**
@@ -58,7 +61,7 @@ class MerchantService
     {
         foreach ($documents as $type => $file) {
             if ($file instanceof UploadedFile) {
-                $path = $file->store(MERCHANT_DOCUMENTS_PATH . $merchant->uuid, 'private');
+                $path = $file->store(MERCHANT_DOCUMENTS_PATH . $merchant->id, 'local');
 
                 MerchantDocument::create([
                     'merchant_id' => $merchant->id,

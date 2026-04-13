@@ -171,18 +171,11 @@ class MerchantAnot
     public function store() {}
 
     #[OA\Get(
-        path: '/merchant/{uuid}',
+        path: '/merchant',
         summary: 'Get merchant by UUID',
         tags: ['Merchants'],
         security: [['sanctum' => []]],
-        parameters: [
-            new OA\Parameter(
-                name: 'uuid',
-                in: 'path',
-                required: true,
-                schema: new OA\Schema(type: 'string')
-            ),
-        ],
+
         responses: [
             new OA\Response(
                 response: 200,
@@ -204,17 +197,17 @@ class MerchantAnot
     public function show() {}
 
     #[OA\Get(
-        path: '/merchant/documents/{documentId}',
+        path: '/merchant/documents/{path}',
         summary: 'Download merchant document (PDF)',
         tags: ['Merchants'],
         security: [['sanctum' => []]],
         parameters: [
             new OA\Parameter(
-                name: 'documentId',
+                name: 'path',
                 in: 'path',
                 required: true,
-                description: 'ID of the merchant document',
-                schema: new OA\Schema(type: 'integer')
+                description: 'Path of the merchant document',
+                schema: new OA\Schema(type: 'string')
             ),
         ],
         responses: [

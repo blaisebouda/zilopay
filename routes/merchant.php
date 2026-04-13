@@ -12,7 +12,7 @@ Route::prefix('merchant')->group(function () {
     Route::middleware('auth:sanctum')->group(function () {
         Route::get('/', [MerchantController::class, 'show']);
         Route::post('/', [MerchantController::class, 'store']);
-        Route::get('/documents/{path}', [MerchantController::class, 'downloadDocument']);
+        Route::get('/documents/{path}', [MerchantController::class, 'downloadDocument'])->name('merchant.documents.download');
     });
 
     // Routes authentifiées — approved merchant

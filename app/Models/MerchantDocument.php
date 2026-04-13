@@ -44,6 +44,12 @@ class MerchantDocument extends Model
         ];
     }
 
+    public function getUrlAttribute(): string
+    {
+        return route('merchant.documents.download', ['path' => $this->path]);
+    }
+
+
     /**
      * Get the merchant that owns the document.
      */

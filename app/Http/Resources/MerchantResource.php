@@ -30,16 +30,7 @@ class MerchantResource extends JsonResource
             'status_color' => $this->status->color(),
             'approved_at' => $this->approved_at?->toIso8601String(),
             'created_at' => $this->created_at?->toIso8601String(),
-            'documents' => $this->documents->map(fn($doc) => [
-                'id' => $doc->id,
-                'type' => $doc->type,
-                'type_label' => $doc->type->label(),
-                'status' => $doc->status,
-                'status_label' => $doc->status->label(),
-                'rejection_reason' => $doc->rejection_reason,
-                'verified_at' => $doc->verified_at?->toIso8601String(),
-                'created_at' => $doc->created_at?->toIso8601String(),
-            ]),
+            'documents' => MerchantDocumentResource::collection($this->whenLoaded('documents')),
         ];
     }
 }
