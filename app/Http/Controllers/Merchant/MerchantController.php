@@ -12,8 +12,10 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Attributes\Controllers\Authorize;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\StreamedResponse;
+
 
 class MerchantController extends ApiController
 {
@@ -84,9 +86,7 @@ class MerchantController extends ApiController
         }
     }
 
-    /**
-     * Download a merchant document (PDF).
-     */
+    #[Authorize('view', 'merchant')]
     public function downloadDocument(Request $request, string $path): StreamedResponse|JsonResponse
     {
         try {
