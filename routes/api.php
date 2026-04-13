@@ -12,6 +12,8 @@ require __DIR__ . '/transaction.php';
 // Merchant Routes
 require __DIR__ . '/merchant.php';
 
+require __DIR__ . '/options.php';
+
 Route::prefix('payment-methods')->name('payment-methods.')->group(function () {
     Route::get('/', [PaymentMethodController::class, 'index'])->name('index');
     // Route::post('/', [PaymentMethodController::class, 'store'])->name('store');
