@@ -5,10 +5,11 @@ namespace App\Http\Controllers\Api\Auth;
 use App\Http\Controllers\Api\ApiController;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\RegisterRequest;
+use App\Http\Requests\Auth\RegisterStartRequest;
 use App\Http\Resources\UserResource;
 use App\Http\Resources\WalletResource;
 use App\Models\User;
-use App\Services\OtpService;
+use App\Services\Auth\OtpService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\DB;
@@ -32,7 +33,7 @@ class AuthController extends ApiController
             // Create user
             $user = User::create([
                 'name' => $request->name,
-                'phone_number' => trim($request->phone),
+                'phone_number' => $request->phone,
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
                 'policy_accepted_at' => $request->policy_accepted ? now() : null,
@@ -40,13 +41,14 @@ class AuthController extends ApiController
             ]);
 
             // Generate and send OTP
-            //  $otp = $this->otpService->generate($user->phone, 'registration', $user);
+            $identifier = $user->phone_number ?? $user->email;
+            $otp = $this->otpService->generate($identifier, 'registration', $user);
 
             DB::commit();
 
             return $this->successResponse([
-                'user' => UserResource::make($user),
-                // 'otp_expires_in' => $otp->expires_at->diffInSeconds(now()),
+                'user' => UserResource::make($user->refresh()),
+                'otp_expires_in' => $otp->expires_at->diffInSeconds(now()),
             ], 'Inscription réussie.');
         } catch (\Exception $e) {
             DB::rollBack();
@@ -54,6 +56,7 @@ class AuthController extends ApiController
             return $this->errorResponse($e->getMessage(), 500);
         }
     }
+
 
     public function login(LoginRequest $request)
     {

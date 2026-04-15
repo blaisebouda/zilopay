@@ -14,6 +14,7 @@ class VaultResource extends JsonResource
             'name' => $this->name,
             'description' => $this->description,
             'amount' => $this->amount,
+            'amount_label' => $this->amount_label,
             'currency' => $this->currency,
             'currency_symbol' => $this->currency?->symbol(),
             'type' => $this->type,

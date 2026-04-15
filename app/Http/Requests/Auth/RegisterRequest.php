@@ -21,17 +21,17 @@ class RegisterRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string', 'max:100'],
-            'email' => ['required_without:phone_number', 'email', 'unique:users,email'],
-            'phone_number' => ['required_without:email', 'string', 'regex:/^[0-9]{8,15}$/', 'unique:users,phone_number'],
+            'name' => ['required', 'string', 'min:4', 'max:100'],
+            'email' => ['nullable', 'required_without:phone_number', 'email', 'unique:users,email'],
+            'phone_number' => ['nullable', 'required_without:email', 'string', PHONE_NUMBER_REGEX, 'unique:users,phone_number'],
             'password' => [
                 'required',
                 'confirmed',
                 Password::min(8)
-                    ->letters()
-                    ->mixedCase()
-                    ->numbers()
-                    ->symbols(),
+                // ->letters()
+                // ->mixedCase()
+                // ->numbers()
+                // ->symbols(),
             ],
 
             'policy_accepted' => ['required', 'boolean', 'accepted'],
@@ -52,15 +52,16 @@ class RegisterRequest extends FormRequest
             'email.required_without' => 'L\'email est requis sans numéro de téléphone',
             'email.email' => 'L\'email doit être valide',
             'password.required' => 'Le mot de passe est requis',
+
             'password.confirmed' => 'Les mots de passe ne correspondent pas',
             'password.min' => 'Le mot de passe doit contenir au moins 8 caractères',
             'password.letters' => 'Le mot de passe doit contenir au moins une lettre',
             'password.mixedCase' => 'Le mot de passe doit contenir au moins une lettre majuscule et une lettre minuscule',
             'password.numbers' => 'Le mot de password doit contenir au moins un chiffre',
             'password.symbols' => 'Le mot de passe doit contenir au moins un symbole',
-            'policy_accepted.required' => 'Vous devez accepter la charte islamique',
+            'policy_accepted.required' => 'Vous devez accepter les conditions d\'utilisation',
             'policy_accepted.boolean' => 'Le champ policy_accepted doit être un booléen',
-            'policy_accepted.accepted' => 'Vous devez accepter la charte islamique',
+            'policy_accepted.accepted' => 'Vous devez accepter les conditions d\'utilisation',
         ];
     }
 }

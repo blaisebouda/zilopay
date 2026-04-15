@@ -27,7 +27,11 @@ class VaultController extends ApiController
             $vaults = $this->vaultService->getUserVaults(request()->user());
 
             return $this->successResponse(
-                VaultResource::collection($vaults->load('transactions')),
+                [
+                    'total_vaults' => $vaults->count(),
+                    'total_amount' => $vaults->sum('amount'),
+                    'vaults' => VaultResource::collection($vaults->load('transactions')),
+                ],
                 'Coffres-forts récupérés avec succès'
             );
         } catch (\Exception $e) {

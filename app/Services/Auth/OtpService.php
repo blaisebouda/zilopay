@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Auth;
 
 use App\Models\OtpVerification;
 use App\Models\User;
@@ -127,7 +127,7 @@ class OtpService
                 $this->sendOtpViaSms($identifier, $otpCode, $type);
             }
         } catch (\Exception $e) {
-            Log::error("Failed to send OTP to {$identifier}: ".$e->getMessage());
+            Log::error("Failed to send OTP to {$identifier}: " . $e->getMessage());
         }
     }
 
