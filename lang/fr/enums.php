@@ -2,6 +2,15 @@
 
 return [
 
+    // User Status
+    'common_status.ACTIVE' => 'Actif',
+    'common_status.INACTIVE' => 'Inactif',
+
+    // Role
+    'user_role.ADMIN' => 'Administrateur',
+    'user_role.USER' => 'Utilisateur',
+    'user_role.MERCHANT' => 'Marchand',
+
     // Transaction Status
     'transaction_status.PENDING' => 'En attente',
     'transaction_status.SUCCESS' => 'Succès',

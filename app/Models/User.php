@@ -32,6 +32,7 @@ class User extends Authenticatable
         'policy_accepted_at',
         'role',
         'phone_verified_at',
+        'status',
     ];
 
     /**
@@ -59,6 +60,7 @@ class User extends Authenticatable
             'two_factor_confirmed_at' => 'datetime',
             'policy_accepted_at' => 'datetime',
             'role' => UserRole::class,
+            'status' => \App\Models\Enums\CommonStatus::class,
         ];
     }
 

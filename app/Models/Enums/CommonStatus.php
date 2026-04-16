@@ -5,8 +5,9 @@ namespace App\Models\Enums;
 use App\Constants\Colors;
 use App\Models\Enums\Contracts\AdvancedEnum;
 use App\Models\Enums\Contracts\AdvancedEnumInterface;
+use Filament\Support\Contracts\HasColor;
 
-enum CommonStatus: int implements AdvancedEnumInterface
+enum CommonStatus: int implements AdvancedEnumInterface, HasColor
 {
     use AdvancedEnum;
 
@@ -28,6 +29,6 @@ enum CommonStatus: int implements AdvancedEnumInterface
 
     public function label(): string
     {
-        return __('enums.model_status.'.$this->name);
+        return __('enums.common_status.' . $this->name);
     }
 }
