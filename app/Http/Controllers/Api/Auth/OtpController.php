@@ -3,85 +3,65 @@
 namespace App\Http\Controllers\Api\Auth;
 
 use App\Http\Controllers\Api\ApiController;
+use App\Http\Requests\Auth\ResendOtpRequest;
 use App\Http\Requests\Auth\VerifyOtpRequest;
 use App\Models\User;
 use App\Services\Auth\OtpService;
+use App\Services\Auth\OtpVerificationService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 class OtpController extends ApiController
 {
-    protected OtpService $otpService;
 
-    public function __construct(OtpService $otpService)
-    {
-        $this->otpService = $otpService;
-    }
+    public function __construct(private OtpVerificationService $otpVerificationService) {}
 
     public function verifyOtp(VerifyOtpRequest $request): JsonResponse
     {
-        $type = $request->type ?? 'registration';
+        try {
 
-        if (! $this->otpService->verify($request->identifier, $request->otp_code, $type)) {
-            return response()->json([
-                'message' => 'Code OTP invalide ou expiré.',
-            ], 400);
-        }
+            $user = $this->otpVerificationService->forRegister($request->validated());
 
-        // Find user by identifier
-        $user = User::where('email', $request->identifier)
-            ->orWhere('phone', $request->identifier)
-            ->first();
-
-        if (! $user) {
-            return response()->json([
-                'message' => 'Utilisateur non trouvé.',
-            ], 404);
-        }
-
-        // Update user verification status
-        if ($type === 'registration') {
-            $user->update([
-                'email_verified_at' => now(),
-                'is_verified' => true,
-                'verification_status' => 'email_verified',
+            return $this->successResponse([
+                'message' => 'Vérification réussie.',
+                'user' => $user,
             ]);
-        } elseif ($type === 'phone_verification') {
-            $user->update([
-                'phone_verified_at' => now(),
-                'verification_status' => $user->email_verified_at ? 'fully_verified' : 'phone_verified',
+        } catch (ValidationException $e) {
+            return $this->errorResponse($e->getMessage(), 422);
+        } catch (\Exception $e) {
+            Log::error('Failed to verify OTP', [
+                'error' => $e->getMessage(),
+                'identifier' => $request->identifier,
+                'type' => $request->type,
             ]);
+
+            return $this->errorResponse('Échec de la vérification', 500);
         }
-
-        // Create token
-        $token = $user->createToken('auth_token')->plainTextToken;
-
-        return response()->json([
-            'message' => 'Vérification réussie.',
-            'token' => $token,
-            'user' => $user,
-        ]);
     }
 
-    public function resendOtp(Request $request): JsonResponse
+    public function resendOtp(ResendOtpRequest $request): JsonResponse
     {
-        $request->validate([
-            'identifier' => 'required|string',
-            'type' => 'nullable|string|in:registration,login,password_reset,phone_verification',
-        ]);
 
-        $type = $request->type ?? 'registration';
+        try {
+            $otp = $this->otpVerificationService->resend($request->validated());
+            return $this->successResponse(
+                [
+                    'expires_at' => $otp->expires_at->toISOString(),
+                    'otp_expires_in' => abs($otp->expires_at->diffInSeconds(now())),
+                ],
+                'Un nouveau code OTP a été envoyé.',
 
-        // Find user
-        $user = User::where('email', $request->identifier)
-            ->orWhere('phone', $request->identifier)
-            ->first();
+            );
+        } catch (\Exception $e) {
+            Log::error('Failed to resend OTP', [
+                'error' => $e->getMessage(),
+                'identifier' => $request->identifier,
+                'type' => $request->type,
+            ]);
 
-        $otp = $this->otpService->resend($request->identifier, $type, $user);
-
-        return response()->json([
-            'message' => 'Un nouveau code OTP a été envoyé.',
-            'otp_expires_in' => $otp->expires_at->diffInSeconds(now()),
-        ]);
+            return $this->errorResponse('Échec de l\'envoi du code OTP', 500);
+        }
     }
 }

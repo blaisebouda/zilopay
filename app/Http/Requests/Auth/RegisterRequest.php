@@ -23,7 +23,7 @@ class RegisterRequest extends FormRequest
         return [
             'name' => ['required', 'string', 'min:4', 'max:100'],
             'email' => ['nullable', 'required_without:phone_number', 'email', 'unique:users,email'],
-            'phone_number' => ['nullable', 'required_without:email', 'string', PHONE_NUMBER_REGEX, 'unique:users,phone_number'],
+            'phone_number' => ['nullable', 'required_without:email', 'string', 'regex:' . PHONE_NUMBER_REGEX, 'unique:users,phone_number'],
             'password' => [
                 'required',
                 'confirmed',

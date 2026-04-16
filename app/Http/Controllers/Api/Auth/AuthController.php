@@ -33,7 +33,7 @@ class AuthController extends ApiController
             // Create user
             $user = User::create([
                 'name' => $request->name,
-                'phone_number' => $request->phone,
+                'phone_number' => $request->phone_number,
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
                 'policy_accepted_at' => $request->policy_accepted ? now() : null,
@@ -41,14 +41,15 @@ class AuthController extends ApiController
             ]);
 
             // Generate and send OTP
-            $identifier = $user->phone_number ?? $user->email;
+            $identifier = $user->email ?? $user->phone_number;
             $otp = $this->otpService->generate($identifier, 'registration', $user);
 
             DB::commit();
 
             return $this->successResponse([
                 'user' => UserResource::make($user->refresh()),
-                'otp_expires_in' => $otp->expires_at->diffInSeconds(now()),
+                'expires_at' => $otp->expires_at->toIso8601String(),
+                'otp_expires_in' => abs($otp->expires_at->diffInSeconds(now())),
             ], 'Inscription réussie.');
         } catch (\Exception $e) {
             DB::rollBack();

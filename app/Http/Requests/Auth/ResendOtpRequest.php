@@ -6,7 +6,7 @@ use App\Models\Enums\OtpType;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class VerifyOtpRequest extends FormRequest
+class ResendOtpRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,7 +23,6 @@ class VerifyOtpRequest extends FormRequest
     {
         return [
             'identifier' => ['required', 'string', 'min:3'],
-            'otp_code' => ['required', 'string', 'size:6'],
             'type' => ['nullable', 'string', Rule::enum(OtpType::class)],
         ];
     }
@@ -35,8 +34,6 @@ class VerifyOtpRequest extends FormRequest
     {
         return [
             'identifier.required' => 'L\'identifiant est obligatoire.',
-            'otp_code.required' => 'Le code OTP est obligatoire.',
-            'otp_code.size' => 'Le code OTP doit contenir 6 caractères.',
         ];
     }
 }
