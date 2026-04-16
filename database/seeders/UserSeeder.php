@@ -24,12 +24,23 @@ class UserSeeder extends Seeder
 
         // Test user
         $testUser = User::factory()->create([
-            'name' => 'Phone Test User',
+            'name' => 'Test User',
             'email' => 'test@zilopay.com',
             'phone_number' => '22670000001',
         ]);
 
         $testUser->defaultWallet->credit(500000);
         $testUser->defaultWallet->update(['code' => 'ZP00000001']);
+
+        // Admin user
+        $adminUser = User::factory()->create([
+            'name' => 'Admin',
+            'email' => 'admin@zilopay.com',
+            'phone_number' => '22670707070',
+            'role' => 'admin',
+        ]);
+
+        $adminUser->defaultWallet->credit(1000000);
+        $adminUser->defaultWallet->update(['code' => 'ZP00000002']);
     }
 }

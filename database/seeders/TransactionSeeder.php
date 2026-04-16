@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\Transaction;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class TransactionSeeder extends Seeder
@@ -31,7 +30,7 @@ class TransactionSeeder extends Seeder
             ->success()
             ->hasTransfer([
                 'sender_wallet_id' => 1,
-                'receiver_wallet_id' => 2
+                'receiver_wallet_id' => 2,
             ])
             ->create(['user_id' => 1]);
 
@@ -46,7 +45,7 @@ class TransactionSeeder extends Seeder
             ->failed()
             ->hasTransfer([
                 'sender_wallet_id' => 1,
-                'receiver_wallet_id' => 2
+                'receiver_wallet_id' => 2,
             ])
             ->create(['user_id' => 1]);
 

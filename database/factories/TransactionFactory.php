@@ -47,7 +47,7 @@ class TransactionFactory extends Factory
      */
     public function deposit(): static
     {
-        return $this->state(fn(array $attributes) => [
+        return $this->state(fn (array $attributes) => [
             'type' => TransactionType::DEPOSIT->value,
         ]);
     }
@@ -57,7 +57,7 @@ class TransactionFactory extends Factory
      */
     public function withdrawal(): static
     {
-        return $this->state(fn(array $attributes) => [
+        return $this->state(fn (array $attributes) => [
             'type' => TransactionType::WITHDRAWAL->value,
         ]);
     }
@@ -67,7 +67,7 @@ class TransactionFactory extends Factory
      */
     public function transfer(): static
     {
-        return $this->state(fn(array $attributes) => [
+        return $this->state(fn (array $attributes) => [
             'type' => TransactionType::TRANSFER->value,
         ]);
     }
@@ -77,7 +77,7 @@ class TransactionFactory extends Factory
      */
     public function payment(): static
     {
-        return $this->state(fn(array $attributes) => [
+        return $this->state(fn (array $attributes) => [
             'type' => TransactionType::PAYMENT->value,
         ]);
     }
@@ -87,7 +87,7 @@ class TransactionFactory extends Factory
      */
     public function pending(): static
     {
-        return $this->state(fn(array $attributes) => [
+        return $this->state(fn (array $attributes) => [
             'status' => TransactionStatus::PENDING->value,
         ]);
     }
@@ -97,7 +97,7 @@ class TransactionFactory extends Factory
      */
     public function success(): static
     {
-        return $this->state(fn(array $attributes) => [
+        return $this->state(fn (array $attributes) => [
             'status' => TransactionStatus::SUCCESS->value,
         ]);
     }
@@ -107,7 +107,7 @@ class TransactionFactory extends Factory
      */
     public function refund(): static
     {
-        return $this->state(fn(array $attributes) => [
+        return $this->state(fn (array $attributes) => [
             'status' => TransactionStatus::REFUND->value,
         ]);
     }
@@ -117,7 +117,7 @@ class TransactionFactory extends Factory
      */
     public function blocked(): static
     {
-        return $this->state(fn(array $attributes) => [
+        return $this->state(fn (array $attributes) => [
             'status' => TransactionStatus::BLOCKED->value,
         ]);
     }
@@ -127,7 +127,7 @@ class TransactionFactory extends Factory
      */
     public function failed(): static
     {
-        return $this->state(fn(array $attributes) => [
+        return $this->state(fn (array $attributes) => [
             'status' => TransactionStatus::FAILED->value,
         ]);
     }
@@ -137,7 +137,7 @@ class TransactionFactory extends Factory
      */
     public function withPaymentMethod(): static
     {
-        return $this->state(fn(array $attributes) => [
+        return $this->state(fn (array $attributes) => [
             'payment_method_id' => PaymentMethod::factory(),
         ]);
     }
