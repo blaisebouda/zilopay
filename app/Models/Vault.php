@@ -48,6 +48,11 @@ class Vault extends BaseModel
         return $this->hasMany(VaultTransaction::class);
     }
 
+    public function getAmountLabelAttribute(): string
+    {
+        return format_amount($this->amount, $this->currency->symbol());
+    }
+
     public function isGoalReached(): bool
     {
         if ($this->goal_amount === 0) {

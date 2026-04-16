@@ -40,3 +40,16 @@ if (! function_exists('roundAmount')) {
         return round($amount, 8);
     }
 }
+
+if (! function_exists('format_amount')) {
+    /**
+     * Format a balance amount with currency device.
+     *
+     * @param  int  $amount  The amount in coins.
+     * @return string The formatted balance with currency device.
+     */
+    function format_amount(int $amount, string $currency): string
+    {
+        return number_format($amount, 2, '.', ' ') . ' ' . $currency;
+    }
+}
