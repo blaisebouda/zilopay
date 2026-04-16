@@ -14,27 +14,27 @@ trait AdvancedEnum
 
     public static function values(): array
     {
-        return array_map(fn(AdvancedEnumInterface $enum): string => $enum->value, self::cases());
+        return array_map(fn (AdvancedEnumInterface $enum): string => $enum->value, self::cases());
     }
 
     public static function labels(): array
     {
-        return array_map(fn(AdvancedEnumInterface $enum): string => $enum->label(), self::cases());
+        return array_map(fn (AdvancedEnumInterface $enum): string => $enum->label(), self::cases());
     }
 
     public static function names(): array
     {
-        return array_map(fn(AdvancedEnumInterface $enum): string => $enum->name, self::cases());
+        return array_map(fn (AdvancedEnumInterface $enum): string => $enum->name, self::cases());
     }
 
     public static function tryFromName(string $name): ?AdvancedEnumInterface
     {
-        return Arr::first(self::cases(), fn(AdvancedEnumInterface $enum): string => Str::lower($enum->name) == Str::lower($name));
+        return Arr::first(self::cases(), fn (AdvancedEnumInterface $enum): string => Str::lower($enum->name) == Str::lower($name));
     }
 
     public static function options(): array
     {
-        return array_map(fn(AdvancedEnumInterface $case) => [
+        return array_map(fn (AdvancedEnumInterface $case) => [
             'value' => $case->value,
             'label' => $case->label(),
         ], self::cases());

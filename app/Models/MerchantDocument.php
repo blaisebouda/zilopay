@@ -49,7 +49,6 @@ class MerchantDocument extends Model
         return route('merchant.documents.download', ['path' => $this->path]);
     }
 
-
     /**
      * Get the merchant that owns the document.
      */

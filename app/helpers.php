@@ -50,6 +50,6 @@ if (! function_exists('format_amount')) {
      */
     function format_amount(int $amount, string $currency): string
     {
-        return number_format($amount, 2, '.', ' ') . ' ' . $currency;
+        return number_format($amount, 2, '.', ' ').' '.$currency;
     }
 }

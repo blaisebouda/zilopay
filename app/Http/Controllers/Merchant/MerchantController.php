@@ -10,12 +10,11 @@ use App\Http\Resources\MerchantResource;
 use App\Services\Merchant\MerchantService;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Attributes\Controllers\Authorize;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\StreamedResponse;
-
 
 class MerchantController extends ApiController
 {
@@ -47,7 +46,6 @@ class MerchantController extends ApiController
                 'error' => $e->getMessage(),
             ]);
 
-
             return $this->errorResponse('Une erreur est survenue lors de la création du profil du marchand.', 500);
         }
     }
@@ -63,7 +61,7 @@ class MerchantController extends ApiController
             */
             $merchant = $request->user()->merchant;
 
-            if (!$merchant->isApproved()) {
+            if (! $merchant->isApproved()) {
                 return $this->successResponse(
                     new MerchantResource($merchant->load('documents')),
                 );
@@ -80,8 +78,6 @@ class MerchantController extends ApiController
                 'error' => $e->getMessage(),
             ]);
 
-
-
             return $this->errorResponse('Impossible de récupérer le marchand', 500);
         }
     }
@@ -91,7 +87,7 @@ class MerchantController extends ApiController
     {
         try {
 
-            if (!Storage::disk('local')->exists($path)) {
+            if (! Storage::disk('local')->exists($path)) {
                 return $this->errorResponse('Fichier non trouvé', 404);
             }
 

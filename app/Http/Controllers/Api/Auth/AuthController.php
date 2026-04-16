@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Api\Auth;
 use App\Http\Controllers\Api\ApiController;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\RegisterRequest;
-use App\Http\Requests\Auth\RegisterStartRequest;
 use App\Http\Resources\UserResource;
 use App\Http\Resources\WalletResource;
 use App\Models\User;
@@ -57,7 +56,6 @@ class AuthController extends ApiController
             return $this->errorResponse($e->getMessage(), 500);
         }
     }
-
 
     public function login(LoginRequest $request)
     {

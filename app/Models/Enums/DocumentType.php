@@ -15,6 +15,6 @@ enum DocumentType: string implements AdvancedEnumInterface
 
     public function label(): string
     {
-        return __('enums.document_type.' . $this->name);
+        return __('enums.document_type.'.$this->name);
     }
 }

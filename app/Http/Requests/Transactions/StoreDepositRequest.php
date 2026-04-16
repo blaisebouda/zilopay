@@ -11,7 +11,6 @@ class StoreDepositRequest extends FormRequest
         return true;
     }
 
-
     protected function prepareForValidation()
     {
         $this->merge([

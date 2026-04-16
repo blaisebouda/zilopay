@@ -14,10 +14,9 @@ enum MerchantStatus: int implements AdvancedEnumInterface
     case APPROVED = 1;
     case REJECTED = 2;
 
-
     public function label(): string
     {
-        return __('enums.merchant_status.' . $this->name);
+        return __('enums.merchant_status.'.$this->name);
     }
 
     public function color(): string

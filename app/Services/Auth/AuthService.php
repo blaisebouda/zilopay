@@ -10,7 +10,7 @@ class AuthService
 {
     public function __construct(private OtpService $otpService) {}
 
-    public static  function findUserByIdentifier(string $identifier): User
+    public static function findUserByIdentifier(string $identifier): User
     {
         $user = User::where('email', $identifier)
             ->orWhere('phone', $identifier)

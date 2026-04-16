@@ -31,7 +31,7 @@ class User extends Authenticatable
         'phone_number',
         'policy_accepted_at',
         'role',
-        'phone_verified_at'
+        'phone_verified_at',
     ];
 
     /**

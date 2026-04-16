@@ -15,6 +15,6 @@ enum UserRole: string implements AdvancedEnumInterface
 
     public function label(): string
     {
-        return __('enums.user_role.' . $this->name);
+        return __('enums.user_role.'.$this->name);
     }
 }

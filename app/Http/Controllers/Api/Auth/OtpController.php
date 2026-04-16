@@ -5,17 +5,13 @@ namespace App\Http\Controllers\Api\Auth;
 use App\Http\Controllers\Api\ApiController;
 use App\Http\Requests\Auth\ResendOtpRequest;
 use App\Http\Requests\Auth\VerifyOtpRequest;
-use App\Models\User;
-use App\Services\Auth\OtpService;
 use App\Services\Auth\OtpVerificationService;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 class OtpController extends ApiController
 {
-
     public function __construct(private OtpVerificationService $otpVerificationService) {}
 
     public function verifyOtp(VerifyOtpRequest $request): JsonResponse
@@ -46,6 +42,7 @@ class OtpController extends ApiController
 
         try {
             $otp = $this->otpVerificationService->resend($request->validated());
+
             return $this->successResponse(
                 [
                     'expires_at' => $otp->expires_at->toISOString(),

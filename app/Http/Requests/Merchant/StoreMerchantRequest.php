@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Http\Requests\Merchant;
 
 use App\Models\Enums\Country;
-use App\Models\Enums\DocumentType;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -19,7 +18,6 @@ class StoreMerchantRequest extends FormRequest
     {
         return true;
     }
-
 
     /**
      * Get the validation rules that apply to the request.

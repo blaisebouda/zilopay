@@ -9,7 +9,6 @@ use App\Models\User;
 use App\Services\Auth\Utils\Identifier;
 use Illuminate\Validation\ValidationException;
 
-
 class OtpVerificationService
 {
     public function __construct(private OtpService $otpService) {}

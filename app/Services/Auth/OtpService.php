@@ -127,7 +127,7 @@ class OtpService
                 $this->sendOtpViaSms($identifier, $otpCode, $type);
             }
         } catch (\Exception $e) {
-            Log::error("Failed to send OTP to {$identifier}: " . $e->getMessage());
+            Log::error("Failed to send OTP to {$identifier}: ".$e->getMessage());
         }
     }
 

@@ -14,7 +14,6 @@ use App\Models\User;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Storage;
 
 class MerchantService
 {
@@ -44,7 +43,7 @@ class MerchantService
             ]);
 
             // Handle document uploads
-            if (!empty($data['documents'])) {
+            if (! empty($data['documents'])) {
                 $this->uploadDocuments($merchant, $data['documents']);
             }
 
@@ -61,7 +60,7 @@ class MerchantService
     {
         foreach ($documents as $type => $file) {
             if ($file instanceof UploadedFile) {
-                $path = $file->store(MERCHANT_DOCUMENTS_PATH . $merchant->id, 'local');
+                $path = $file->store(MERCHANT_DOCUMENTS_PATH.$merchant->id, 'local');
 
                 MerchantDocument::create([
                     'merchant_id' => $merchant->id,
@@ -72,8 +71,6 @@ class MerchantService
             }
         }
     }
-
-
 
     /**
      * Get merchant by UUID.

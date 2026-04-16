@@ -23,11 +23,11 @@ enum VaultType: string implements AdvancedEnumInterface
     case TONTINE = 'tontine';
     case AUTRES = 'autres';
 
-
     public function label(): string
     {
-        return __('enums.vault_type.' . $this->name);
+        return __('enums.vault_type.'.$this->name);
     }
+
     public function color(): string
     {
         return match ($this) {

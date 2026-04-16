@@ -2,8 +2,8 @@
 
 namespace App\Policies;
 
-use App\Models\User;
 use App\Models\Merchant;
+use App\Models\User;
 
 class MerchantPolicy
 {
@@ -14,7 +14,6 @@ class MerchantPolicy
     {
         return $user->id === $merchant->user_id;
     }
-
 
     /**
      * Determine whether the user can create models.
