@@ -8,12 +8,10 @@ use App\Models\User;
 
 class AuthService
 {
-    public function __construct(private OtpService $otpService) {}
-
     public static function findUserByIdentifier(string $identifier): User
     {
         $user = User::where('email', $identifier)
-            ->orWhere('phone', $identifier)
+            ->orWhere('phone_number', $identifier)
             ->firstOrFail();
 
         return $user;

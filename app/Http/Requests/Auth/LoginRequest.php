@@ -20,8 +20,8 @@ class LoginRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => ['required_without:phone_number', 'email'],
-            'phone_number' => ['required_without:email', 'string', 'regex:/^[0-9]{8,15}$/'],
+            'email' => ['nullable', 'required_without:phone_number', 'email'],
+            'phone_number' => ['nullable', 'required_without:email', 'string', 'regex:' . PHONE_NUMBER_REGEX],
             'password' => ['required', 'string'],
             'remember' => ['nullable', 'boolean'],
         ];
