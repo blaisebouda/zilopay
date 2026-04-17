@@ -46,13 +46,6 @@ class MerchantResource extends Resource
         return MerchantsTable::configure($table);
     }
 
-    public static function getWidgets(): array
-    {
-        return [
-            StatsMerchant::class,
-        ];
-    }
-
 
 
     public static function getRelations(): array
