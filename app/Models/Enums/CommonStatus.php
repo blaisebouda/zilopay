@@ -11,8 +11,9 @@ enum CommonStatus: int implements AdvancedEnumInterface, HasColor
 {
     use AdvancedEnum;
 
-    case ACTIVE = 1;
     case INACTIVE = 0;
+    case ACTIVE = 1;
+
 
     public function getLabel(): ?string
     {
