@@ -9,6 +9,7 @@ use App\Filament\Resources\Merchants\Pages\ViewMerchant;
 use App\Filament\Resources\Merchants\Schemas\MerchantForm;
 use App\Filament\Resources\Merchants\Schemas\MerchantInfolist;
 use App\Filament\Resources\Merchants\Tables\MerchantsTable;
+use App\Filament\Resources\Merchants\Widgets\StatsMerchant;
 use App\Models\Merchant;
 use BackedEnum;
 use Filament\Resources\Resource;
@@ -48,14 +49,7 @@ class MerchantResource extends Resource
     public static function getWidgets(): array
     {
         return [
-            \App\Filament\Widgets\StatsOverview::class,
-        ];
-    }
-
-    public static function getHeaderWidgets(): array
-    {
-        return [
-            \App\Livewire\StatsMerchant::class,
+            StatsMerchant::class,
         ];
     }
 
