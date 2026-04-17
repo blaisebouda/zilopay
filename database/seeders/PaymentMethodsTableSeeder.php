@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Enums\Country;
 use App\Models\Enums\PaymentMethodCode;
 use App\Models\Enums\PaymentMethodType;
 use App\Models\PaymentMethod;
@@ -26,8 +27,8 @@ class PaymentMethodsTableSeeder extends Seeder
                 'max_amount' => 1000000,
                 'fee_percent' => 1.0,
                 'fee_fixed' => 0,
-                'country_id' => 1,
-                'logo' => 'wave.png',
+                'country' => Country::BF,
+                'logo' => PAYMENT_METHOD_LOGO_PATH . '/wave.png',
             ],
             [
                 'name' => 'Orange Money',
@@ -37,8 +38,8 @@ class PaymentMethodsTableSeeder extends Seeder
                 'max_amount' => 500000,
                 'fee_percent' => 1.5,
                 'fee_fixed' => 0,
-                'country_id' => 1,
-                'logo' => 'orange-money.png',
+                'country' => Country::BF,
+                'logo' => PAYMENT_METHOD_LOGO_PATH . '/orange-money.png',
             ],
             [
                 'name' => 'Moov Money',
@@ -48,8 +49,8 @@ class PaymentMethodsTableSeeder extends Seeder
                 'max_amount' => 500000,
                 'fee_percent' => 1.5,
                 'fee_fixed' => 0,
-                'country_id' => 1,
-                'logo' => 'moov-money.png',
+                'country' => Country::BF,
+                'logo' => PAYMENT_METHOD_LOGO_PATH . '/moov-money.png',
             ],
             // [
             //     'name' => 'Telecel Money',

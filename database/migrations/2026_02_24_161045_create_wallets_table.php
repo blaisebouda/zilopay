@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\Enums\CommonStatus;
+use App\Models\Enums\LockActiveStatus;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -21,7 +21,7 @@ return new class extends Migration
             $table->decimal('balance', 20, 8)->default(0.00000000);
             $table->boolean('is_default')->default(false);
             $table->string('code')->unique();
-            $table->integer('status')->default(CommonStatus::ACTIVE->value);
+            $table->integer('status')->default(LockActiveStatus::ACTIVE->value);
 
             $table->unique(['user_id', 'currency']);
 

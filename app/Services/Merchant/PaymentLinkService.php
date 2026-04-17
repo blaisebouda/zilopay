@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services\Merchant;
 
-use App\Models\Enums\CommonStatus;
+use App\Models\Enums\LockActiveStatus;
 use App\Models\Merchant;
 use App\Models\PaymentLinks;
 use Illuminate\Database\Eloquent\Collection;
@@ -25,7 +25,7 @@ class PaymentLinkService
             'description' => $data['description'] ?? null,
             'amount' => $data['amount'] ?? null,
             'currency' => $data['currency'],
-            'status' => CommonStatus::ACTIVE,
+            'status' => LockActiveStatus::ACTIVE,
             'max_uses' => $data['max_uses'] ?? null,
             'uses_count' => 0,
             'expires_at' => $data['expires_at'] ?? null,

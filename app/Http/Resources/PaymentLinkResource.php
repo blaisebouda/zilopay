@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Resources;
 
-use App\Models\Enums\CommonStatus;
+use App\Models\Enums\LockActiveStatus;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -26,7 +26,7 @@ class PaymentLinkResource extends JsonResource
             'amount' => $this->amount ? (float) $this->amount : null,
             'currency' => $this->currency,
             'status' => $this->status,
-            'status_label' => CommonStatus::from($this->status)->label(),
+            'status_label' => LockActiveStatus::from($this->status)->label(),
             'max_uses' => $this->max_uses,
             'uses_count' => $this->uses_count,
             'remaining_uses' => $this->max_uses ? $this->max_uses - $this->uses_count : null,

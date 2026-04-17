@@ -5,6 +5,7 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
 use App\Models\Enums\UserRole;
+use App\Models\Traits\HasLockActiveStatus;
 use App\Services\Wallet\WalletService;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -17,7 +18,10 @@ use Laravel\Sanctum\HasApiTokens;
 class User extends Authenticatable
 {
     /** @use HasFactory<UserFactory> */
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens,
+        HasFactory,
+        Notifiable,
+        HasLockActiveStatus;
 
     /**
      * The attributes that are mass assignable.
@@ -60,7 +64,7 @@ class User extends Authenticatable
             'two_factor_confirmed_at' => 'datetime',
             'policy_accepted_at' => 'datetime',
             'role' => UserRole::class,
-            'status' => \App\Models\Enums\CommonStatus::class,
+            'status' => \App\Models\Enums\LockActiveStatus::class,
         ];
     }
 
@@ -98,6 +102,7 @@ class User extends Authenticatable
     {
         return $this->role->equals(UserRole::USER);
     }
+
 
     protected static function booted(): void
     {

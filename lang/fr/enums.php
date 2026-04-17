@@ -3,8 +3,8 @@
 return [
 
     // User Status
-    'common_status.ACTIVE' => 'Actif',
-    'common_status.INACTIVE' => 'Inactif',
+    'lock_active_status.LOCKED' => 'Bloqué',
+    'lock_active_status.ACTIVE' => 'Actif',
 
     // Role
     'user_role.ADMIN' => 'Administrateur',
@@ -43,5 +43,11 @@ return [
     'vault_type.VOYAGE' => 'Voyage',
     'vault_type.TONTINE' => 'Tontine',
     'vault_type.AUTRES' => 'Autres',
+
+    //payment method type
+    'payment_method_type.MOBILE_MONEY' => 'Mobile Money',
+    'payment_method_type.BANK_TRANSFER' => 'Virement Bancaire',
+    'payment_method_type.CASH' => 'Espèces',
+    'payment_method_type.CARD' => 'Carte',
 
 ];

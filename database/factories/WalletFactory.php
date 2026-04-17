@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Models\Enums\CommonStatus;
+use App\Models\Enums\LockActiveStatus;
 use App\Models\Enums\Currency;
 use App\Models\User;
 use App\Models\Wallet;
@@ -25,13 +25,13 @@ class WalletFactory extends Factory
             'currency' => Currency::random(),
             'balance' => $this->faker->randomFloat(2, 0, 10000),
             'is_default' => $this->faker->boolean(),
-            'status' => CommonStatus::random(),
+            'status' => LockActiveStatus::random(),
         ];
     }
 
     public function default(): static
     {
-        return $this->state(fn (array $attributes) => [
+        return $this->state(fn(array $attributes) => [
             'is_default' => true,
         ]);
     }

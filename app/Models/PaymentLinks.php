@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use App\Models\Enums\CommonStatus;
+use App\Models\Enums\LockActiveStatus;
 use App\Models\Enums\Currency;
 use Database\Factories\PaymentLinksFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -43,7 +43,7 @@ class PaymentLinks extends BaseModel
     {
         return [
             'amount' => 'float',
-            'status' => CommonStatus::class,
+            'status' => LockActiveStatus::class,
             'currency' => Currency::class,
             'max_uses' => 'integer',
             'uses_count' => 'integer',
@@ -94,7 +94,7 @@ class PaymentLinks extends BaseModel
 
     public function isInactive(): bool
     {
-        return $this->status->equals(CommonStatus::INACTIVE);
+        return $this->status->equals(LockActiveStatus::INACTIVE);
     }
 
     public function amountIsMatching(?float $amount): bool

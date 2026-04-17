@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Users\Tables;
 
+use App\Filament\Resources\Common\LockUnlockAction;
 use App\Models\User;
 use Filament\Actions\Action;
 use Filament\Actions\ViewAction;
@@ -46,15 +47,7 @@ class UsersTable
             ])
             ->recordActions([
                 ViewAction::make(),
-                Action::make('toggle_active')
-                    ->label(fn($record) => $record->is_active ? 'Débloquer' : 'Bloquer')
-                    ->icon(fn($record) => $record->is_active ? 'heroicon-m-lock-open' : 'heroicon-m-lock-closed')
-
-                    ->requiresConfirmation() // Affiche la fenêtre de confirmation
-                    ->modalHeading('Confirmer le changement')
-                    ->modalDescription('Êtes-vous sûr de vouloir changer le statut de cet enregistrement ?')
-                    ->action(fn($record) => $record->update(['is_active' => !$record->is_active]))
-
+                LockUnlockAction::make()
             ]);
     }
 }

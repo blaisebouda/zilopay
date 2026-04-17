@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\Enums\CommonStatus;
+use App\Models\Enums\LockActiveStatus;
 use App\Models\Enums\UserRole;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -23,7 +23,7 @@ return new class extends Migration
             $table->timestamp('phone_verified_at')->nullable();
             $table->string('password');
             $table->timestamp('policy_accepted_at')->nullable();
-            $table->integer('status')->default(CommonStatus::ACTIVE->value);
+            $table->integer('status')->default(LockActiveStatus::ACTIVE->value);
             $table->rememberToken();
             $table->timestamps();
         });
