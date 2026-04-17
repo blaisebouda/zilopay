@@ -18,7 +18,7 @@ use OpenApi\Attributes as OA;
         new OA\Property(property: 'phone', type: 'string', example: '+22501234567'),
         new OA\Property(property: 'country', type: 'string', example: 'CI'),
         new OA\Property(property: 'fee_fixed', type: 'number', format: 'float', example: 100.00),
-        new OA\Property(property: 'fee_percentage', type: 'number', format: 'float', example: 2.5),
+        new OA\Property(property: 'fee_percent', type: 'number', format: 'float', example: 2.5),
         new OA\Property(property: 'status', type: 'integer', example: 0),
         new OA\Property(property: 'status_label', type: 'string', example: 'Pending'),
         new OA\Property(property: 'approved_at', type: 'string', format: 'date-time', nullable: true, example: null),

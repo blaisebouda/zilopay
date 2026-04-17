@@ -23,7 +23,7 @@ class MerchantResource extends JsonResource
             'phone_number' => $this->phone_number,
             'country' => $this->country->label(),
             'fee_fixed' => (float) $this->fee_fixed,
-            'fee_percentage' => (float) $this->fee_percentage,
+            'fee_percent' => (float) $this->fee_percent,
             'status' => $this->status,
             'status_label' => $this->status->label(),
             'status_color' => $this->status->color(),

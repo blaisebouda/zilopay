@@ -7,13 +7,14 @@ use App\Models\Enums\Currency;
 use App\Models\Enums\LockActiveStatus;
 use App\Models\Enums\PaymentMethodCode;
 use App\Models\Enums\PaymentMethodType;
+use App\Models\Traits\HasFeed;
 use App\Models\Traits\HasLockActiveStatus;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 
 class PaymentMethod extends Model
 {
-    use HasLockActiveStatus;
+    use HasLockActiveStatus, HasFeed;
 
     protected $fillable = [
         'country',
@@ -63,19 +64,10 @@ class PaymentMethod extends Model
         return format_amount($this->max_amount, $this->currency->symbol());
     }
 
-    public function feePercentLabel()
-    {
-        return $this->fee_percent.' %';
-    }
-
-    public function feeFixedLabel()
-    {
-        return format_amount($this->fee_fixed, $this->currency->symbol());
-    }
 
     public function amountRangeLabel()
     {
-        return $this->minAmountLabel().' - '.$this->maxAmountLabel();
+        return $this->minAmountLabel() . ' - ' . $this->maxAmountLabel();
     }
 
     public function scopeActive($query)

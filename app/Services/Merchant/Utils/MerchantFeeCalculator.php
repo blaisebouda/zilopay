@@ -16,7 +16,7 @@ class MerchantFeeCalculator
     public static function calculate(float $amount, Merchant $merchant): object
     {
         $fixedFee = (float) $merchant->fee_fixed;
-        $percentageFee = (float) $merchant->fee_percentage;
+        $percentageFee = (float) $merchant->fee_percent;
 
         $percentageAmount = $amount * ($percentageFee / 100);
         $totalFee = $fixedFee + $percentageAmount;
@@ -35,7 +35,7 @@ class MerchantFeeCalculator
     public static function calculateGrossAmount(float $netAmount, Merchant $merchant): float
     {
         $fixedFee = (float) $merchant->fee_fixed;
-        $percentageFee = (float) $merchant->fee_percentage;
+        $percentageFee = (float) $merchant->fee_percent;
 
         $grossAmount = ($netAmount + $fixedFee) / (1 - ($percentageFee / 100));
 
@@ -54,8 +54,8 @@ class MerchantFeeCalculator
         return [
             'original_amount' => $amount,
             'fixed_fee' => (float) $merchant->fee_fixed,
-            'percentage_fee' => (float) $merchant->fee_percentage,
-            'percentage_fee_amount' => round($amount * ($merchant->fee_percentage / 100), 8),
+            'percentage_fee' => (float) $merchant->fee_percent,
+            'percentage_fee_amount' => round($amount * ($merchant->fee_percent / 100), 8),
             'total_fee' => $calculation['fee_amount'],
             'net_amount' => $calculation['net_amount'],
         ];

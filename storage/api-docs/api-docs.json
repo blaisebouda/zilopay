@@ -22,9 +22,7 @@
     "paths": {
         "/auth/register": {
             "post": {
-                "tags": [
-                    "Authentification"
-                ],
+                "tags": ["Authentification"],
                 "summary": "Register a new user",
                 "operationId": "8d6d4aca826ebc5a3d708e78d10829c3",
                 "requestBody": {
@@ -103,9 +101,7 @@
         },
         "/auth/login": {
             "post": {
-                "tags": [
-                    "Authentification"
-                ],
+                "tags": ["Authentification"],
                 "summary": "Login a user",
                 "operationId": "46365e1225df2e0f2d69fecdd16a8587",
                 "requestBody": {
@@ -113,10 +109,7 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "required": [
-                                    "email",
-                                    "password"
-                                ],
+                                "required": ["email", "password"],
                                 "properties": {
                                     "email": {
                                         "type": "string",
@@ -174,9 +167,7 @@
         },
         "/auth/logout": {
             "post": {
-                "tags": [
-                    "Authentification"
-                ],
+                "tags": ["Authentification"],
                 "summary": "Logout user",
                 "operationId": "e8782b6ef732cb1bb4bd0f02035b4951",
                 "responses": {
@@ -210,9 +201,7 @@
         },
         "/auth/logout-all": {
             "post": {
-                "tags": [
-                    "Authentification"
-                ],
+                "tags": ["Authentification"],
                 "summary": "Logout user from all devices",
                 "operationId": "da6e7f1089967b398d1143a1fdd585fa",
                 "responses": {
@@ -246,9 +235,7 @@
         },
         "/auth/me": {
             "get": {
-                "tags": [
-                    "Authentification"
-                ],
+                "tags": ["Authentification"],
                 "summary": "Get current user",
                 "operationId": "106018214eef2b9da2310d4062eb0378",
                 "responses": {
@@ -277,9 +264,7 @@
         },
         "/auth/refresh": {
             "post": {
-                "tags": [
-                    "Authentification"
-                ],
+                "tags": ["Authentification"],
                 "summary": "Refresh authentication token",
                 "operationId": "6bc6507ba64e131d0c4f8ee9f37d630e",
                 "responses": {
@@ -318,9 +303,7 @@
         },
         "/merchant": {
             "get": {
-                "tags": [
-                    "Merchants"
-                ],
+                "tags": ["Merchants"],
                 "summary": "Get merchant by UUID",
                 "operationId": "19815424c427f87fb840f8aefc4566ae",
                 "responses": {
@@ -368,9 +351,7 @@
                 ]
             },
             "post": {
-                "tags": [
-                    "Merchants"
-                ],
+                "tags": ["Merchants"],
                 "summary": "Create merchant profile",
                 "operationId": "a2c5a19a96cdc2e83b90bbb65142e740",
                 "requestBody": {
@@ -468,9 +449,7 @@
         },
         "/merchant/documents/{path}": {
             "get": {
-                "tags": [
-                    "Merchants"
-                ],
+                "tags": ["Merchants"],
                 "summary": "Download merchant document (PDF)",
                 "operationId": "85334c2ef47251ccda7fb87b69de6fd3",
                 "parameters": [
@@ -518,9 +497,7 @@
         },
         "/merchant/dashboard": {
             "get": {
-                "tags": [
-                    "Merchants"
-                ],
+                "tags": ["Merchants"],
                 "summary": "Get merchant dashboard statistics",
                 "operationId": "b8c9c5aedc32f4f1b554ea2f1ffb13b1",
                 "responses": {
@@ -570,9 +547,7 @@
         },
         "/merchant/payment-links": {
             "get": {
-                "tags": [
-                    "Merchants"
-                ],
+                "tags": ["Merchants"],
                 "summary": "List all payment links",
                 "operationId": "b8258c7117c6cfb195755f5401bb8453",
                 "responses": {
@@ -623,9 +598,7 @@
                 ]
             },
             "post": {
-                "tags": [
-                    "Merchants"
-                ],
+                "tags": ["Merchants"],
                 "summary": "Create payment link",
                 "operationId": "82b253b440c3ff77997b909c56471c70",
                 "requestBody": {
@@ -633,9 +606,7 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "required": [
-                                    "title"
-                                ],
+                                "required": ["title"],
                                 "properties": {
                                     "title": {
                                         "type": "string",
@@ -722,9 +693,7 @@
         },
         "/merchant/payment-links/{paymentLink}": {
             "get": {
-                "tags": [
-                    "Merchants"
-                ],
+                "tags": ["Merchants"],
                 "summary": "Get payment link details",
                 "operationId": "71d140effcda3270c362949ea89f5618",
                 "parameters": [
@@ -785,9 +754,7 @@
                 ]
             },
             "put": {
-                "tags": [
-                    "Merchants"
-                ],
+                "tags": ["Merchants"],
                 "summary": "Update payment link",
                 "operationId": "bb8ef263a1c1bacac2c4a521a348da97",
                 "parameters": [
@@ -888,9 +855,7 @@
                 ]
             },
             "delete": {
-                "tags": [
-                    "Merchants"
-                ],
+                "tags": ["Merchants"],
                 "summary": "Delete payment link",
                 "operationId": "8c4c78b628f84292b39730d3a5c5a300",
                 "parameters": [
@@ -953,9 +918,7 @@
         },
         "/merchant/api-keys": {
             "post": {
-                "tags": [
-                    "Merchants"
-                ],
+                "tags": ["Merchants"],
                 "summary": "Create API key",
                 "operationId": "cc091e9deb076f5fee8a763a7c32c20a",
                 "requestBody": {
@@ -963,9 +926,7 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "required": [
-                                    "name"
-                                ],
+                                "required": ["name"],
                                 "properties": {
                                     "name": {
                                         "type": "string",
@@ -1036,9 +997,7 @@
         },
         "/merchant/api-keys/{api_key}": {
             "delete": {
-                "tags": [
-                    "Merchants"
-                ],
+                "tags": ["Merchants"],
                 "summary": "Delete API key",
                 "operationId": "d14f85bc8fdcb8ea33e7abed70c4e499",
                 "parameters": [
@@ -1101,9 +1060,7 @@
         },
         "/merchant/payments/initiate": {
             "post": {
-                "tags": [
-                    "Merchants"
-                ],
+                "tags": ["Merchants"],
                 "summary": "Initiate payment via API",
                 "operationId": "f6382fe4a871f0ba5ac96e37ecc00c04",
                 "requestBody": {
@@ -1111,9 +1068,7 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "required": [
-                                    "amount"
-                                ],
+                                "required": ["amount"],
                                 "properties": {
                                     "amount": {
                                         "type": "number",
@@ -1211,9 +1166,7 @@
         },
         "/merchant/payments/{uuid}": {
             "get": {
-                "tags": [
-                    "Merchants"
-                ],
+                "tags": ["Merchants"],
                 "summary": "Get payment details via API",
                 "operationId": "c7a3d3804ea5450521dece537dc8db5c",
                 "parameters": [
@@ -1284,9 +1237,7 @@
         },
         "/merchant/pay/{uuid}": {
             "get": {
-                "tags": [
-                    "Merchants"
-                ],
+                "tags": ["Merchants"],
                 "summary": "Get payment link details (public)",
                 "operationId": "527a3872b78982faea2375cae872106e",
                 "parameters": [
@@ -1350,9 +1301,7 @@
                 }
             },
             "post": {
-                "tags": [
-                    "Merchants"
-                ],
+                "tags": ["Merchants"],
                 "summary": "Process payment via payment link (public)",
                 "operationId": "c271f080c7e3d8a0c334f09466d0087f",
                 "parameters": [
@@ -1438,9 +1387,7 @@
         },
         "/payment-methods": {
             "get": {
-                "tags": [
-                    "Payment Methods"
-                ],
+                "tags": ["Payment Methods"],
                 "summary": "Get list of payment methods",
                 "operationId": "0a06e207f8b48b2bbe5d0d576a552252",
                 "responses": {
@@ -1467,9 +1414,7 @@
         },
         "/transactions/init-deposit": {
             "post": {
-                "tags": [
-                    "Transactions"
-                ],
+                "tags": ["Transactions"],
                 "summary": "Initiate a new deposit",
                 "operationId": "5696aafdbf21aa94c00837ca87260a43",
                 "requestBody": {
@@ -1599,9 +1544,7 @@
         },
         "/transactions/{reference}confirm-deposit/": {
             "post": {
-                "tags": [
-                    "Transactions"
-                ],
+                "tags": ["Transactions"],
                 "summary": "Confirm a deposit from gateway callback",
                 "operationId": "cd87e10ac5142f6868af473bbe6addf8",
                 "parameters": [
@@ -1697,9 +1640,7 @@
         },
         "/transactions/history": {
             "get": {
-                "tags": [
-                    "Transactions"
-                ],
+                "tags": ["Transactions"],
                 "summary": "Get transaction history",
                 "operationId": "2aafe2589467ae259e7637788457391a",
                 "responses": {
@@ -1731,9 +1672,7 @@
         },
         "/transactions/transfer": {
             "post": {
-                "tags": [
-                    "Transactions"
-                ],
+                "tags": ["Transactions"],
                 "summary": "Create a new transfer",
                 "operationId": "fd5f2f44e2b01f86c64bc49e88e0c3d2",
                 "requestBody": {
@@ -1861,9 +1800,7 @@
         },
         "/transactions/dashboard": {
             "get": {
-                "tags": [
-                    "Transactions"
-                ],
+                "tags": ["Transactions"],
                 "summary": "Get transaction dashboard",
                 "description": "Retrieve transaction dashboard data",
                 "operationId": "64fe5c118b4ca531787717e8e6d68a78",
@@ -1899,9 +1836,7 @@
         },
         "/vaults": {
             "get": {
-                "tags": [
-                    "Vaults"
-                ],
+                "tags": ["Vaults"],
                 "summary": "List user vaults",
                 "operationId": "a33efbd03797f2724ddb86c06e8a9dcc",
                 "responses": {
@@ -1991,9 +1926,7 @@
                 ]
             },
             "post": {
-                "tags": [
-                    "Vaults"
-                ],
+                "tags": ["Vaults"],
                 "summary": "Create a new vault",
                 "operationId": "28c0d491cc96aa408f5e47bbe8c7a5fc",
                 "requestBody": {
@@ -2001,10 +1934,7 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "required": [
-                                    "name",
-                                    "type"
-                                ],
+                                "required": ["name", "type"],
                                 "properties": {
                                     "name": {
                                         "description": "Vault name",
@@ -2129,9 +2059,7 @@
         },
         "/vaults/{uuid}": {
             "get": {
-                "tags": [
-                    "Vaults"
-                ],
+                "tags": ["Vaults"],
                 "summary": "Show vault details with balance and transactions",
                 "operationId": "398ad4e81afb41c62d1c6cc9f8d62408",
                 "parameters": [
@@ -2255,9 +2183,7 @@
         },
         "/vaults/{uuid}/deposit": {
             "post": {
-                "tags": [
-                    "Vaults"
-                ],
+                "tags": ["Vaults"],
                 "summary": "Deposit money into vault",
                 "operationId": "0eb2d1905a0310286fcfcbfbc4d4163a",
                 "parameters": [
@@ -2276,10 +2202,7 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "required": [
-                                    "amount",
-                                    "wallet_id"
-                                ],
+                                "required": ["amount", "wallet_id"],
                                 "properties": {
                                     "amount": {
                                         "description": "Amount to deposit (minimum: 1)",
@@ -2412,9 +2335,7 @@
         },
         "/vaults/{uuid}/withdraw": {
             "post": {
-                "tags": [
-                    "Vaults"
-                ],
+                "tags": ["Vaults"],
                 "summary": "Withdraw money from vault (check if not locked)",
                 "operationId": "c79e72df3502c05495be17c3fcc42017",
                 "parameters": [
@@ -2433,10 +2354,7 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "required": [
-                                    "amount",
-                                    "wallet_id"
-                                ],
+                                "required": ["amount", "wallet_id"],
                                 "properties": {
                                     "amount": {
                                         "description": "Amount to withdraw (minimum: 1)",
@@ -2569,9 +2487,7 @@
         },
         "/vaults/{uuid}/toggle": {
             "post": {
-                "tags": [
-                    "Vaults"
-                ],
+                "tags": ["Vaults"],
                 "summary": "Lock or unlock vault",
                 "operationId": "2ec6c1e8c9145525b7d270bc19dce88e",
                 "parameters": [
@@ -2766,7 +2682,7 @@
                         "format": "float",
                         "example": 100
                     },
-                    "fee_percentage": {
+                    "fee_percent": {
                         "type": "number",
                         "format": "float",
                         "example": 2.5

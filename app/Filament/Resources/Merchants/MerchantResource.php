@@ -45,6 +45,22 @@ class MerchantResource extends Resource
         return MerchantsTable::configure($table);
     }
 
+    public static function getWidgets(): array
+    {
+        return [
+            \App\Filament\Widgets\StatsOverview::class,
+        ];
+    }
+
+    public static function getHeaderWidgets(): array
+    {
+        return [
+            \App\Livewire\StatsMerchant::class,
+        ];
+    }
+
+
+
     public static function getRelations(): array
     {
         return [

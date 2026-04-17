@@ -38,7 +38,7 @@ class MerchantService
                 'phone_number' => $data['phone_number'] ?? null,
                 'country' => $data['country'],
                 'fee_fixed' => 0,
-                'fee_percentage' => 0,
+                'fee_percent' => 0,
                 'status' => MerchantStatus::PENDING,
             ]);
 

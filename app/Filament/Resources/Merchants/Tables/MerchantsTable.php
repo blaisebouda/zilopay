@@ -2,12 +2,10 @@
 
 namespace App\Filament\Resources\Merchants\Tables;
 
-use Filament\Actions\BulkActionGroup;
-use Filament\Actions\DeleteBulkAction;
-use Filament\Actions\EditAction;
-use Filament\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Filament\Actions\EditAction;
+use Filament\Actions\ViewAction;
 
 class MerchantsTable
 {
@@ -28,27 +26,26 @@ class MerchantsTable
                     ->label('Numéro de téléphone')
                     ->searchable(),
                 TextColumn::make('country')
-
                     ->label('Pays')
-                    ->formatStateUsing(fn ($state) => $state->label())
+                    ->formatStateUsing(fn($state) => $state->label())
                     ->badge()
                     ->color('default')
                     ->searchable(),
                 TextColumn::make('fee_fixed')
                     ->label('Frais fixe')
                     ->badge()
-                    ->formatStateUsing(fn ($state) => number_format($state, 0).' FCFA')
+                    ->formatStateUsing(fn($state) => number_format($state, 0) . ' FCFA')
                     ->sortable(),
-                TextColumn::make('fee_percentage')
+                TextColumn::make('fee_percent')
                     ->label('Frais en pourcentage')
                     ->badge()
-                    ->formatStateUsing(fn ($state) => number_format($state, 0).' %')
+                    ->formatStateUsing(fn($state) => number_format($state, 0) . ' %')
                     ->sortable(),
                 TextColumn::make('status')
                     ->label('Statut')
                     ->badge()
-                    ->formatStateUsing(fn ($state) => $state->label())
-                    ->color(fn ($state) => $state->color())
+                    ->formatStateUsing(fn($state) => $state->label())
+                    ->color(fn($state) => $state->color())
                     ->sortable(),
 
             ])
@@ -58,11 +55,6 @@ class MerchantsTable
             ->recordActions([
                 ViewAction::make(),
                 EditAction::make(),
-            ])
-            ->toolbarActions([
-                BulkActionGroup::make([
-                    DeleteBulkAction::make(),
-                ]),
             ]);
     }
 }

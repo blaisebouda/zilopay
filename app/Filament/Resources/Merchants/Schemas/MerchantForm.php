@@ -27,22 +27,22 @@ class MerchantForm
                     ->tel(),
                 Select::make('country')
                     ->options(Country::class)
+                    ->default(Country::BF)
                     ->required(),
                 TextInput::make('fee_fixed')
                     ->required()
                     ->numeric()
                     ->default(0),
-                TextInput::make('fee_percentage')
+                TextInput::make('fee_percent')
                     ->required()
                     ->numeric()
                     ->default(0),
                 Select::make('status')
                     ->options(MerchantStatus::class)
                     ->required()
-                    ->default(0),
+                    ->default(MerchantStatus::PENDING),
                 DateTimePicker::make('approved_at'),
-                TextInput::make('approved_by')
-                    ->numeric(),
+
             ]);
     }
 }

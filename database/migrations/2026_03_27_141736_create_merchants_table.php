@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Enums\Currency;
 use App\Models\Enums\MerchantStatus;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -19,8 +20,9 @@ return new class extends Migration
             $table->string('business_email')->unique();
             $table->string('phone_number')->nullable()->unique();
             $table->string('country', 8);
+            $table->string('currency', 8)->default(Currency::XOF->value);
             $table->decimal('fee_fixed', 20, 8)->default(0);
-            $table->decimal('fee_percentage', 5, 2)->default(0);
+            $table->decimal('fee_percent', 5, 2)->default(0);
             $table->integer('status')->default(MerchantStatus::PENDING->value);
             $table->timestamp('approved_at')->nullable();
             $table->foreignId('approved_by')->nullable()->constrained('users');

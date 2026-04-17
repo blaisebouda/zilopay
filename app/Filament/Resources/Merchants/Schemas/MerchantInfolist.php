@@ -9,33 +9,47 @@ class MerchantInfolist
 {
     public static function configure(Schema $schema): Schema
     {
+        $merchant = $schema->getRecord();
+
         return $schema
             ->components([
                 TextEntry::make('user.name')
-                    ->label('User'),
-                TextEntry::make('business_name'),
-                TextEntry::make('business_email'),
+                    ->label('Nom du propriétaire'),
+                TextEntry::make('business_name')
+                    ->label('Nom de l\'entreprise'),
+                TextEntry::make('business_email')
+                    ->label('Email de l\'entreprise'),
                 TextEntry::make('phone_number')
+                    ->label('Numéro de téléphone')
                     ->placeholder('-'),
                 TextEntry::make('country')
-                    ->badge(),
+                    ->formatStateUsing(fn($state) => $state->label())
+                    ->badge()
+                    ->color('info'),
                 TextEntry::make('fee_fixed')
-                    ->numeric(),
-                TextEntry::make('fee_percentage')
-                    ->numeric(),
+                    ->label('Frais fixe')
+                    ->formatStateUsing(fn() => $merchant->feeFixedLabel()),
+                TextEntry::make('fee_percent')
+                    ->label('Frais percentage')
+                    ->formatStateUsing(fn() => $merchant->feePercentLabel())
+                    ->badge(),
                 TextEntry::make('status')
                     ->badge()
-                    ->numeric(),
+                    ->formatStateUsing(fn($state) => $state->label()),
                 TextEntry::make('approved_at')
+                    ->label('Date d\'approbation')
                     ->dateTime()
                     ->placeholder('-'),
                 TextEntry::make('approved_by')
+                    ->label('Approuvé par')
                     ->numeric()
                     ->placeholder('-'),
                 TextEntry::make('created_at')
+                    ->label('Date de création')
                     ->dateTime()
                     ->placeholder('-'),
                 TextEntry::make('updated_at')
+                    ->label('Date de modification')
                     ->dateTime()
                     ->placeholder('-'),
             ]);

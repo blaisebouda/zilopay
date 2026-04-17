@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Models\Enums\Country;
+use App\Models\Enums\Currency;
 use App\Models\Enums\MerchantStatus;
+use App\Models\Traits\HasFeed;
 use Database\Factories\MerchantFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -14,7 +16,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Merchant extends BaseModel
 {
     /** @use HasFactory<MerchantFactory> */
-    use HasFactory;
+    use HasFactory, HasFeed;
 
     /**
      * The attributes that are mass assignable.
@@ -27,8 +29,9 @@ class Merchant extends BaseModel
         'business_email',
         'phone_number',
         'country',
+        'currency',
         'fee_fixed',
-        'fee_percentage',
+        'fee_percent',
         'status',
         'approved_at',
         'approved_by',
@@ -44,9 +47,10 @@ class Merchant extends BaseModel
         return [
             'status' => MerchantStatus::class,
             'fee_fixed' => 'decimal:8',
-            'fee_percentage' => 'decimal:2',
+            'fee_percent' => 'decimal:2',
             'approved_at' => 'datetime',
             'country' => Country::class,
+            'currency' => Currency::class,
         ];
     }
 
