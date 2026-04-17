@@ -20,9 +20,15 @@ class MerchantResource extends Resource
 {
     protected static ?string $model = Merchant::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::BuildingStorefront;
 
     protected static ?string $recordTitleAttribute = 'Merchant';
+
+    protected static ?string $navigationLabel = 'Marchands';
+
+    protected static ?string $modelLabel = 'Marchand';
+
+    protected static ?string $pluralModelLabel = 'Marchands';
 
     public static function form(Schema $schema): Schema
     {
@@ -42,7 +48,7 @@ class MerchantResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            // 'documents' => MerchantDocumentsRelationManager::class,
         ];
     }
 

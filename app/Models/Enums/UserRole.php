@@ -17,7 +17,7 @@ enum UserRole: string implements AdvancedEnumInterface, HasColor
 
     public function label(): string
     {
-        return __('enums.user_role.' . $this->name);
+        return __('enums.user_role.'.$this->name);
     }
 
     public function getColor(): string

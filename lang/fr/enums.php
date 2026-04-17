@@ -44,7 +44,7 @@ return [
     'vault_type.TONTINE' => 'Tontine',
     'vault_type.AUTRES' => 'Autres',
 
-    //payment method type
+    // payment method type
     'payment_method_type.MOBILE_MONEY' => 'Mobile Money',
     'payment_method_type.BANK_TRANSFER' => 'Virement Bancaire',
     'payment_method_type.CASH' => 'Espèces',

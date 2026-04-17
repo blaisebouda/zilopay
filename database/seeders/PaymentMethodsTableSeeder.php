@@ -28,7 +28,7 @@ class PaymentMethodsTableSeeder extends Seeder
                 'fee_percent' => 1.0,
                 'fee_fixed' => 0,
                 'country' => Country::BF,
-                'logo' => PAYMENT_METHOD_LOGO_PATH . '/wave.png',
+                'logo' => PAYMENT_METHOD_LOGO_PATH.'/wave.png',
             ],
             [
                 'name' => 'Orange Money',
@@ -39,7 +39,7 @@ class PaymentMethodsTableSeeder extends Seeder
                 'fee_percent' => 1.5,
                 'fee_fixed' => 0,
                 'country' => Country::BF,
-                'logo' => PAYMENT_METHOD_LOGO_PATH . '/orange-money.png',
+                'logo' => PAYMENT_METHOD_LOGO_PATH.'/orange-money.png',
             ],
             [
                 'name' => 'Moov Money',
@@ -50,7 +50,7 @@ class PaymentMethodsTableSeeder extends Seeder
                 'fee_percent' => 1.5,
                 'fee_fixed' => 0,
                 'country' => Country::BF,
-                'logo' => PAYMENT_METHOD_LOGO_PATH . '/moov-money.png',
+                'logo' => PAYMENT_METHOD_LOGO_PATH.'/moov-money.png',
             ],
             // [
             //     'name' => 'Telecel Money',

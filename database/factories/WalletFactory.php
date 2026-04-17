@@ -2,8 +2,8 @@
 
 namespace Database\Factories;
 
-use App\Models\Enums\LockActiveStatus;
 use App\Models\Enums\Currency;
+use App\Models\Enums\LockActiveStatus;
 use App\Models\User;
 use App\Models\Wallet;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -31,7 +31,7 @@ class WalletFactory extends Factory
 
     public function default(): static
     {
-        return $this->state(fn(array $attributes) => [
+        return $this->state(fn (array $attributes) => [
             'is_default' => true,
         ]);
     }

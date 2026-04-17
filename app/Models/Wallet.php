@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use App\Models\Enums\LockActiveStatus;
 use App\Models\Enums\Currency;
+use App\Models\Enums\LockActiveStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -72,7 +72,7 @@ class Wallet extends BaseModel
 
     public function generateCode(): string
     {
-        return 'ZP' . self::generateUniqueCode('code', 8);
+        return 'ZP'.self::generateUniqueCode('code', 8);
     }
 
     public static function getDefaultForUser(int $userId): ?self

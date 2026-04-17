@@ -18,7 +18,7 @@ enum PaymentMethodType: string implements AdvancedEnumInterface, HasColor
 
     public function label(): string
     {
-        return __('enums.payment_method_type.' . $this->name);
+        return __('enums.payment_method_type.'.$this->name);
     }
 
     public function getColor(): string

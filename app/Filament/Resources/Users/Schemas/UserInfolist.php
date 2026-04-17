@@ -16,14 +16,14 @@ class UserInfolist
                     ->placeholder('-'),
                 TextEntry::make('status')
                     ->badge()
-                    ->formatStateUsing(fn($state) => $state->label())
+                    ->formatStateUsing(fn ($state) => $state->label())
                     ->placeholder('-'),
                 TextEntry::make('email')
                     ->label('Adresse email')
                     ->placeholder('-'),
                 TextEntry::make('role')
                     ->label('Rôle')
-                    ->formatStateUsing(fn($state) => $state->label())
+                    ->formatStateUsing(fn ($state) => $state->label())
                     ->badge(),
                 TextEntry::make('phone_number')
                     ->label('Numéro de téléphone')

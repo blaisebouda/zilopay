@@ -50,15 +50,14 @@ if (! function_exists('format_amount')) {
      */
     function format_amount(float $amount, string $currency): string
     {
-        return number_format($amount, 0, '.', ' ') . ' ' . $currency;
+        return number_format($amount, 0, '.', ' ').' '.$currency;
     }
 }
 
 if (! function_exists('buildPath')) {
 
-
     function buildPath(...$path): string
     {
-        return implode('/', $path) . '/';
+        return implode('/', $path).'/';
     }
 }

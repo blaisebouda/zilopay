@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
+use App\Models\Enums\LockActiveStatus;
 use App\Models\Enums\UserRole;
 use App\Models\Traits\HasLockActiveStatus;
 use App\Services\Wallet\WalletService;
@@ -20,8 +21,8 @@ class User extends Authenticatable
     /** @use HasFactory<UserFactory> */
     use HasApiTokens,
         HasFactory,
-        Notifiable,
-        HasLockActiveStatus;
+        HasLockActiveStatus,
+        Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -64,7 +65,7 @@ class User extends Authenticatable
             'two_factor_confirmed_at' => 'datetime',
             'policy_accepted_at' => 'datetime',
             'role' => UserRole::class,
-            'status' => \App\Models\Enums\LockActiveStatus::class,
+            'status' => LockActiveStatus::class,
         ];
     }
 
@@ -102,7 +103,6 @@ class User extends Authenticatable
     {
         return $this->role->equals(UserRole::USER);
     }
-
 
     protected static function booted(): void
     {

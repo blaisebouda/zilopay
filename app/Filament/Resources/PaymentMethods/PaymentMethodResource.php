@@ -11,24 +11,27 @@ use App\Filament\Resources\PaymentMethods\Schemas\PaymentMethodInfolist;
 use App\Filament\Resources\PaymentMethods\Tables\PaymentMethodsTable;
 use App\Models\PaymentMethod;
 use BackedEnum;
-use UnitEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use UnitEnum;
 
 class PaymentMethodResource extends Resource
 {
-
     protected static ?string $model = PaymentMethod::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::CurrencyDollar;
 
     protected static ?string $recordTitleAttribute = 'paymentMethod';
+
     protected static ?string $navigationLabel = 'Méthodes de paiement';
+
     protected static ?string $pluralLabel = 'Méthodes de paiement';
+
     protected static ?string $label = 'Méthode de paiement';
-    protected static string | UnitEnum | null $navigationGroup = 'Paramètres';
+
+    protected static string|UnitEnum|null $navigationGroup = 'Paramètres';
 
     public static function form(Schema $schema): Schema
     {

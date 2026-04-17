@@ -48,7 +48,6 @@ class PaymentMethod extends Model
         ];
     }
 
-
     public function logoUrl()
     {
         return Storage::disk('public')->url($this->logo);
@@ -66,7 +65,7 @@ class PaymentMethod extends Model
 
     public function feePercentLabel()
     {
-        return $this->fee_percent . ' %';
+        return $this->fee_percent.' %';
     }
 
     public function feeFixedLabel()
@@ -76,7 +75,7 @@ class PaymentMethod extends Model
 
     public function amountRangeLabel()
     {
-        return $this->minAmountLabel() . ' - ' . $this->maxAmountLabel();
+        return $this->minAmountLabel().' - '.$this->maxAmountLabel();
     }
 
     public function scopeActive($query)

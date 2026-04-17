@@ -14,7 +14,6 @@ enum LockActiveStatus: int implements AdvancedEnumInterface, HasColor
     case LOCKED = 0;
     case ACTIVE = 1;
 
-
     public function getLabel(): ?string
     {
         return $this->label();
@@ -30,6 +29,6 @@ enum LockActiveStatus: int implements AdvancedEnumInterface, HasColor
 
     public function label(): string
     {
-        return __('enums.lock_active_status.' . $this->name);
+        return __('enums.lock_active_status.'.$this->name);
     }
 }

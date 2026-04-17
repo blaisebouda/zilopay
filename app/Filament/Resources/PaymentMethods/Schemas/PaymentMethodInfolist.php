@@ -20,31 +20,31 @@ class PaymentMethodInfolist
                     ->disk('public')
                     ->imageHeight(50),
                 TextEntry::make('country')
-                    ->formatStateUsing(fn($state) => $state->label())
+                    ->formatStateUsing(fn ($state) => $state->label())
                     ->label('Pays'),
                 TextEntry::make('code')
                     ->badge(),
 
                 TextEntry::make('min_amount')
                     ->label('Montant minimum')
-                    ->formatStateUsing(fn() => $method->minAmountLabel()),
+                    ->formatStateUsing(fn () => $method->minAmountLabel()),
                 TextEntry::make('max_amount')
                     ->label('Montant maximum')
-                    ->formatStateUsing(fn() => $method->maxAmountLabel()),
+                    ->formatStateUsing(fn () => $method->maxAmountLabel()),
                 TextEntry::make('type')
-                    ->formatStateUsing(fn($state) => $state->label())
+                    ->formatStateUsing(fn ($state) => $state->label())
                     ->badge(),
                 TextEntry::make('fee_percent')
                     ->label('Frais percentage')
-                    ->formatStateUsing(fn() => $method->feePercentLabel())
+                    ->formatStateUsing(fn () => $method->feePercentLabel())
                     ->badge(),
                 TextEntry::make('fee_fixed')
                     ->label('Frais fixe')
-                    ->formatStateUsing(fn() => $method->feeFixedLabel())
+                    ->formatStateUsing(fn () => $method->feeFixedLabel())
                     ->badge(),
                 TextEntry::make('status')
                     ->label('Statut')
-                    ->formatStateUsing(fn($state) => $state->label())
+                    ->formatStateUsing(fn ($state) => $state->label())
                     ->badge(),
                 TextEntry::make('created_at')
                     ->label('Créé le')
