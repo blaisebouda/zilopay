@@ -46,6 +46,12 @@ class ViewMerchant extends ViewRecord
             'status' => MerchantStatus::APPROVED,
             'approved_at' => now(),
         ]);
+
+        $this->record->user->update([
+            'role' => \App\Models\Enums\UserRole::MERCHANT,
+        ]);
+
+        $this->record->refresh();
     }
 
     protected function RejectAction()

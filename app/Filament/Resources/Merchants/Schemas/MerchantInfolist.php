@@ -6,6 +6,8 @@ use App\Models\Merchant;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
+use Filament\Support\Enums\IconPosition;
+use Filament\Support\Icons\Heroicon;
 
 class MerchantInfolist
 {
@@ -77,7 +79,11 @@ class MerchantInfolist
                 ...($documents->isNotEmpty() ? $documents->map(function ($document) {
                     return TextEntry::make("DOC_{$document->id}")
                         ->label($document->type->label())
-                        ->placeholder('-');
+                        ->url(fn() => route('filament.merchant.download', ['path' => $document->path]))
+                        ->openUrlInNewTab()
+                        ->icon(Heroicon::ArrowTopRightOnSquare)
+                        ->iconPosition(IconPosition::After)
+                        ->placeholder('Voir le document');
                 }) : []),
                 ...($documents->isEmpty() ? [
                     TextEntry::make('no_documents')

@@ -60,7 +60,7 @@ class MerchantService
     {
         foreach ($documents as $type => $file) {
             if ($file instanceof UploadedFile) {
-                $path = $file->store(buildPath(MERCHANT_DOCUMENTS_PATH, $merchant->id), 'local');
+                $path = $file->store(MERCHANT_DOCUMENTS_PATH . '/' . $merchant->id, 'local');
 
                 MerchantDocument::create([
                     'merchant_id' => $merchant->id,
@@ -103,11 +103,11 @@ class MerchantService
             ->get();
 
         $totalRevenue = $merchant->transactions()
-            ->where('status', 'completed')
+            ->success()
             ->sum('amount');
 
         $pendingPayments = $merchant->transactions()
-            ->where('status', 'pending')
+            ->pending()
             ->count();
 
         $paymentLinksCount = $merchant->paymentLinks()->count();
@@ -117,9 +117,9 @@ class MerchantService
 
         return [
             'merchant' => $merchant,
-            'recent_payments' => $recentPayments,
+            'transactions' => $recentPayments,
             'total_revenue' => $totalRevenue,
-            'pending_payments_count' => $pendingPayments,
+            'pending_transactions_count' => $pendingPayments,
             'payment_links_count' => $paymentLinksCount,
             'active_payment_links_count' => $activePaymentLinksCount,
         ];

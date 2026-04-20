@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Merchants\Tables;
 
+use App\Models\Merchant;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Filament\Actions\EditAction;
@@ -12,6 +13,7 @@ class MerchantsTable
     public static function configure(Table $table): Table
     {
         return $table
+            ->query(Merchant::query()->with('user')->latest())
             ->columns([
                 TextColumn::make('user.name')
                     ->label('Nom du propriétaire')

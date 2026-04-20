@@ -65,13 +65,7 @@ class MerchantTransaction extends Model
         return $this->status === MerchantTransactionStatus::PENDING->value;
     }
 
-    /**
-     * Check if the transaction is completed.
-     */
-    public function isCompleted(): bool
-    {
-        return $this->status === MerchantTransactionStatus::COMPLETED->value;
-    }
+
 
     /**
      * Check if the transaction is failed.
@@ -84,5 +78,15 @@ class MerchantTransaction extends Model
     public function scopeSuccess($query)
     {
         return $query->where('status', MerchantTransactionStatus::SUCCESS->value);
+    }
+
+    public function scopeFailed($query)
+    {
+        return $query->where('status', MerchantTransactionStatus::FAILED->value);
+    }
+
+    public function scopePending($query)
+    {
+        return $query->where('status', MerchantTransactionStatus::PENDING->value);
     }
 }

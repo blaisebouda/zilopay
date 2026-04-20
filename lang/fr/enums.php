@@ -58,4 +58,9 @@ return [
     'merchant_transaction_status.FAILED' => 'Échoué',
     'merchant_transaction_status.REFUNDED' => 'Remboursé',
 
+    // Document Type
+    'document_type.ID_CARD' => 'Carte d\'identité',
+    'document_type.BUSINESS_LICENSE' => 'Licence d\'activité',
+    'document_type.TAX_CERTIFICATE' => 'Certificat d\'imposition',
+
 ];
