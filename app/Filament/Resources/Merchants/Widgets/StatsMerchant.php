@@ -9,10 +9,15 @@ class StatsMerchant extends StatsOverviewWidget
 {
     protected function getStats(): array
     {
+        $caTotal = \App\Models\MerchantTransaction::success()->sum('amount');
+        $totalTransactions = \App\Models\MerchantTransaction::count();
+        $totalMerchants = \App\Models\Merchant::count();
+
         return [
-            Stat::make('Total Marchands', '192.1k'),
-            Stat::make('Bounce rate', '21%'),
-            Stat::make('Average time on page', '3:12'),
+            Stat::make('CA Total', format_amount($caTotal)),
+            Stat::make('Total Transactions', $totalTransactions),
+            Stat::make('Total Marchands', $totalMerchants),
+
         ];
     }
 }

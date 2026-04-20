@@ -48,9 +48,9 @@ if (! function_exists('format_amount')) {
      * @param  float  $amount  The amount in coins.
      * @return string The formatted balance with currency device.
      */
-    function format_amount(float $amount, string $currency): string
+    function format_amount(float $amount, string $currency = DEFAULT_CURRENCY): string
     {
-        return number_format($amount, 0, '.', ' ').' '.$currency;
+        return number_format($amount, 0, '.', ' ') . ' ' . $currency;
     }
 }
 
@@ -58,6 +58,6 @@ if (! function_exists('buildPath')) {
 
     function buildPath(...$path): string
     {
-        return implode('/', $path).'/';
+        return implode('/', $path) . '/';
     }
 }

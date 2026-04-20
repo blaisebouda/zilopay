@@ -16,7 +16,7 @@ enum MerchantStatus: int implements AdvancedEnumInterface
 
     public function label(): string
     {
-        return __('enums.merchant_status.'.$this->name);
+        return __('enums.merchant_status.' . $this->name);
     }
 
     public function color(): string
@@ -24,7 +24,7 @@ enum MerchantStatus: int implements AdvancedEnumInterface
         return match ($this) {
             self::PENDING => Colors::WARNING,
             self::APPROVED => Colors::SUCCESS,
-            self::REJECTED => Colors::FAILED,
+            self::REJECTED => Colors::DANGER,
         };
     }
 }

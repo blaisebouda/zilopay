@@ -19,6 +19,13 @@ class StoreMerchantRequest extends FormRequest
         return true;
     }
 
+    protected function prepareForValidation()
+    {
+        $this->merge([
+            'country' => Country::BF->value,
+        ]);
+    }
+
     /**
      * Get the validation rules that apply to the request.
      *

@@ -30,6 +30,7 @@ return [
     'merchant_status.APPROVED' => 'Approuvé',
     'merchant_status.REJECTED' => 'Rejeté',
 
+
     // Vault Type
     'vault_type.SAVINGS' => 'Épargne',
     'vault_type.INVESTMENT' => 'Investissement',
@@ -44,10 +45,17 @@ return [
     'vault_type.TONTINE' => 'Tontine',
     'vault_type.AUTRES' => 'Autres',
 
-    // payment method type
+    // Payment Method Type
     'payment_method_type.MOBILE_MONEY' => 'Mobile Money',
     'payment_method_type.BANK_TRANSFER' => 'Virement Bancaire',
     'payment_method_type.CASH' => 'Espèces',
     'payment_method_type.CARD' => 'Carte',
+
+    // Merchant Transaction Status
+    'merchant_transaction_status.PENDING' => 'En attente',
+    'merchant_transaction_status.SUCCESS' => 'Succès',
+    'merchant_transaction_status.CANCELLED' => 'Annulé',
+    'merchant_transaction_status.FAILED' => 'Échoué',
+    'merchant_transaction_status.REFUNDED' => 'Remboursé',
 
 ];

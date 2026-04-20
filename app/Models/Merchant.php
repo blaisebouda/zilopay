@@ -35,6 +35,7 @@ class Merchant extends BaseModel
         'status',
         'approved_at',
         'approved_by',
+        'rejection_reason',
     ];
 
     /**

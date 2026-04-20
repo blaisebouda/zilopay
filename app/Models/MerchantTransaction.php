@@ -80,4 +80,9 @@ class MerchantTransaction extends Model
     {
         return $this->status === MerchantTransactionStatus::FAILED->value;
     }
+
+    public function scopeSuccess($query)
+    {
+        return $query->where('status', MerchantTransactionStatus::SUCCESS->value);
+    }
 }

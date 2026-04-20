@@ -26,6 +26,7 @@ return new class extends Migration
             $table->integer('status')->default(MerchantStatus::PENDING->value);
             $table->timestamp('approved_at')->nullable();
             $table->foreignId('approved_by')->nullable()->constrained('users');
+            $table->mediumText('rejection_reason')->nullable();
             $table->timestamps();
 
             $table->index(['status', 'created_at']);

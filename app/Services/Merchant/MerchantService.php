@@ -24,11 +24,11 @@ class MerchantService
      */
     public function create(User $user, array $data): Merchant
     {
-        // $existingMerchant = Merchant::where('user_id', $user->id)->first();
+        $existingMerchant = Merchant::where('user_id', $user->id)->first();
 
-        // if ($existingMerchant) {
-        //     throw new \InvalidArgumentException('L\'utilisateur a déjà un profil marchand.');
-        // }
+        if ($existingMerchant) {
+            throw new \InvalidArgumentException('L\'utilisateur a déjà un profil marchand.');
+        }
 
         return DB::transaction(function () use ($user, $data) {
             $merchant = Merchant::create([
