@@ -118,4 +118,9 @@ class Merchant extends BaseModel
     {
         return $this->status->equals(MerchantStatus::PENDING);
     }
+
+    public function scopePending($query)
+    {
+        return $query->where('status', MerchantStatus::PENDING);
+    }
 }

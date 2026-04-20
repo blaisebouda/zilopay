@@ -46,7 +46,11 @@ class MerchantResource extends Resource
         return MerchantsTable::configure($table);
     }
 
-
+    public static function getNavigationBadge(): ?string
+    {
+        $count = Merchant::pending()->count();
+        return $count > 0 ? (string) $count : null;
+    }
 
     public static function getRelations(): array
     {
