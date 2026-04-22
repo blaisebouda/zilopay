@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services\Merchant;
 
+use App\Http\Resources\MerchantResource;
 use App\Models\Enums\DocumentStatus;
 use App\Models\Enums\DocumentType;
 use App\Models\Enums\MerchantStatus;
@@ -116,12 +117,14 @@ class MerchantService
             ->count();
 
         return [
-            'merchant' => $merchant,
+            'merchant' => MerchantResource::make($merchant),
             'transactions' => $recentPayments,
-            'total_revenue' => $totalRevenue,
-            'pending_transactions_count' => $pendingPayments,
-            'payment_links_count' => $paymentLinksCount,
-            'active_payment_links_count' => $activePaymentLinksCount,
+            'statistics' => [
+                'total_revenue' => $totalRevenue,
+                'pending_transactions_count' => $pendingPayments,
+                'payment_links_count' => $paymentLinksCount,
+                'active_payment_links_count' => $activePaymentLinksCount,
+            ],
         ];
     }
 }

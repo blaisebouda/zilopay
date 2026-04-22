@@ -18,7 +18,7 @@ class AdminAccessMiddleware
         $user = $request->user();
 
         if (!$user || !$user->isAdmin()) {
-            abort(403, 'Accès réservé aux administrateurs.');
+            abort(403, 'Accès interdit.');
         }
 
         return $next($request);

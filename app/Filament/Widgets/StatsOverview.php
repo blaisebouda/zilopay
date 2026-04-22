@@ -10,16 +10,16 @@ class StatsOverview extends StatsOverviewWidget
     protected function getStats(): array
     {
         return [
-            Stat::make('Unique views', '192.1k')
-                ->description('32k increase')
+            Stat::make('Volume total', '192.1k')
+                ->description('+32k vs ce moi-ci')
                 ->descriptionIcon('heroicon-m-arrow-trending-up')
                 ->color('success'),
-            Stat::make('Bounce rate', '21%')
-                ->description('7% increase')
+            Stat::make('Transactions', '21 000')
+                ->description('-7% vs ce moi-ci')
                 ->descriptionIcon('heroicon-m-arrow-trending-down')
                 ->color('danger'),
-            Stat::make('Average time on page', '3:12')
-                ->description('3% increase')
+            Stat::make('Utilisateurs', '1 200')
+                ->description('+3% vs ce moi-ci')
                 ->descriptionIcon('heroicon-m-arrow-trending-up')
                 ->color('success'),
         ];
