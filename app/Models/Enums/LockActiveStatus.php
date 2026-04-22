@@ -22,13 +22,13 @@ enum LockActiveStatus: int implements AdvancedEnumInterface, HasColor
     public function getColor(): string
     {
         return match ($this) {
-            self::LOCKED => Colors::FAILED,
+            self::LOCKED => Colors::DANGER,
             self::ACTIVE => Colors::SUCCESS,
         };
     }
 
     public function label(): string
     {
-        return __('enums.lock_active_status.'.$this->name);
+        return __('enums.lock_active_status.' . $this->name);
     }
 }

@@ -9,7 +9,7 @@ class StatsMerchant extends StatsOverviewWidget
 {
     protected function getStats(): array
     {
-        $caTotal = \App\Models\MerchantTransaction::success()->sum('amount');
+        $caTotal = \App\Models\MerchantTransaction::completed()->sum('amount');
         $totalTransactions = \App\Models\MerchantTransaction::count();
         $totalMerchants = \App\Models\Merchant::count();
 
