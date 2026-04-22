@@ -22,6 +22,10 @@ class StatsOverview extends StatsOverviewWidget
                 ->description('+3% vs ce moi-ci')
                 ->descriptionIcon('heroicon-m-arrow-trending-up')
                 ->color('success'),
+            Stat::make('Marchands', '200')
+                ->description('+1% vs ce moi-ci')
+                ->descriptionIcon('heroicon-m-arrow-trending-up')
+                ->color('success')
         ];
     }
 }

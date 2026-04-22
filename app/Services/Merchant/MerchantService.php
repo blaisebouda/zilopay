@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Services\Merchant;
 
 use App\Http\Resources\MerchantResource;
+use App\Http\Resources\MerchantTransactionResource;
 use App\Models\Enums\DocumentStatus;
 use App\Models\Enums\DocumentType;
 use App\Models\Enums\MerchantStatus;
@@ -118,7 +119,7 @@ class MerchantService
 
         return [
             'merchant' => MerchantResource::make($merchant),
-            'transactions' => $recentPayments,
+            'transactions' => MerchantTransactionResource::collection($recentPayments),
             'statistics' => [
                 'total_revenue' => $totalRevenue,
                 'pending_transactions_count' => $pendingPayments,
