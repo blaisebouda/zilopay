@@ -9,6 +9,7 @@ use App\Models\Enums\PaymentMethodCode;
 use App\Models\Enums\PaymentMethodType;
 use App\Models\Traits\HasFeed;
 use App\Models\Traits\HasLockActiveStatus;
+use App\Observers\PaymentMethodObserver;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 

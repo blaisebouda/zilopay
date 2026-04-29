@@ -37,10 +37,12 @@ class PaymentMethodForm
                 TextInput::make('min_amount')
                     ->label('Montant minimum')
                     ->required()
+                    ->default(100)
                     ->numeric(),
                 TextInput::make('max_amount')
                     ->label('Montant maximum')
                     ->required()
+                    ->default(1000000)
                     ->numeric(),
                 TextInput::make('fee_percent')
                     ->label('Frais percentage')
