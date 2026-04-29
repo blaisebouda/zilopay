@@ -61,3 +61,21 @@ if (! function_exists('buildPath')) {
         return implode('/', $path) . '/';
     }
 }
+
+
+if (! function_exists('formatBigNumber')) {
+    /**
+     * Format a number according to it's size.
+     *
+     * @param  int  $number  The number to format.
+     * @return string The formatted number.
+     */
+    function formatBigNumber(int $number): string
+    {
+        $units = ['', 'k', 'M', 'G', 'T', 'P', 'E', 'Z', 'Y'];
+        $power = floor(log($number, 1000));
+        $formattedNumber = number_format($number / pow(1000, $power), 1, '.', ',') . $units[$power];
+
+        return $formattedNumber;
+    }
+}

@@ -105,7 +105,7 @@ class MerchantService
             ->get();
 
         $totalRevenue = $merchant->transactions()
-            ->success()
+            ->completed()
             ->sum('amount');
 
         $pendingPayments = $merchant->transactions()

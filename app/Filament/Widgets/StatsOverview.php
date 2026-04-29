@@ -22,10 +22,9 @@ class StatsOverview extends StatsOverviewWidget
 
         $merchantCount = UpDown::make(QueryTrend::make(Merchant::class)->lastMonths()->count()->values());
 
-
         return [
-            Stat::make('Volume total', Transaction::completed()->sum('amount'))
-                ->description($txSum->formatPercentage() . ' vs ce moi-ci')
+            Stat::make('Volume total', formatBigNumber(Transaction::sum('amount')))
+                ->description(formatBigNumber($txSum->last()) . ' vs ce moi-ci')
                 ->descriptionIcon($txSum->isUp() ? 'heroicon-m-arrow-trending-up' : 'heroicon-m-arrow-trending-down')
                 ->color($txSum->isUp() ? 'success' : 'danger'),
             Stat::make('Transactions', Transaction::count())
