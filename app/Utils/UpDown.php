@@ -61,7 +61,9 @@ class UpDown
 
     public function formatPercentage()
     {
-        $percentage = $this->isUp() ? '+' . $this->percentage() : '-' . $this->percentage();
-        return number_format($percentage) . '%';
+        $percentage = number_format($this->percentage());
+        $sign = $this->isUp() ? '+' : '-';
+
+        return $sign . $percentage . '%';
     }
 }
