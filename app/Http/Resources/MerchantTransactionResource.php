@@ -18,7 +18,7 @@ class MerchantTransactionResource extends JsonResource
     {
         return [
             'uuid' => $this->uuid,
-            'amount' =>  $this->net_amount,
+            'amount' => $this->net_amount,
             'currency' => $this->currency,
             'currency_symbol' => $this->currency->symbol(),
             'status' => $this->status,

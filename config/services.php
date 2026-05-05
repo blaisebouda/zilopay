@@ -43,4 +43,10 @@ return [
         'merchant_id' => env('ORANGE_MONEY_MERCHANT_ID', ''),
     ],
 
+    // Checkout Configuration
+    'checkout' => [
+        'url' => env('CHECKOUT_URL', 'https://checkout.zilopay.com'),
+        'require_signed_url' => env('CHECKOUT_REQUIRE_SIGNED_URL', true),
+    ],
+
 ];

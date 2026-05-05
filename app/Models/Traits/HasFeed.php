@@ -6,7 +6,7 @@ trait HasFeed
 {
     public function feePercentLabel()
     {
-        return $this->fee_percent . ' %';
+        return $this->fee_percent.' %';
     }
 
     public function feeFixedLabel()

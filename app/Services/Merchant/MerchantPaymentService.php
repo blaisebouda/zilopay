@@ -8,9 +8,11 @@ use App\Models\Enums\MerchantTransactionStatus;
 use App\Models\Merchant;
 use App\Models\MerchantTransaction;
 use App\Models\PaymentLinks;
-use App\Services\Merchant\Utils\MerchantFeeCalculator;
+use App\Utils\FeeCalculator;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\URL;
 
 class MerchantPaymentService
 {
@@ -23,22 +25,19 @@ class MerchantPaymentService
      *
      * @param  array<string, mixed>  $data
      */
-    public function initiate(Merchant $merchant, array $data): MerchantTransaction
+    public function initiate(Merchant $merchant, array $data): string
     {
+        if (! $this->getMerchantApiKey()) {
+            throw new \Exception('API key is required !');
+        }
 
-        $fees = MerchantFeeCalculator::calculate($data['amount'], $merchant);
+        return DB::transaction(function () use ($merchant, $data) {
+            $paymentLink = $this->paymentLinkService->create($merchant, $data);
 
-        $transaction = MerchantTransaction::create([
-            'merchant_id' => $merchant->id,
-            'gross_amount' => $data['amount'],
-            'currency' => $data['currency'],
-            'status' => MerchantTransactionStatus::PENDING,
-            'customer_email' => $data['customer_email'] ?? null,
-            'customer_phone' => $data['customer_phone'] ?? null,
-            'metadata' => buildMetadata(['description' => $data['description'] ?? null]),
-        ]);
+            $transaction = $this->createTransaction($merchant, $data, $paymentLink);
 
-        return $transaction->fresh();
+            return $this->generateLink($merchant, $transaction->refresh());
+        });
     }
 
     /**
@@ -74,7 +73,7 @@ class MerchantPaymentService
 
         $this->paymentLinkService->incrementUses($paymentLink);
 
-        return $transaction->fresh();
+        return $transaction->refresh();
     }
 
     /**
@@ -111,14 +110,75 @@ class MerchantPaymentService
         return $query->latest()->get();
     }
 
-    /**
-     * Calculate fees for a transaction.
-     *
-     * @return array<string, mixed>
-     */
-    public function calculateFees(float $amount, Merchant $merchant): array
+    private function createTransaction(Merchant $merchant, array $data, PaymentLinks $paymentLink): MerchantTransaction
     {
-        return MerchantFeeCalculator::getFeeBreakdown($amount, $merchant);
+        $fees = FeeCalculator::make(
+            amount: $data['amount'],
+            fixedFeedAmount: $merchant->fee_fixed,
+            percentageFee: $merchant->fee_percent
+        );
+
+        return MerchantTransaction::create([
+            'merchant_id' => $merchant->id,
+            'payment_link_id' => $paymentLink->id,
+            'gross_amount' => $data['amount'],
+            'currency' => $data['currency'],
+            'status' => MerchantTransactionStatus::PENDING,
+            'customer_email' => $data['customer_email'] ?? null,
+            'customer_phone' => $data['customer_phone'] ?? null,
+            'amount' => $fees->getAmount(),
+            'platform_fee' => $fees->getPercentageFeeAmount(),
+            'net_amount' => $fees->getNetAmount(),
+            'metadata' => buildMetadata($fees->breakdown()),
+
+        ]);
+    }
+
+    /**
+     * Get the secure checkout link for a transaction.
+     */
+    public function getCheckoutLink(MerchantTransaction $transaction): string
+    {
+        return $this->generateLink($transaction->merchant, $transaction);
+    }
+
+    private function generateLink(Merchant $merchant, MerchantTransaction $transaction): string
+    {
+        // Generate a secure signed URL that redirects to checkout
+        $paymentLink = $transaction->paymentLink;
+
+        // Generate a signed URL valid for 30 days
+        // Include merchant name and amount in the URL for display purposes
+        // These parameters are SIGNED, so they cannot be modified without breaking the signature
+        $signedUrl = URL::temporarySignedRoute(
+            'merchant.pay',
+            now()->addDays(30),
+            [
+                'merchant_api_key' => $this->getMerchantApiKey(),
+                'ref' => $paymentLink->uuid,
+                'merchant_name' => $merchant->name,
+                'amount' => $transaction->gross_amount,
+                'currency' => $transaction->currency,
+            ]
+        );
+
+        // Build the checkout redirect URL
+        $checkoutUrl = config('services.checkout.url');
+
+        // Extract the signed URL path and query string
+        $parsedUrl = parse_url($signedUrl);
+        $path = $parsedUrl['path'] ?? '';
+        $query = $parsedUrl['query'] ?? '';
+
+        // Build the secure checkout link
+        $checkoutLink = $checkoutUrl . $path . ($query ? '?' . $query : '');
+
+        return $checkoutLink;
+    }
+
+    private function getMerchantApiKey(): ?string
+    {
+        return request()->attributes->get('merchant_api_key');
     }
 
     /**
@@ -126,6 +186,6 @@ class MerchantPaymentService
      */
     private function generateReference(): string
     {
-        return 'ZPAY_'.strtoupper(uniqid().bin2hex(random_bytes(4)));
+        return 'ZPAY_' . strtoupper(uniqid() . bin2hex(random_bytes(4)));
     }
 }

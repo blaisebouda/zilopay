@@ -30,15 +30,10 @@ class MerchantPaymentController extends ApiController
 
             $transaction = $this->paymentService->initiate($merchant, $request->validated());
 
-            $feeCalculation = $this->paymentService->calculateFees(
-                (float) $transaction->amount,
-                $merchant
-            );
-
             return $this->successResponse(
                 [
                     'transaction' => new MerchantTransactionResource($transaction),
-                    'fees' => $feeCalculation,
+
                     'payment_url' => url("/merchant/payments/{$transaction->uuid}"),
                 ],
                 'Payment initiated successfully',

@@ -8,6 +8,7 @@ use Database\Factories\MerchantApiKeyFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Query\Builder;
 
 class MerchantApiKey extends Model
 {
@@ -81,5 +82,15 @@ class MerchantApiKey extends Model
     public function isValid(): bool
     {
         return $this->is_active && ! $this->isExpired();
+    }
+
+    public function scopeActive(Builder $query, string $apiKey)
+    {
+        return $query->where('key', $apiKey)
+            ->where('is_active', true)
+            ->where(function ($query) {
+                $query->whereNull('expires_at')
+                    ->orWhere('expires_at', '>', now());
+            });
     }
 }

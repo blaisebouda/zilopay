@@ -73,7 +73,7 @@ class WithdrawalService extends AbstractTransactionService implements Transactio
 
             $this->initiateGatewayPayout($withdrawal, $amount, $wallet, $totalDebit);
 
-            return $transaction->fresh();
+            return $transaction->refresh();
         });
     }
 
@@ -150,7 +150,7 @@ class WithdrawalService extends AbstractTransactionService implements Transactio
         if (! $gatewayResponse['success']) {
             $wallet->credit($totalDebit);
             $this->updateTransactionStatus($withdrawal->transaction, TransactionStatus::BLOCKED);
-            throw new \Exception('Gateway error: ' . ($gatewayResponse['message'] ?? 'Unknown error'));
+            throw new \Exception('Gateway error: '.($gatewayResponse['message'] ?? 'Unknown error'));
         }
 
         $withdrawal->update([
@@ -186,7 +186,7 @@ class WithdrawalService extends AbstractTransactionService implements Transactio
             'uuid' => $withdrawal->metadata['uuid'],
         ]);
 
-        return $withdrawal->transaction->fresh();
+        return $withdrawal->transaction->refresh();
     }
 
     private function failAndRefund(Withdrawal $withdrawal, array $verification, array $gatewayData): Transaction
@@ -211,7 +211,7 @@ class WithdrawalService extends AbstractTransactionService implements Transactio
             'uuid' => $withdrawal->metadata['uuid'],
         ]);
 
-        throw new \Exception('Withdrawal verification failed: ' . ($verification['message'] ?? 'Unknown error'));
+        throw new \Exception('Withdrawal verification failed: '.($verification['message'] ?? 'Unknown error'));
     }
 
     private function rejectAndRefund(Withdrawal $withdrawal, string $reason): Transaction
@@ -237,6 +237,6 @@ class WithdrawalService extends AbstractTransactionService implements Transactio
             'uuid' => $withdrawal->metadata['uuid'],
         ]);
 
-        return $withdrawal->transaction->fresh();
+        return $withdrawal->transaction->refresh();
     }
 }

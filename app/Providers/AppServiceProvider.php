@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Models\PaymentMethod;
 use App\Models\Wallet;
+use App\Observers\PaymentMethodObserver;
 use App\Observers\WalletObserver;
 use Carbon\Carbon;
 use Carbon\CarbonImmutable;
@@ -37,7 +38,7 @@ class AppServiceProvider extends ServiceProvider
     protected function configureObservers(): void
     {
         Wallet::observe(WalletObserver::class);
-        PaymentMethod::observe(\App\Observers\PaymentMethodObserver::class);
+        PaymentMethod::observe(PaymentMethodObserver::class);
     }
 
     /**
@@ -54,13 +55,13 @@ class AppServiceProvider extends ServiceProvider
         );
 
         Password::defaults(
-            fn(): ?Password => app()->isProduction()
+            fn (): ?Password => app()->isProduction()
                 ? Password::min(12)
-                ->mixedCase()
-                ->letters()
-                ->numbers()
-                ->symbols()
-                ->uncompromised()
+                    ->mixedCase()
+                    ->letters()
+                    ->numbers()
+                    ->symbols()
+                    ->uncompromised()
                 : null
         );
     }

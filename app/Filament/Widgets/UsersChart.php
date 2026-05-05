@@ -11,7 +11,7 @@ class UsersChart extends ChartWidget
 {
     protected ?string $heading = 'Users des 7 derniers jours';
 
-    protected  string $color = 'info';
+    protected string $color = 'info';
 
     protected function getData(): array
     {
@@ -27,10 +27,10 @@ class UsersChart extends ChartWidget
             'datasets' => [
                 [
                     'label' => 'Users',
-                    'data' => $data->map(fn(TrendValue $value) => $value->aggregate),
+                    'data' => $data->map(fn (TrendValue $value) => $value->aggregate),
                 ],
             ],
-            'labels' => $data->map(fn(TrendValue $value) => $value->date),
+            'labels' => $data->map(fn (TrendValue $value) => $value->date),
         ];
     }
 

@@ -21,7 +21,7 @@ class StorePaymentLinkRequest extends FormRequest
     protected function prepareForValidation(): void
     {
         $this->merge([
-            'currency' => $this->currency ?? Currency::XOF->value,
+            'currency' => $this->currency ?? Currency::default()->value,
         ]);
     }
 

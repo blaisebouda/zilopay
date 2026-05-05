@@ -18,6 +18,6 @@ enum PaymentMethodCode: string implements AdvancedEnumInterface
 
     public function label(): string
     {
-        return __('enums.payment_method_code.' . $this->name);
+        return __('enums.payment_method_code.'.$this->name);
     }
 }

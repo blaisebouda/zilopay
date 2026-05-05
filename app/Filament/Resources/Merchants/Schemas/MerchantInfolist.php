@@ -33,27 +33,27 @@ class MerchantInfolist
                             ->label('Numéro de téléphone')
                             ->placeholder('-'),
                         TextEntry::make('country')
-                            ->formatStateUsing(fn($state) => $state->label())
+                            ->formatStateUsing(fn ($state) => $state->label())
                             ->badge()
                             ->color('info'),
                         TextEntry::make('fee_fixed')
                             ->label('Frais fixe')
-                            ->formatStateUsing(fn() => $merchant->feeFixedLabel()),
+                            ->formatStateUsing(fn () => $merchant->feeFixedLabel()),
                         TextEntry::make('fee_percent')
                             ->label('Frais percentage')
-                            ->formatStateUsing(fn() => $merchant->feePercentLabel())
+                            ->formatStateUsing(fn () => $merchant->feePercentLabel())
                             ->badge(),
                         TextEntry::make('status')
                             ->badge()
-                            ->color(fn($state) => $state->color())
-                            ->formatStateUsing(fn($state) => $state->label()),
+                            ->color(fn ($state) => $state->color())
+                            ->formatStateUsing(fn ($state) => $state->label()),
                         TextEntry::make('approved_at')
                             ->label('Date d\'approbation')
                             ->dateTime()
                             ->placeholder('-'),
                         TextEntry::make('approved_by')
                             ->label('Approuvé par')
-                            ->getStateUsing(fn() => $merchant->approver?->name)
+                            ->getStateUsing(fn () => $merchant->approver?->name)
                             ->placeholder('-'),
                         TextEntry::make('created_at')
                             ->label('Date de création')
@@ -79,7 +79,7 @@ class MerchantInfolist
                 ...($documents->isNotEmpty() ? $documents->map(function ($document) {
                     return TextEntry::make("DOC_{$document->id}")
                         ->label($document->type->label())
-                        ->url(fn() => route('filament.merchant.download', ['path' => $document->path]))
+                        ->url(fn () => route('filament.merchant.download', ['path' => $document->path]))
                         ->openUrlInNewTab()
                         ->icon(Heroicon::ArrowTopRightOnSquare)
                         ->iconPosition(IconPosition::After)

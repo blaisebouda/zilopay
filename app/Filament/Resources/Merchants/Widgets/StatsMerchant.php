@@ -2,6 +2,8 @@
 
 namespace App\Filament\Resources\Merchants\Widgets;
 
+use App\Models\Merchant;
+use App\Models\MerchantTransaction;
 use Filament\Widgets\StatsOverviewWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
 
@@ -9,9 +11,9 @@ class StatsMerchant extends StatsOverviewWidget
 {
     protected function getStats(): array
     {
-        $caTotal = \App\Models\MerchantTransaction::completed()->sum('amount');
-        $totalTransactions = \App\Models\MerchantTransaction::count();
-        $totalMerchants = \App\Models\Merchant::count();
+        $caTotal = MerchantTransaction::completed()->sum('amount');
+        $totalTransactions = MerchantTransaction::count();
+        $totalMerchants = Merchant::count();
 
         return [
             Stat::make('CA Total', format_amount($caTotal)),

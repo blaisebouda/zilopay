@@ -7,7 +7,7 @@ use App\Http\Controllers\Merchant\MerchantPaymentController;
 use App\Http\Controllers\Merchant\PaymentLinkController;
 use Illuminate\Support\Facades\Route;
 
-Route::prefix('merchant')->group(function () {
+Route::prefix('merchant')->name('merchant.')->group(function () {
     // Register and show merchant
     Route::middleware('auth:sanctum')->group(function () {
         Route::get('/', [MerchantController::class, 'show']);
@@ -15,7 +15,7 @@ Route::prefix('merchant')->group(function () {
         Route::get('/documents/{path}', [MerchantController::class, 'downloadDocument'])
             ->can('view', 'Merchant')
             ->where('path', '.*')
-            ->name('merchant.documents.download');
+            ->name('documents.download');
     });
 
     // Routes authentifiées — approved merchant
@@ -31,8 +31,10 @@ Route::prefix('merchant')->group(function () {
         Route::post('/payments/initiate', [MerchantPaymentController::class, 'initiate']);
         Route::get('/payments/{payment:uuid}', [MerchantPaymentController::class, 'show']);
     });
+});
 
-    // Public — lien de paiement
-    Route::get('/pay/{uuid}', [PaymentLinkController::class, 'show']);
-    Route::post('/pay/{uuid}', [PaymentLinkController::class, 'process']);
+// Public — lien de paiement
+Route::middleware('validate.signed.payment.link')->group(function () {
+    Route::get('/pay/{merchant_public_key}', [PaymentLinkController::class, 'show'])->name('merchant.pay');
+    Route::post('/pay/{merchant_public_key}', [PaymentLinkController::class, 'process'])->name('process');
 });

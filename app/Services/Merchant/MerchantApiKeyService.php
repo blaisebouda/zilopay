@@ -34,7 +34,7 @@ class MerchantApiKeyService
         ]);
 
         return (object) [
-            'api_key' => $apiKey->fresh(),
+            'api_key' => $apiKey->refresh(),
             'plain_secret' => $keyPair->plainSecret,
         ];
     }

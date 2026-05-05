@@ -14,7 +14,6 @@ class TransactionChart extends ChartWidget
     protected string $color = 'primary';
 
     protected function getData(): array
-
     {
         $data = Trend::model(Transaction::class)
             ->between(
@@ -28,10 +27,10 @@ class TransactionChart extends ChartWidget
             'datasets' => [
                 [
                     'label' => 'Transactions',
-                    'data' => $data->map(fn(TrendValue $value) => $value->aggregate),
+                    'data' => $data->map(fn (TrendValue $value) => $value->aggregate),
                 ],
             ],
-            'labels' => $data->map(fn(TrendValue $value) => $value->date),
+            'labels' => $data->map(fn (TrendValue $value) => $value->date),
         ];
     }
 

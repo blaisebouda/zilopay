@@ -61,7 +61,7 @@ class DepositService extends AbstractTransactionService implements TransactionSe
 
             // $this->initiateGatewayPayment($deposit, $amount, $wallet, $data['phone_number'] ?? null);
 
-            return $transaction->fresh();
+            return $transaction->refresh();
         });
     }
 
@@ -111,7 +111,7 @@ class DepositService extends AbstractTransactionService implements TransactionSe
                 'reason' => $reason,
             ]);
 
-            return $deposit->transaction->fresh();
+            return $deposit->transaction->refresh();
         });
     }
 
@@ -195,6 +195,6 @@ class DepositService extends AbstractTransactionService implements TransactionSe
             'wallet_id' => $wallet->id,
         ]);
 
-        return $deposit->transaction->fresh();
+        return $deposit->transaction->refresh();
     }
 }

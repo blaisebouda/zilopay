@@ -50,7 +50,7 @@ if (! function_exists('format_amount')) {
      */
     function format_amount(float $amount, string $currency = DEFAULT_CURRENCY): string
     {
-        return number_format($amount, 0, '.', ' ') . ' ' . $currency;
+        return number_format($amount, 0, '.', ' ').' '.$currency;
     }
 }
 
@@ -58,10 +58,9 @@ if (! function_exists('buildPath')) {
 
     function buildPath(...$path): string
     {
-        return implode('/', $path) . '/';
+        return implode('/', $path).'/';
     }
 }
-
 
 if (! function_exists('formatBigNumber')) {
     /**
@@ -74,7 +73,7 @@ if (! function_exists('formatBigNumber')) {
     {
         $units = ['', 'k', 'M', 'G', 'T', 'P', 'E', 'Z', 'Y'];
         $power = floor(log($number, 1000));
-        $formattedNumber = number_format($number / pow(1000, $power), 1, '.', ',') . $units[$power];
+        $formattedNumber = number_format($number / pow(1000, $power), 1, '.', ',').$units[$power];
 
         return $formattedNumber;
     }

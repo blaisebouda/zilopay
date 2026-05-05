@@ -32,7 +32,7 @@ class PaymentLinkService
             'metadata' => $data['metadata'] ?? null,
         ]);
 
-        return $paymentLink->fresh();
+        return $paymentLink->refresh();
     }
 
     /**
@@ -89,7 +89,7 @@ class PaymentLinkService
 
         $paymentLink->save();
 
-        return $paymentLink->fresh();
+        return $paymentLink->refresh();
     }
 
     /**

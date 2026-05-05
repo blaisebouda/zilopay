@@ -2,6 +2,7 @@
 
 use App\Http\Middleware\MerchantApiKeyMiddleware;
 use App\Http\Middleware\MerchantApprovedMiddleware;
+use App\Http\Middleware\ValidateSignedPaymentLink;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -17,6 +18,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'merchant.approved' => MerchantApprovedMiddleware::class,
             'merchant.api_key' => MerchantApiKeyMiddleware::class,
+            'validate.signed.payment.link' => ValidateSignedPaymentLink::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

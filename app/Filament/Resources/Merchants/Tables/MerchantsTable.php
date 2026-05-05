@@ -3,10 +3,10 @@
 namespace App\Filament\Resources\Merchants\Tables;
 
 use App\Models\Merchant;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Table;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Table;
 
 class MerchantsTable
 {
@@ -29,25 +29,25 @@ class MerchantsTable
                     ->searchable(),
                 TextColumn::make('country')
                     ->label('Pays')
-                    ->formatStateUsing(fn($state) => $state->label())
+                    ->formatStateUsing(fn ($state) => $state->label())
                     ->badge()
                     ->color('default')
                     ->searchable(),
                 TextColumn::make('fee_fixed')
                     ->label('Frais fixe')
                     ->badge()
-                    ->formatStateUsing(fn($state) => number_format($state, 0) . ' FCFA')
+                    ->formatStateUsing(fn ($state) => number_format($state, 0).' FCFA')
                     ->sortable(),
                 TextColumn::make('fee_percent')
                     ->label('Frais en pourcentage')
                     ->badge()
-                    ->formatStateUsing(fn($state) => number_format($state, 0) . ' %')
+                    ->formatStateUsing(fn ($state) => number_format($state, 0).' %')
                     ->sortable(),
                 TextColumn::make('status')
                     ->label('Statut')
                     ->badge()
-                    ->formatStateUsing(fn($state) => $state->label())
-                    ->color(fn($state) => $state->color())
+                    ->formatStateUsing(fn ($state) => $state->label())
+                    ->color(fn ($state) => $state->color())
                     ->sortable(),
 
             ])

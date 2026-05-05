@@ -29,13 +29,7 @@ class MerchantApiKeyMiddleware
             ], 401);
         }
 
-        $merchantApiKey = MerchantApiKey::where('key', $apiKey)
-            ->where('is_active', true)
-            ->where(function ($query) {
-                $query->whereNull('expires_at')
-                    ->orWhere('expires_at', '>', now());
-            })
-            ->first();
+        $merchantApiKey = MerchantApiKey::active($apiKey)->first();
 
         if (! $merchantApiKey) {
             return response()->json([

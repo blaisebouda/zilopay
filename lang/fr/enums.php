@@ -30,7 +30,6 @@ return [
     'merchant_status.APPROVED' => 'Approuvé',
     'merchant_status.REJECTED' => 'Rejeté',
 
-
     // Vault Type
     'vault_type.SAVINGS' => 'Épargne',
     'vault_type.INVESTMENT' => 'Investissement',
@@ -50,7 +49,6 @@ return [
     'payment_method_type.BANK_TRANSFER' => 'Virement Bancaire',
     'payment_method_type.CASH' => 'Espèces',
     'payment_method_type.CARD' => 'Carte',
-
 
     // Merchant Transaction Status
     'merchant_transaction_status.PENDING' => 'En attente',

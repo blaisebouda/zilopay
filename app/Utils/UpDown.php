@@ -2,7 +2,6 @@
 
 namespace App\Utils;
 
-
 class UpDown
 {
     private array $data;
@@ -22,6 +21,7 @@ class UpDown
         if (count($data) < 2) {
             $data[] = 0;
         }
+
         return $data;
     }
 
@@ -35,7 +35,6 @@ class UpDown
         return $this->data[0];
     }
 
-
     public function last()
     {
         return $this->data[1];
@@ -48,7 +47,7 @@ class UpDown
 
     public function isDown()
     {
-        return !$this->isUp();
+        return ! $this->isUp();
     }
 
     public function percentage()
@@ -56,6 +55,7 @@ class UpDown
         if ($this->first() === 0) {
             return 100;
         }
+
         return ($this->last() - $this->first()) / $this->first() * 100;
     }
 
@@ -64,6 +64,6 @@ class UpDown
         $percentage = number_format($this->percentage());
         $sign = $this->isUp() ? '+' : '-';
 
-        return $sign . $percentage . '%';
+        return $sign.$percentage.'%';
     }
 }

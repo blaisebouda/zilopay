@@ -4,9 +4,11 @@ namespace App\Filament\Resources\Merchants\Pages;
 
 use App\Filament\Resources\Merchants\MerchantResource;
 use App\Models\Enums\MerchantStatus;
+use App\Models\Enums\UserRole;
+use Filament\Actions\Action;
 use Filament\Actions\EditAction;
-use Filament\Resources\Pages\ViewRecord;
 use Filament\Forms\Components\MarkdownEditor;
+use Filament\Resources\Pages\ViewRecord;
 
 class ViewMerchant extends ViewRecord
 {
@@ -23,12 +25,12 @@ class ViewMerchant extends ViewRecord
 
     private function isVisible()
     {
-        return auth()->user()->isAdmin() && !$this->record->isApproved();
+        return auth()->user()->isAdmin() && ! $this->record->isApproved();
     }
 
     protected function ApproveAction()
     {
-        return \Filament\Actions\Action::make('approve')
+        return Action::make('approve')
             ->label('Approuver')
             ->icon('heroicon-o-check')
             ->color('success')
@@ -36,7 +38,7 @@ class ViewMerchant extends ViewRecord
             ->modalHeading('Confirmer l\'approuval')
             ->modalDescription('Êtes-vous sûr de vouloir approuver ce merchant ?')
             ->visible($this->isVisible())
-            ->action(fn() => $this->approve());
+            ->action(fn () => $this->approve());
     }
 
     private function approve()
@@ -48,7 +50,7 @@ class ViewMerchant extends ViewRecord
         ]);
 
         $this->record->user->update([
-            'role' => \App\Models\Enums\UserRole::MERCHANT,
+            'role' => UserRole::MERCHANT,
         ]);
 
         $this->record->refresh();
@@ -56,7 +58,7 @@ class ViewMerchant extends ViewRecord
 
     protected function RejectAction()
     {
-        return \Filament\Actions\Action::make('reject')
+        return Action::make('reject')
             ->color('danger')
             ->schema([
                 MarkdownEditor::make('rejection_reason')

@@ -14,7 +14,7 @@ class StatsOverview extends StatsOverviewWidget
 {
     protected function getStats(): array
     {
-        $txSum =  $txCount = UpDown::make(QueryTrend::make(Transaction::class)->lastMonths()->sum('amount')->values());;
+        $txSum = $txCount = UpDown::make(QueryTrend::make(Transaction::class)->lastMonths()->sum('amount')->values());
 
         $txCount = UpDown::make(QueryTrend::make(Transaction::class)->lastMonths()->count()->values());
 
@@ -24,21 +24,21 @@ class StatsOverview extends StatsOverviewWidget
 
         return [
             Stat::make('Volume total', formatBigNumber(Transaction::sum('amount')))
-                ->description(formatBigNumber($txSum->last()) . ' vs ce moi-ci')
+                ->description(formatBigNumber($txSum->last()).' vs ce moi-ci')
                 ->descriptionIcon($txSum->isUp() ? 'heroicon-m-arrow-trending-up' : 'heroicon-m-arrow-trending-down')
                 ->color($txSum->isUp() ? 'success' : 'danger'),
             Stat::make('Transactions', Transaction::count())
-                ->description($txCount->formatPercentage() . ' vs ce moi-ci')
+                ->description($txCount->formatPercentage().' vs ce moi-ci')
                 ->descriptionIcon($txCount->isUp() ? 'heroicon-m-arrow-trending-up' : 'heroicon-m-arrow-trending-down')
                 ->color($txCount->isUp() ? 'success' : 'danger'),
             Stat::make('Utilisateurs', User::count())
-                ->description($userCount->formatPercentage() . ' vs ce moi-ci')
+                ->description($userCount->formatPercentage().' vs ce moi-ci')
                 ->descriptionIcon($userCount->isUp() ? 'heroicon-m-arrow-trending-up' : 'heroicon-m-arrow-trending-down')
                 ->color($userCount->isUp() ? 'success' : 'danger'),
             Stat::make('Marchands', Merchant::count())
-                ->description($merchantCount->formatPercentage() . ' vs ce moi-ci')
+                ->description($merchantCount->formatPercentage().' vs ce moi-ci')
                 ->descriptionIcon($merchantCount->isUp() ? 'heroicon-m-arrow-trending-up' : 'heroicon-m-arrow-trending-down')
-                ->color($merchantCount->isUp() ? 'success' : 'danger')
+                ->color($merchantCount->isUp() ? 'success' : 'danger'),
         ];
     }
 }

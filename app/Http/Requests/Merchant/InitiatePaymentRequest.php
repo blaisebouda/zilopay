@@ -22,7 +22,7 @@ class InitiatePaymentRequest extends FormRequest
     protected function prepareForValidation()
     {
         $this->merge([
-            'currency' => $this->currency ?? Currency::XOF->value,
+            'currency' => $this->currency ?? Currency::default()->value,
         ]);
     }
 
@@ -34,6 +34,7 @@ class InitiatePaymentRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'title' => ['required', 'string', 'max:255'],
             'amount' => ['required', 'numeric', 'min:0.01'],
             'currency' => ['nullable', 'string', Rule::enum(Currency::class)],
             'customer_email' => ['nullable', 'string', 'email', 'max:255'],

@@ -9,13 +9,12 @@ use App\Models\Enums\PaymentMethodCode;
 use App\Models\Enums\PaymentMethodType;
 use App\Models\Traits\HasFeed;
 use App\Models\Traits\HasLockActiveStatus;
-use App\Observers\PaymentMethodObserver;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 
 class PaymentMethod extends Model
 {
-    use HasLockActiveStatus, HasFeed;
+    use HasFeed, HasLockActiveStatus;
 
     protected $fillable = [
         'country',
@@ -65,10 +64,9 @@ class PaymentMethod extends Model
         return format_amount($this->max_amount, $this->currency->symbol());
     }
 
-
     public function amountRangeLabel()
     {
-        return $this->minAmountLabel() . ' - ' . $this->maxAmountLabel();
+        return $this->minAmountLabel().' - '.$this->maxAmountLabel();
     }
 
     public function scopeActive($query)

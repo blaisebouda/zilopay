@@ -62,7 +62,7 @@ class MerchantService
     {
         foreach ($documents as $type => $file) {
             if ($file instanceof UploadedFile) {
-                $path = $file->store(MERCHANT_DOCUMENTS_PATH . '/' . $merchant->id, 'local');
+                $path = $file->store(MERCHANT_DOCUMENTS_PATH.'/'.$merchant->id, 'local');
 
                 MerchantDocument::create([
                     'merchant_id' => $merchant->id,

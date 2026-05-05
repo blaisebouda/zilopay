@@ -11,17 +11,17 @@ class AdminAccessMiddleware
     /**
      * Handle an incoming request.
      *
-     * @param  \Closure(Request): (Response)  $next
+     * @param  Closure(Request): (Response)  $next
      */
     public function handle(Request $request, Closure $next): Response
     {
         $user = $request->user();
 
-        if (!$user) {
+        if (! $user) {
             return redirect('/login');
         }
 
-        if (!$user->isAdmin()) {
+        if (! $user->isAdmin()) {
             return redirect('/')
                 ->with('error', 'Accès réservé aux administrateurs.');
         }

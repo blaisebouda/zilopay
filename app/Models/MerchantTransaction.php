@@ -65,8 +65,6 @@ class MerchantTransaction extends Model
         return $this->status === MerchantTransactionStatus::PENDING->value;
     }
 
-
-
     /**
      * Check if the transaction is failed.
      */

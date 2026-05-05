@@ -9,7 +9,6 @@ use App\Filament\Resources\Merchants\Pages\ViewMerchant;
 use App\Filament\Resources\Merchants\Schemas\MerchantForm;
 use App\Filament\Resources\Merchants\Schemas\MerchantInfolist;
 use App\Filament\Resources\Merchants\Tables\MerchantsTable;
-use App\Filament\Resources\Merchants\Widgets\StatsMerchant;
 use App\Models\Merchant;
 use BackedEnum;
 use Filament\Resources\Resource;
@@ -49,6 +48,7 @@ class MerchantResource extends Resource
     public static function getNavigationBadge(): ?string
     {
         $count = Merchant::pending()->count();
+
         return $count > 0 ? (string) $count : null;
     }
 

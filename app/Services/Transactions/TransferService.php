@@ -125,7 +125,7 @@ class TransferService extends AbstractTransactionService implements TransactionS
             $receiverWalletLocked
         );
 
-        return $senderTransaction->fresh();
+        return $senderTransaction->refresh();
     }
 
     private function createSenderTransaction(
