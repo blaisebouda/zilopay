@@ -6,17 +6,17 @@ use App\Constants\Colors;
 use App\Models\Enums\Contracts\AdvancedEnum;
 use App\Models\Enums\Contracts\AdvancedEnumInterface;
 
-enum MerchantStatus: int implements AdvancedEnumInterface
+enum MerchantStatus: string implements AdvancedEnumInterface
 {
     use AdvancedEnum;
 
-    case PENDING = 0;
-    case APPROVED = 1;
-    case REJECTED = 2;
+    case PENDING = 'pending';
+    case APPROVED = 'approved';
+    case REJECTED = 'rejected';
 
     public function label(): string
     {
-        return __('enums.merchant_status.'.$this->name);
+        return __('enums.merchant_status.' . $this->name);
     }
 
     public function color(): string

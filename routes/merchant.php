@@ -22,8 +22,8 @@ Route::prefix('merchant')->name('merchant.')->group(function () {
         Route::get('/dashboard', [MerchantDashboardController::class, 'index']);
 
         Route::get('/payment-links', [PaymentLinkController::class, 'index']);
-        Route::get('/payments/{payment:uuid}', [PaymentLinkController::class, 'show']);
-        Route::delete('/payments/{payment:uuid}', [PaymentLinkController::class, 'destroy']);
+        Route::get('/payment-links/{payment:uuid}', [PaymentLinkController::class, 'show']);
+        Route::delete('/payment-links/{payment:uuid}', [PaymentLinkController::class, 'destroy']);
 
         Route::post('/api-keys', [MerchantApiKeyController::class, 'store']);
         Route::delete('/api-keys/{api_key:uuid}', [MerchantApiKeyController::class, 'destroy']);

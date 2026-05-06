@@ -42,5 +42,21 @@ class UserSeeder extends Seeder
 
         $adminUser->defaultWallet->credit(1000000);
         $adminUser->defaultWallet->update(['code' => 'ZP00000002']);
+
+        // Merchant user
+        $merchantUser = User::factory()->create([
+            'name' => 'Merchant',
+            'email' => 'merchant@zilopay.com',
+            'phone_number' => '22670707071',
+            'role' => 'merchant',
+        ]);
+
+        $merchantUser->defaultWallet->credit(1000000);
+        $merchantUser->defaultWallet->update(['code' => 'ZP00000003']);
+
+        \App\Models\Merchant::factory()
+            ->for($merchantUser)
+            ->approve()
+            ->create();
     }
 }

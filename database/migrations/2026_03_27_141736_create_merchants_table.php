@@ -25,7 +25,7 @@ return new class extends Migration
             $table->string('currency', 8)->default(Currency::XOF->value);
             $table->decimal('fee_fixed', 20, 8)->default(0);
             $table->decimal('fee_percent', 5, 2)->default(0);
-            $table->integer('status')->default(MerchantStatus::PENDING->value);
+            $table->string('status')->default(MerchantStatus::PENDING->value);
             $table->timestamp('approved_at')->nullable();
             $table->foreignId('approved_by')->nullable()->constrained('users');
             $table->mediumText('rejection_reason')->nullable();

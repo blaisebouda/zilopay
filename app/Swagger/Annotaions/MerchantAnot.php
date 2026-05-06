@@ -282,7 +282,7 @@ class MerchantAnot
     public function paymentLinksIndex() {}
 
     #[OA\Post(
-        path: '/merchant/payment-links',
+        path: '/merchant/payment/initiate',
         summary: 'Create payment link',
         tags: ['Merchants'],
         security: [['sanctum' => []]],
@@ -328,7 +328,7 @@ class MerchantAnot
         tags: ['Merchants'],
         security: [['sanctum' => []]],
         parameters: [
-            new OA\Parameter(name: 'paymentLink', in: 'path', required: true, schema: new OA\Schema(type: 'integer')),
+            new OA\Parameter(name: 'paymentLink', in: 'path', required: true, schema: new OA\Schema(type: 'string')),
         ],
         responses: [
             new OA\Response(
@@ -351,47 +351,47 @@ class MerchantAnot
     )]
     public function paymentLinksShow() {}
 
-    #[OA\Put(
-        path: '/merchant/payment-links/{paymentLink}',
-        summary: 'Update payment link',
-        tags: ['Merchants'],
-        security: [['sanctum' => []]],
-        parameters: [
-            new OA\Parameter(name: 'paymentLink', in: 'path', required: true, schema: new OA\Schema(type: 'integer')),
-        ],
-        requestBody: new OA\RequestBody(
-            content: new OA\JsonContent(
-                properties: [
-                    new OA\Property(property: 'title', type: 'string', example: 'Updated Payment'),
-                    new OA\Property(property: 'description', type: 'string', example: 'Updated description'),
-                    new OA\Property(property: 'amount', type: 'number', nullable: true, example: 6000.00),
-                    new OA\Property(property: 'status', type: 'integer', example: 1),
-                    new OA\Property(property: 'max_uses', type: 'integer', example: 200),
-                    new OA\Property(property: 'expires_at', type: 'string', format: 'date-time', example: '2024-12-31 23:59:59'),
-                ]
-            )
-        ),
-        responses: [
-            new OA\Response(
-                response: 200,
-                description: 'Payment link updated successfully',
-                content: new OA\JsonContent(
-                    properties: [
-                        new OA\Property(property: 'success', type: 'boolean', example: true),
-                        new OA\Property(property: 'status', type: 'integer', example: 200),
-                        new OA\Property(property: 'message', type: 'string', example: 'Payment link updated successfully'),
-                        new OA\Property(property: 'data', ref: '#/components/schemas/PaymentLink'),
-                    ]
-                )
-            ),
-            new OA\Response(response: 401, description: 'Unauthenticated'),
-            new OA\Response(response: 403, description: 'Merchant not approved or unauthorized'),
-            new OA\Response(response: 404, description: 'Payment link not found'),
-            new OA\Response(response: 422, description: 'Validation error'),
-            new OA\Response(response: 500, description: 'Server error'),
-        ]
-    )]
-    public function paymentLinksUpdate() {}
+    // #[OA\Put(
+    //     path: '/merchant/payment-links/{paymentLink}',
+    //     summary: 'Update payment link',
+    //     tags: ['Merchants'],
+    //     security: [['sanctum' => []]],
+    //     parameters: [
+    //         new OA\Parameter(name: 'paymentLink', in: 'path', required: true, schema: new OA\Schema(type: 'integer')),
+    //     ],
+    //     requestBody: new OA\RequestBody(
+    //         content: new OA\JsonContent(
+    //             properties: [
+    //                 new OA\Property(property: 'title', type: 'string', example: 'Updated Payment'),
+    //                 new OA\Property(property: 'description', type: 'string', example: 'Updated description'),
+    //                 new OA\Property(property: 'amount', type: 'number', nullable: true, example: 6000.00),
+    //                 new OA\Property(property: 'status', type: 'integer', example: 1),
+    //                 new OA\Property(property: 'max_uses', type: 'integer', example: 200),
+    //                 new OA\Property(property: 'expires_at', type: 'string', format: 'date-time', example: '2024-12-31 23:59:59'),
+    //             ]
+    //         )
+    //     ),
+    //     responses: [
+    //         new OA\Response(
+    //             response: 200,
+    //             description: 'Payment link updated successfully',
+    //             content: new OA\JsonContent(
+    //                 properties: [
+    //                     new OA\Property(property: 'success', type: 'boolean', example: true),
+    //                     new OA\Property(property: 'status', type: 'integer', example: 200),
+    //                     new OA\Property(property: 'message', type: 'string', example: 'Payment link updated successfully'),
+    //                     new OA\Property(property: 'data', ref: '#/components/schemas/PaymentLink'),
+    //                 ]
+    //             )
+    //         ),
+    //         new OA\Response(response: 401, description: 'Unauthenticated'),
+    //         new OA\Response(response: 403, description: 'Merchant not approved or unauthorized'),
+    //         new OA\Response(response: 404, description: 'Payment link not found'),
+    //         new OA\Response(response: 422, description: 'Validation error'),
+    //         new OA\Response(response: 500, description: 'Server error'),
+    //     ]
+    // )]
+    // public function paymentLinksUpdate() {}
 
     #[OA\Delete(
         path: '/merchant/payment-links/{paymentLink}',
@@ -488,97 +488,9 @@ class MerchantAnot
     )]
     public function apiKeysDestroy() {}
 
-    #[OA\Post(
-        path: '/merchant/payments/initiate',
-        summary: 'Initiate payment via API',
-        tags: ['Merchants'],
-        security: [['api_key' => []]],
-        requestBody: new OA\RequestBody(
-            required: true,
-            content: new OA\JsonContent(
-                required: ['amount'],
-                properties: [
-                    new OA\Property(property: 'amount', type: 'number', example: 10000.00),
-                    new OA\Property(property: 'currency', type: 'string', example: 'XOF'),
-                    new OA\Property(property: 'customer_email', type: 'string', example: 'customer@example.com'),
-                    new OA\Property(property: 'customer_phone', type: 'string', example: '+22501234567'),
-                    new OA\Property(property: 'customer_name', type: 'string', example: 'John Doe'),
-                    new OA\Property(property: 'description', type: 'string', example: 'Payment for order #123'),
-                    new OA\Property(property: 'reference', type: 'string', example: 'REF_123'),
-                    new OA\Property(property: 'metadata', type: 'object'),
-                ]
-            )
-        ),
-        responses: [
-            new OA\Response(
-                response: 201,
-                description: 'Payment initiated successfully',
-                content: new OA\JsonContent(
-                    properties: [
-                        new OA\Property(property: 'success', type: 'boolean', example: true),
-                        new OA\Property(property: 'status', type: 'integer', example: 201),
-                        new OA\Property(property: 'message', type: 'string', example: 'Payment initiated successfully'),
-                        new OA\Property(
-                            property: 'data',
-                            type: 'object',
-                            properties: [
-                                new OA\Property(property: 'transaction', ref: '#/components/schemas/MerchantTransaction'),
-                                new OA\Property(property: 'fees', ref: '#/components/schemas/FeeCalculation'),
-                                new OA\Property(property: 'payment_url', type: 'string', example: 'https://api.zilopay.com/merchant/payments/550e8400-e29b-41d4-a716-446655440003'),
-                            ]
-                        ),
-                    ]
-                )
-            ),
-            new OA\Response(response: 401, description: 'Invalid API credentials'),
-            new OA\Response(response: 422, description: 'Validation error'),
-            new OA\Response(response: 500, description: 'Server error'),
-        ]
-    )]
-    #[OA\SecurityScheme(
-        securityScheme: 'api_key',
-        type: 'apiKey',
-        in: 'header',
-        name: 'X-API-Key',
-        description: 'API Key authentication'
-    )]
-    public function paymentsInitiate() {}
 
-    #[OA\Get(
-        path: '/merchant/payments/{uuid}',
-        summary: 'Get payment details via API',
-        tags: ['Merchants'],
-        security: [['api_key' => []]],
-        parameters: [
-            new OA\Parameter(name: 'uuid', in: 'path', required: true, schema: new OA\Schema(type: 'string')),
-        ],
-        responses: [
-            new OA\Response(
-                response: 200,
-                description: 'Payment retrieved successfully',
-                content: new OA\JsonContent(
-                    properties: [
-                        new OA\Property(property: 'success', type: 'boolean', example: true),
-                        new OA\Property(property: 'status', type: 'integer', example: 200),
-                        new OA\Property(property: 'message', type: 'string', example: 'Payment retrieved successfully'),
-                        new OA\Property(
-                            property: 'data',
-                            type: 'object',
-                            properties: [
-                                new OA\Property(property: 'transaction', ref: '#/components/schemas/MerchantTransaction'),
-                                new OA\Property(property: 'fees', ref: '#/components/schemas/FeeCalculation'),
-                            ]
-                        ),
-                    ]
-                )
-            ),
-            new OA\Response(response: 401, description: 'Invalid API credentials'),
-            new OA\Response(response: 403, description: 'Unauthorized'),
-            new OA\Response(response: 404, description: 'Payment not found'),
-            new OA\Response(response: 500, description: 'Server error'),
-        ]
-    )]
-    public function paymentsShow() {}
+
+
 
     #[OA\Get(
         path: '/merchant/pay/{uuid}',
