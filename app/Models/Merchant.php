@@ -68,7 +68,7 @@ class Merchant extends BaseModel
      */
     public function paymentLinks(): HasMany
     {
-        return $this->hasMany(PaymentLinks::class);
+        return $this->hasMany(PaymentLink::class);
     }
 
     /**

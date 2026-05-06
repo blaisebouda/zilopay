@@ -4,7 +4,7 @@ namespace Tests\Unit\Services\Merchant;
 
 use App\Models\Merchant;
 use App\Models\MerchantTransaction;
-use App\Models\PaymentLinks;
+use App\Models\PaymentLink;
 use App\Services\Merchant\MerchantPaymentService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -24,7 +24,7 @@ class SecurePaymentLinkTest extends TestCase
     public function test_generates_secure_checkout_link(): void
     {
         $merchant = Merchant::factory()->create();
-        $paymentLink = PaymentLinks::factory()->create([
+        $paymentLink = PaymentLink::factory()->create([
             'merchant_id' => $merchant->id,
         ]);
 
@@ -44,7 +44,7 @@ class SecurePaymentLinkTest extends TestCase
     public function test_secure_checkout_link_contains_signature(): void
     {
         $merchant = Merchant::factory()->create();
-        $paymentLink = PaymentLinks::factory()->create([
+        $paymentLink = PaymentLink::factory()->create([
             'merchant_id' => $merchant->id,
         ]);
 
@@ -66,7 +66,7 @@ class SecurePaymentLinkTest extends TestCase
         config(['services.checkout.protocol' => 'http']);
 
         $merchant = Merchant::factory()->create();
-        $paymentLink = PaymentLinks::factory()->create([
+        $paymentLink = PaymentLink::factory()->create([
             'merchant_id' => $merchant->id,
         ]);
 
@@ -83,7 +83,7 @@ class SecurePaymentLinkTest extends TestCase
     public function test_secure_checkout_link_expires_in_thirty_days(): void
     {
         $merchant = Merchant::factory()->create();
-        $paymentLink = PaymentLinks::factory()->create([
+        $paymentLink = PaymentLink::factory()->create([
             'merchant_id' => $merchant->id,
         ]);
 
@@ -109,8 +109,8 @@ class SecurePaymentLinkTest extends TestCase
     public function test_different_transactions_have_different_links(): void
     {
         $merchant = Merchant::factory()->create();
-        $paymentLink1 = PaymentLinks::factory()->create(['merchant_id' => $merchant->id]);
-        $paymentLink2 = PaymentLinks::factory()->create(['merchant_id' => $merchant->id]);
+        $paymentLink1 = PaymentLink::factory()->create(['merchant_id' => $merchant->id]);
+        $paymentLink2 = PaymentLink::factory()->create(['merchant_id' => $merchant->id]);
 
         $transaction1 = MerchantTransaction::factory()->create([
             'merchant_id' => $merchant->id,

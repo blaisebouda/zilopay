@@ -3,7 +3,6 @@
 use App\Http\Controllers\Merchant\MerchantApiKeyController;
 use App\Http\Controllers\Merchant\MerchantController;
 use App\Http\Controllers\Merchant\MerchantDashboardController;
-use App\Http\Controllers\Merchant\MerchantPaymentController;
 use App\Http\Controllers\Merchant\PaymentLinkController;
 use Illuminate\Support\Facades\Route;
 
@@ -21,20 +20,23 @@ Route::prefix('merchant')->name('merchant.')->group(function () {
     // Routes authentifiées — approved merchant
     Route::middleware(['auth:sanctum', 'merchant.approved'])->group(function () {
         Route::get('/dashboard', [MerchantDashboardController::class, 'index']);
-        Route::apiResource('/payment-links', PaymentLinkController::class);
+
+        Route::get('/payment-links', [PaymentLinkController::class, 'index']);
+        Route::get('/payments/{payment:uuid}', [PaymentLinkController::class, 'show']);
+        Route::delete('/payments/{payment:uuid}', [PaymentLinkController::class, 'destroy']);
+
         Route::post('/api-keys', [MerchantApiKeyController::class, 'store']);
         Route::delete('/api-keys/{api_key:uuid}', [MerchantApiKeyController::class, 'destroy']);
     });
 
     // Routes API Key — intégration externe
     Route::middleware('merchant.api_key')->group(function () {
-        Route::post('/payments/initiate', [MerchantPaymentController::class, 'initiate']);
-        Route::get('/payments/{payment:uuid}', [MerchantPaymentController::class, 'show']);
+        Route::post('/payments/initiate', [PaymentLinkController::class, 'store']);
     });
 });
 
 // Public — lien de paiement
 Route::middleware('validate.signed.payment.link')->group(function () {
-    Route::get('/pay/{merchant_public_key}', [PaymentLinkController::class, 'show'])->name('merchant.pay');
-    Route::post('/pay/{merchant_public_key}', [PaymentLinkController::class, 'process'])->name('process');
+    Route::get('/pay/{ref}', [PaymentLinkController::class, 'show'])->name('merchant.pay');
+    Route::post('/pay/{ref}', [PaymentLinkController::class, 'process'])->name('process');
 });

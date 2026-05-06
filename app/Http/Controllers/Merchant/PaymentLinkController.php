@@ -11,7 +11,7 @@ use App\Http\Requests\Merchant\UpdatePaymentLinkRequest;
 use App\Http\Resources\MerchantTransactionResource;
 use App\Http\Resources\PaymentLinkResource;
 use App\Models\Merchant;
-use App\Models\PaymentLinks;
+use App\Models\PaymentLink;
 use App\Services\Merchant\MerchantPaymentService;
 use App\Services\Merchant\PaymentLinkService;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -61,7 +61,7 @@ class PaymentLinkController extends ApiController
             $paymentLink = $this->paymentLinkService->create($merchant, $request->validated());
 
             return $this->successResponse(
-                new PaymentLinkResource($paymentLink),
+                ['payment_url' => $paymentLink],
                 'Le lien de paiement a été créé avec succès',
                 201
             );
@@ -87,8 +87,8 @@ class PaymentLinkController extends ApiController
             return $this->successResponse(
                 [
                     'payment_link' => new PaymentLinkResource($paymentLink),
-                    'is_valid' => $validation['valid'],
-                    'validation_message' => $validation['valid'] ? null : $validation['message'],
+                    'is_valid' => $validation->isValid,
+                    'validation_message' => $validation->message,
                 ],
                 'Le lien de paiement a été récupéré avec succès'
             );
@@ -107,7 +107,7 @@ class PaymentLinkController extends ApiController
     /**
      * Update the specified payment link.
      */
-    public function update(UpdatePaymentLinkRequest $request, PaymentLinks $paymentLink): JsonResponse
+    public function update(UpdatePaymentLinkRequest $request, PaymentLink $paymentLink): JsonResponse
     {
         try {
             /** @var Merchant $merchant */
@@ -136,7 +136,7 @@ class PaymentLinkController extends ApiController
     /**
      * Remove the specified payment link.
      */
-    public function destroy(PaymentLinks $paymentLink): JsonResponse
+    public function destroy(PaymentLink $paymentLink): JsonResponse
     {
         try {
             /** @var Merchant $merchant */

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Middleware;
 
 use App\Models\MerchantApiKey;
+use App\Services\Merchant\Utils\ApiKeyHasher;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -39,7 +40,7 @@ class MerchantApiKeyMiddleware
             ], 401);
         }
 
-        if (! hash_equals($merchantApiKey->secret, hash('sha256', $apiSecret))) {
+        if (! ApiKeyHasher::verifySecret($merchantApiKey->secret, $apiSecret)) {
             return response()->json([
                 'success' => false,
                 'status' => 401,
