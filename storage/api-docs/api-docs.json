@@ -630,6 +630,24 @@
                 ],
                 "summary": "Create payment link",
                 "operationId": "0ebc2d3c9bdf17751c24b989168e214b",
+                "parameters": [
+                    {
+                        "name": "X-API-Key",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "X-API-Secret",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -714,12 +732,7 @@
                     "500": {
                         "description": "Server error"
                     }
-                },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                }
             }
         },
         "/merchant/payment-links/{paymentLink}": {

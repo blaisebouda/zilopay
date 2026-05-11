@@ -39,7 +39,7 @@ class MerchantApprovedMiddleware
             ], 403);
         }
 
-        if ($merchant->status !== MerchantStatus::APPROVED->value) {
+        if (! $merchant->isApproved()) {
             return response()->json([
                 'success' => false,
                 'status' => 403,

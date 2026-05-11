@@ -5,10 +5,11 @@ declare(strict_types=1);
 namespace App\Models;
 
 use Database\Factories\MerchantApiKeyFactory;
+use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Query\Builder;
+use Illuminate\Database\Eloquent\Builder;
 
 class MerchantApiKey extends Model
 {
@@ -84,7 +85,8 @@ class MerchantApiKey extends Model
         return $this->is_active && ! $this->isExpired();
     }
 
-    public function scopeActive(Builder $query, string $apiKey)
+    #[Scope]
+    protected function active(Builder $query, string $apiKey): Builder
     {
         return $query->where('key', $apiKey)
             ->where('is_active', true)

@@ -6,6 +6,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Crypt;
 
 class MerchantApiKeyResource extends JsonResource
 {
@@ -16,12 +17,10 @@ class MerchantApiKeyResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        $data = [
-
-            'uuid' => $this->uuid,
+        return [
             // 'merchant_id' => $this->merchant_id,
             'name' => $this->name,
-            'key' => $this->key,
+            'key' => Crypt::encryptString($this->key),
             'public_key' => $this->public_key,
             'is_live' => $this->is_live,
             'is_active' => $this->is_active,
@@ -30,12 +29,5 @@ class MerchantApiKeyResource extends JsonResource
             'created_at' => $this->created_at?->toIso8601String(),
 
         ];
-
-        if ($this->plain_secret) {
-            $data['secret'] = $this->plain_secret;
-            $data['secret_warning'] = 'This secret will only be displayed once. Please save it securely.';
-        }
-
-        return $data;
     }
 }

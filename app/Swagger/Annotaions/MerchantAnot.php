@@ -285,7 +285,10 @@ class MerchantAnot
         path: '/merchant/payment/initiate',
         summary: 'Create payment link',
         tags: ['Merchants'],
-        security: [['sanctum' => []]],
+        parameters: [
+            new OA\Parameter(name: "X-API-Key", in: "header", required: true, schema: new OA\Schema(type: "string")),
+            new OA\Parameter(name: "X-API-Secret", in: "header", required: true, schema: new OA\Schema(type: "string")),
+        ],
         requestBody: new OA\RequestBody(
             required: true,
             content: new OA\JsonContent(

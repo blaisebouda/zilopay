@@ -30,6 +30,7 @@ class MerchantApiKeyMiddleware
             ], 401);
         }
 
+
         $merchantApiKey = MerchantApiKey::active($apiKey)->first();
 
         if (! $merchantApiKey) {
@@ -40,7 +41,7 @@ class MerchantApiKeyMiddleware
             ], 401);
         }
 
-        if (! ApiKeyHasher::verifySecret($merchantApiKey->secret, $apiSecret)) {
+        if (! ApiKeyHasher::verifySecret($apiSecret, $merchantApiKey->secret)) {
             return response()->json([
                 'success' => false,
                 'status' => 401,

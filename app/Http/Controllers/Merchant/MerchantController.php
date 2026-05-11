@@ -50,9 +50,7 @@ class MerchantController extends ApiController
         }
     }
 
-    /**
-     * Display the specified merchant.
-     */
+    #[Authorize('view', 'merchant')]
     public function show(Request $request): JsonResponse
     {
         try {

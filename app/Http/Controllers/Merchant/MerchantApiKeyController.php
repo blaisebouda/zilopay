@@ -30,11 +30,8 @@ class MerchantApiKeyController extends ApiController
 
             $result = $this->apiKeyService->create($merchant, $request->validated());
 
-            $apiKey = $result->api_key;
-            $apiKey->plain_secret = $result->plain_secret;
-
             return $this->successResponse(
-                new MerchantApiKeyResource($apiKey),
+                $result,
                 'La clé API a été créée avec succès. Veuillez sauvegarder le secret, il ne sera pas affiché à nouveau.',
                 201
             );

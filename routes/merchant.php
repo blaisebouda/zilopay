@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::prefix('merchant')->name('merchant.')->group(function () {
     // Register and show merchant
-    Route::middleware('auth:sanctum')->group(function () {
+    Route::middleware(['auth:sanctum', 'throttle:5,1'])->group(function () {
         Route::get('/', [MerchantController::class, 'show']);
         Route::post('/', [MerchantController::class, 'store']);
         Route::get('/documents/{path}', [MerchantController::class, 'downloadDocument'])
@@ -30,13 +30,7 @@ Route::prefix('merchant')->name('merchant.')->group(function () {
     });
 
     // Routes API Key — intégration externe
-    Route::middleware('merchant.api_key')->group(function () {
-        Route::post('/payments/initiate', [PaymentLinkController::class, 'store']);
+    Route::middleware(['merchant.api_key', 'throttle:5,1'])->group(function () {
+        Route::post('/payment/initiate', [PaymentLinkController::class, 'store']);
     });
-});
-
-// Public — lien de paiement
-Route::middleware('validate.signed.payment.link')->group(function () {
-    Route::get('/pay/{ref}', [PaymentLinkController::class, 'show'])->name('merchant.pay');
-    Route::post('/pay/{ref}', [PaymentLinkController::class, 'process'])->name('process');
 });
