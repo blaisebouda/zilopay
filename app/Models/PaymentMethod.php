@@ -9,6 +9,7 @@ use App\Models\Enums\PaymentMethodCode;
 use App\Models\Enums\PaymentMethodType;
 use App\Models\Traits\HasFeed;
 use App\Models\Traits\HasLockActiveStatus;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 
@@ -66,10 +67,10 @@ class PaymentMethod extends Model
 
     public function amountRangeLabel()
     {
-        return $this->minAmountLabel().' - '.$this->maxAmountLabel();
+        return $this->minAmountLabel() . ' - ' . $this->maxAmountLabel();
     }
 
-    public function scopeActive($query)
+    public function scopeActive(Builder $query): Builder
     {
         return $query->where('status', LockActiveStatus::ACTIVE);
     }
