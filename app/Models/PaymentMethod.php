@@ -52,7 +52,14 @@ class PaymentMethod extends Model
 
     public function logoUrl()
     {
-        return Storage::disk('public')->url($this->logo);
+        return $this->code->getLogo();
+
+        //return Storage::disk('public')->url($this->logo);
+    }
+
+    public function countryFlagUrl()
+    {
+        return asset('assets/flags/' . $this->country->value . '.svg');
     }
 
     public function minAmountLabel()

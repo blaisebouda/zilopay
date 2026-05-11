@@ -18,9 +18,11 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
+        $middleware->prepend(\Illuminate\Http\Middleware\HandleCors::class);
         $middleware->use([
             CacheResponse::class,
         ]);
+
         $middleware->alias([
             'merchant.approved' => MerchantApprovedMiddleware::class,
             'merchant.api_key' => MerchantApiKeyMiddleware::class,

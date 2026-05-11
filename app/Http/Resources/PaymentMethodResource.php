@@ -18,6 +18,7 @@ class PaymentMethodResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'logo_url' => $this->logoUrl(),
+            'country_flag_url' => $this->countryFlagUrl(),
             'type' => $this->type,
             'country' => $this->country,
             'country_label' => $this->country?->label(),
