@@ -18,15 +18,14 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
+        $middleware->statefulApi();
+
         $middleware->prepend(\Illuminate\Http\Middleware\HandleCors::class);
-        $middleware->use([
-            CacheResponse::class,
-        ]);
+        $middleware->append(CacheResponse::class);
 
         $middleware->alias([
             'merchant.approved' => MerchantApprovedMiddleware::class,
             'merchant.api_key' => MerchantApiKeyMiddleware::class,
-            'validate.signed.payment.link' => ValidateSignedPaymentLink::class,
             'do.not.cache.response' => DoNotCacheResponse::class,
         ]);
     })

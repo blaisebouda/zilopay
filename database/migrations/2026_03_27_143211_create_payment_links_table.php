@@ -26,6 +26,7 @@ return new class extends Migration
             $table->integer('uses_count')->default(0);
             $table->timestamp('expires_at')->nullable();
             $table->json('metadata')->nullable();
+            $table->mediumText('url')->nullable();
             $table->timestamps();
         });
     }

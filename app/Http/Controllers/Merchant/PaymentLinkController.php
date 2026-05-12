@@ -77,12 +77,15 @@ class PaymentLinkController extends ApiController
     /**
      * Display the specified payment link (public).
      */
-    public function show(string $uuid): JsonResponse
+    public function show(string $ref): JsonResponse
     {
         try {
-            $paymentLink = $this->paymentLinkService->getByUuid($uuid);
+
+            $paymentLink = $this->paymentLinkService->getByUuid($ref);
 
             $validation = $this->paymentLinkService->validateForPayment($paymentLink);
+
+
 
             return $this->successResponse(
                 [
@@ -96,7 +99,7 @@ class PaymentLinkController extends ApiController
             return $this->errorResponse('Le lien de paiement n\'existe pas', 404);
         } catch (\Exception $e) {
             Log::error('Failed to retrieve payment link', [
-                'uuid' => $uuid,
+                'uuid' => $ref,
                 'error' => $e->getMessage(),
             ]);
 

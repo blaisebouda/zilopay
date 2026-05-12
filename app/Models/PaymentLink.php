@@ -32,6 +32,7 @@ class PaymentLink extends BaseModel
         'uses_count',
         'expires_at',
         'metadata',
+        'url',
     ];
 
     /**
@@ -92,9 +93,14 @@ class PaymentLink extends BaseModel
         return $this->uses_count >= $this->max_uses;
     }
 
+    public function isActive(): bool
+    {
+        return $this->status->equals(LockActiveStatus::ACTIVE);
+    }
+
     public function isInactive(): bool
     {
-        return $this->status->equals(LockActiveStatus::INACTIVE);
+        return $this->status->equals(LockActiveStatus::LOCKED);
     }
 
     public function amountIsMatching(?float $amount): bool

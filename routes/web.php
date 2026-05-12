@@ -19,7 +19,7 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
 });
 
 // Public — lien de paiement
-Route::middleware('validate.signed.payment.link')->group(function () {
+Route::middleware(['signed', 'throttle:3,1'])->group(function () {
     Route::get('/pay/{ref}', [PaymentLinkController::class, 'show'])->name('merchant.pay');
     Route::post('/pay/{ref}', [PaymentLinkController::class, 'process'])->name('process');
 });

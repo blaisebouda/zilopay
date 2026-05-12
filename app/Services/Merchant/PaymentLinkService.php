@@ -35,7 +35,11 @@ class PaymentLinkService
             'metadata' => $data['metadata'] ?? null,
         ]);
 
-        return $this->generateLink($merchant, $paymentLink->refresh());
+        $url = $this->generateLink($merchant, $paymentLink->refresh());
+
+        $paymentLink->update(['url' => $url]);
+
+        return $url;
     }
 
     /**
@@ -117,14 +121,12 @@ class PaymentLinkService
         // $paymentLink = $transaction->paymentLink;
 
         // Generate a signed URL valid for 30 days
-        // Include merchant name and amount in the URL for display purposes
-        // These parameters are SIGNED, so they cannot be modified without breaking the signature
         $signedUrl = URL::temporarySignedRoute(
             'merchant.pay',
             now()->addDays(30),
             [
                 'ref' => $paymentLink->uuid,
-                'merchant_name' => $merchant->name,
+                'merchant_name' => $merchant->business_name,
                 'amount' => $paymentLink->amount,
                 'currency' => $paymentLink->currency,
             ]
@@ -139,7 +141,7 @@ class PaymentLinkService
         $query = $parsedUrl['query'] ?? '';
 
         // Build the secure checkout link
-        $checkoutLink = $checkoutUrl.$path.($query ? '?'.$query : '');
+        $checkoutLink = $checkoutUrl . $path . ($query ? '?' . $query : '');
 
         return $checkoutLink;
     }
