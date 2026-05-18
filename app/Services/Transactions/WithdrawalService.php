@@ -57,7 +57,7 @@ class WithdrawalService extends AbstractTransactionService implements Transactio
                 additionalData: [
                     'payment_method_id' => $paymentMethod->id,
                     'fee_fixed' => $fees->fixed,
-                    'fee_percentage' => $fees->percentage,
+                    'fee_percent' => $fees->percentage,
                     'total' => -$totalDebit,
                     'balance_before' => $balanceBefore,
                     'balance_after' => $wallet->balance,
@@ -73,7 +73,7 @@ class WithdrawalService extends AbstractTransactionService implements Transactio
 
             $this->initiateGatewayPayout($withdrawal, $amount, $wallet, $totalDebit);
 
-            return $transaction->fresh();
+            return $transaction->refresh();
         });
     }
 
@@ -186,7 +186,7 @@ class WithdrawalService extends AbstractTransactionService implements Transactio
             'uuid' => $withdrawal->metadata['uuid'],
         ]);
 
-        return $withdrawal->transaction->fresh();
+        return $withdrawal->transaction->refresh();
     }
 
     private function failAndRefund(Withdrawal $withdrawal, array $verification, array $gatewayData): Transaction
@@ -237,6 +237,6 @@ class WithdrawalService extends AbstractTransactionService implements Transactio
             'uuid' => $withdrawal->metadata['uuid'],
         ]);
 
-        return $withdrawal->transaction->fresh();
+        return $withdrawal->transaction->refresh();
     }
 }

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Services\Merchant;
 
+use App\Http\Resources\MerchantResource;
+use App\Http\Resources\MerchantTransactionResource;
 use App\Models\Enums\DocumentStatus;
 use App\Models\Enums\DocumentType;
 use App\Models\Enums\MerchantStatus;
@@ -24,11 +26,11 @@ class MerchantService
      */
     public function create(User $user, array $data): Merchant
     {
-        // $existingMerchant = Merchant::where('user_id', $user->id)->first();
+        $existingMerchant = Merchant::where('user_id', $user->id)->first();
 
-        // if ($existingMerchant) {
-        //     throw new \InvalidArgumentException('L\'utilisateur a déjà un profil marchand.');
-        // }
+        if ($existingMerchant) {
+            throw new \InvalidArgumentException('L\'utilisateur a déjà un profil marchand.');
+        }
 
         return DB::transaction(function () use ($user, $data) {
             $merchant = Merchant::create([
@@ -38,7 +40,7 @@ class MerchantService
                 'phone_number' => $data['phone_number'] ?? null,
                 'country' => $data['country'],
                 'fee_fixed' => 0,
-                'fee_percentage' => 0,
+                'fee_percent' => 0,
                 'status' => MerchantStatus::PENDING,
             ]);
 
@@ -60,7 +62,7 @@ class MerchantService
     {
         foreach ($documents as $type => $file) {
             if ($file instanceof UploadedFile) {
-                $path = $file->store(MERCHANT_DOCUMENTS_PATH.$merchant->id, 'local');
+                $path = $file->store(MERCHANT_DOCUMENTS_PATH.'/'.$merchant->id, 'local');
 
                 MerchantDocument::create([
                     'merchant_id' => $merchant->id,
@@ -103,11 +105,11 @@ class MerchantService
             ->get();
 
         $totalRevenue = $merchant->transactions()
-            ->where('status', 'completed')
+            ->completed()
             ->sum('amount');
 
         $pendingPayments = $merchant->transactions()
-            ->where('status', 'pending')
+            ->pending()
             ->count();
 
         $paymentLinksCount = $merchant->paymentLinks()->count();
@@ -116,12 +118,14 @@ class MerchantService
             ->count();
 
         return [
-            'merchant' => $merchant,
-            'recent_payments' => $recentPayments,
-            'total_revenue' => $totalRevenue,
-            'pending_payments_count' => $pendingPayments,
-            'payment_links_count' => $paymentLinksCount,
-            'active_payment_links_count' => $activePaymentLinksCount,
+            'merchant' => MerchantResource::make($merchant),
+            'transactions' => MerchantTransactionResource::collection($recentPayments),
+            'statistics' => [
+                'total_revenue' => $totalRevenue,
+                'pending_transactions_count' => $pendingPayments,
+                'payment_links_count' => $paymentLinksCount,
+                'active_payment_links_count' => $activePaymentLinksCount,
+            ],
         ];
     }
 }

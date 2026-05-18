@@ -4,11 +4,8 @@ declare(strict_types=1);
 
 namespace App\Services\Merchant;
 
-use App\Models\Enums\MerchantTransactionStatus;
 use App\Models\Merchant;
 use App\Models\MerchantTransaction;
-use App\Models\PaymentLinks;
-use App\Services\Merchant\Utils\MerchantFeeCalculator;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
@@ -19,72 +16,13 @@ class MerchantPaymentService
     ) {}
 
     /**
-     * Initiate a payment via API.
-     *
-     * @param  array<string, mixed>  $data
-     */
-    public function initiate(Merchant $merchant, array $data): MerchantTransaction
-    {
-
-        $fees = MerchantFeeCalculator::calculate($data['amount'], $merchant);
-
-        $transaction = MerchantTransaction::create([
-            'merchant_id' => $merchant->id,
-            'gross_amount' => $data['amount'],
-            'currency' => $data['currency'],
-            'status' => MerchantTransactionStatus::PENDING,
-            'customer_email' => $data['customer_email'] ?? null,
-            'customer_phone' => $data['customer_phone'] ?? null,
-            'metadata' => buildMetadata(['description' => $data['description'] ?? null]),
-        ]);
-
-        return $transaction->fresh();
-    }
-
-    /**
-     * Process a payment via payment link.
-     *
-     * @param  array<string, mixed>  $data
-     */
-    public function processViaLink(PaymentLinks $paymentLink, array $data): MerchantTransaction
-    {
-        $validation = $this->paymentLinkService->validateForPayment(
-            $paymentLink,
-            $data['amount'] ?? null
-        );
-
-        if (! $validation['valid']) {
-            throw new \InvalidArgumentException($validation['message']);
-        }
-
-        $amount = $paymentLink->amount ?? $data['amount'];
-
-        $transaction = new MerchantTransaction;
-        $transaction->merchant_id = $paymentLink->merchant_id;
-        $transaction->payment_link_id = $paymentLink->id;
-        $transaction->amount = $amount;
-        $transaction->currency = $paymentLink->currency;
-        $transaction->status = 'pending';
-        $transaction->customer_email = $data['customer_email'] ?? null;
-        $transaction->customer_phone = $data['customer_phone'] ?? null;
-        $transaction->customer_name = $data['customer_name'] ?? null;
-        $transaction->reference = $this->generateReference();
-        $transaction->metadata = $data['metadata'] ?? null;
-        $transaction->save();
-
-        $this->paymentLinkService->incrementUses($paymentLink);
-
-        return $transaction->fresh();
-    }
-
-    /**
      * Get transaction by UUID.
      *
      * @throws ModelNotFoundException
      */
     public function getByUuid(string $uuid): MerchantTransaction
     {
-        return MerchantTransaction::where('uuid', $uuid)->firstOrFail();
+        return MerchantTransaction::getByUuid($uuid)->firstOrFail();
     }
 
     /**
@@ -109,16 +47,6 @@ class MerchantPaymentService
         }
 
         return $query->latest()->get();
-    }
-
-    /**
-     * Calculate fees for a transaction.
-     *
-     * @return array<string, mixed>
-     */
-    public function calculateFees(float $amount, Merchant $merchant): array
-    {
-        return MerchantFeeCalculator::getFeeBreakdown($amount, $merchant);
     }
 
     /**

@@ -4,9 +4,13 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
+use App\Models\Enums\LockActiveStatus;
 use App\Models\Enums\UserRole;
+use App\Models\Traits\HasLockActiveStatus;
 use App\Services\Wallet\WalletService;
 use Database\Factories\UserFactory;
+use Filament\Models\Contracts\FilamentUser;
+use Filament\Panel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -14,10 +18,13 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
-class User extends Authenticatable
+class User extends Authenticatable implements FilamentUser
 {
     /** @use HasFactory<UserFactory> */
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens,
+        HasFactory,
+        HasLockActiveStatus,
+        Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -32,6 +39,7 @@ class User extends Authenticatable
         'policy_accepted_at',
         'role',
         'phone_verified_at',
+        'status',
     ];
 
     /**
@@ -59,7 +67,13 @@ class User extends Authenticatable
             'two_factor_confirmed_at' => 'datetime',
             'policy_accepted_at' => 'datetime',
             'role' => UserRole::class,
+            'status' => LockActiveStatus::class,
         ];
+    }
+
+    public function canAccessPanel(Panel $panel): bool
+    {
+        return $this->isAdmin();
     }
 
     public function wallets(): HasMany

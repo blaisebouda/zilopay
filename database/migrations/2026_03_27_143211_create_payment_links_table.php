@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\Enums\CommonStatus;
+use App\Models\Enums\LockActiveStatus;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
@@ -21,11 +21,12 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->decimal('amount', 20, 8)->nullable();   // null = amount libre
             $table->string('currency', 3);
-            $table->integer('status')->default(CommonStatus::ACTIVE->value);
+            $table->integer('status')->default(LockActiveStatus::ACTIVE->value);
             $table->integer('max_uses')->nullable();         // null = illimité
             $table->integer('uses_count')->default(0);
             $table->timestamp('expires_at')->nullable();
             $table->json('metadata')->nullable();
+            $table->mediumText('url')->nullable();
             $table->timestamps();
         });
     }

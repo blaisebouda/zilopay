@@ -25,9 +25,9 @@ enum Country: string implements AdvancedEnumInterface
     public function phoneCode(): string
     {
         return match ($this) {
-            self::BF => '226',
-            self::SN => '221',
-            self::CI => '225',
+            self::BF => '+226',
+            self::SN => '+221',
+            self::CI => '+225',
         };
     }
 }

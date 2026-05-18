@@ -2,8 +2,8 @@
 
 namespace Database\Factories;
 
-use App\Models\Enums\CommonStatus;
 use App\Models\Enums\Currency;
+use App\Models\Enums\LockActiveStatus;
 use App\Models\User;
 use App\Models\Wallet;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -25,7 +25,7 @@ class WalletFactory extends Factory
             'currency' => Currency::random(),
             'balance' => $this->faker->randomFloat(2, 0, 10000),
             'is_default' => $this->faker->boolean(),
-            'status' => CommonStatus::random(),
+            'status' => LockActiveStatus::random(),
         ];
     }
 

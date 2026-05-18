@@ -81,8 +81,8 @@ describe('setDefaultWallet', function () {
 
         WalletService::setDefaultWallet($newDefault);
 
-        expect($newDefault->fresh()->is_default)->toBeTrue();
-        expect($oldDefault->fresh()->is_default)->toBeFalse();
+        expect($newDefault->refresh()->is_default)->toBeTrue();
+        expect($oldDefault->refresh()->is_default)->toBeFalse();
     });
 
     it('sets wallet as default when no previous default exists', function () {
@@ -95,6 +95,6 @@ describe('setDefaultWallet', function () {
 
         WalletService::setDefaultWallet($wallet);
 
-        expect($wallet->fresh()->is_default)->toBeTrue();
+        expect($wallet->refresh()->is_default)->toBeTrue();
     });
 });

@@ -5,13 +5,14 @@ namespace App\Models\Enums;
 use App\Constants\Colors;
 use App\Models\Enums\Contracts\AdvancedEnum;
 use App\Models\Enums\Contracts\AdvancedEnumInterface;
+use Filament\Support\Contracts\HasColor;
 
-enum CommonStatus: int implements AdvancedEnumInterface
+enum LockActiveStatus: int implements AdvancedEnumInterface, HasColor
 {
     use AdvancedEnum;
 
+    case LOCKED = 0;
     case ACTIVE = 1;
-    case INACTIVE = 0;
 
     public function getLabel(): ?string
     {
@@ -21,13 +22,13 @@ enum CommonStatus: int implements AdvancedEnumInterface
     public function getColor(): string
     {
         return match ($this) {
+            self::LOCKED => Colors::DANGER,
             self::ACTIVE => Colors::SUCCESS,
-            self::INACTIVE => Colors::FAILED,
         };
     }
 
     public function label(): string
     {
-        return __('enums.model_status.'.$this->name);
+        return __('enums.lock_active_status.'.$this->name);
     }
 }

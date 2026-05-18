@@ -45,11 +45,36 @@ if (! function_exists('format_amount')) {
     /**
      * Format a balance amount with currency device.
      *
-     * @param  int  $amount  The amount in coins.
+     * @param  float  $amount  The amount in coins.
      * @return string The formatted balance with currency device.
      */
-    function format_amount(int $amount, string $currency): string
+    function format_amount(float $amount, string $currency = DEFAULT_CURRENCY): string
     {
-        return number_format($amount, 2, '.', ' ').' '.$currency;
+        return number_format($amount, 0, '.', ' ').' '.$currency;
+    }
+}
+
+if (! function_exists('buildPath')) {
+
+    function buildPath(...$path): string
+    {
+        return implode('/', $path).'/';
+    }
+}
+
+if (! function_exists('formatBigNumber')) {
+    /**
+     * Format a number according to it's size.
+     *
+     * @param  int  $number  The number to format.
+     * @return string The formatted number.
+     */
+    function formatBigNumber(int $number): string
+    {
+        $units = ['', 'k', 'M', 'G', 'T', 'P', 'E', 'Z', 'Y'];
+        $power = floor(log($number, 1000));
+        $formattedNumber = number_format($number / pow(1000, $power), 1, '.', ',').$units[$power];
+
+        return $formattedNumber;
     }
 }

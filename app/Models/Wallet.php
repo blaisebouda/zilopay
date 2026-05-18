@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use App\Models\Enums\CommonStatus;
 use App\Models\Enums\Currency;
+use App\Models\Enums\LockActiveStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -30,7 +30,7 @@ class Wallet extends BaseModel
         return [
             'balance' => 'float',
             'is_default' => 'boolean',
-            'status' => CommonStatus::class,
+            'status' => LockActiveStatus::class,
             'currency' => Currency::class,
         ];
     }

@@ -13,6 +13,11 @@ enum Currency: string implements AdvancedEnumInterface
     case USD = 'USD';
     case EUR = 'EUR';
 
+    public static function default(): self
+    {
+        return self::XOF;
+    }
+
     public function label(): string
     {
         return match ($this) {

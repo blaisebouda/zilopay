@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Middleware;
 
 use App\Models\MerchantApiKey;
+use App\Services\Merchant\Utils\ApiKeyHasher;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -29,13 +30,8 @@ class MerchantApiKeyMiddleware
             ], 401);
         }
 
-        $merchantApiKey = MerchantApiKey::where('key', $apiKey)
-            ->where('is_active', true)
-            ->where(function ($query) {
-                $query->whereNull('expires_at')
-                    ->orWhere('expires_at', '>', now());
-            })
-            ->first();
+
+        $merchantApiKey = MerchantApiKey::active($apiKey)->first();
 
         if (! $merchantApiKey) {
             return response()->json([
@@ -45,7 +41,7 @@ class MerchantApiKeyMiddleware
             ], 401);
         }
 
-        if (! hash_equals($merchantApiKey->secret, hash('sha256', $apiSecret))) {
+        if (! ApiKeyHasher::verifySecret($apiSecret, $merchantApiKey->secret)) {
             return response()->json([
                 'success' => false,
                 'status' => 401,

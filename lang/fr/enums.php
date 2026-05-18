@@ -2,6 +2,15 @@
 
 return [
 
+    // User Status
+    'lock_active_status.LOCKED' => 'Bloqué',
+    'lock_active_status.ACTIVE' => 'Actif',
+
+    // Role
+    'user_role.ADMIN' => 'Administrateur',
+    'user_role.USER' => 'Utilisateur',
+    'user_role.MERCHANT' => 'Marchand',
+
     // Transaction Status
     'transaction_status.PENDING' => 'En attente',
     'transaction_status.SUCCESS' => 'Succès',
@@ -34,5 +43,31 @@ return [
     'vault_type.VOYAGE' => 'Voyage',
     'vault_type.TONTINE' => 'Tontine',
     'vault_type.AUTRES' => 'Autres',
+
+    // Payment Method Type
+    'payment_method_type.MOBILE_MONEY' => 'Mobile Money',
+    'payment_method_type.BANK_TRANSFER' => 'Virement Bancaire',
+    'payment_method_type.CASH' => 'Espèces',
+    'payment_method_type.CARD' => 'Carte',
+
+    // Merchant Transaction Status
+    'merchant_transaction_status.PENDING' => 'En attente',
+    'merchant_transaction_status.SUCCESS' => 'Succès',
+    'merchant_transaction_status.CANCELLED' => 'Annulé',
+    'merchant_transaction_status.FAILED' => 'Échoué',
+    'merchant_transaction_status.REFUNDED' => 'Remboursé',
+
+    // Document Type
+    'document_type.ID_CARD' => 'Carte d\'identité',
+    'document_type.BUSINESS_LICENSE' => 'Licence d\'activité',
+    'document_type.TAX_CERTIFICATE' => 'Certificat d\'imposition',
+
+    // Payment Method Code
+    'payment_method_code.ORANGE_MONEY' => 'Orange Money',
+    'payment_method_code.MOOV_MONEY' => 'Moov Money',
+    'payment_method_code.WAVE' => 'Wave',
+    'payment_method_code.TELECEL_MONEY' => 'Telecel Money',
+    'payment_method_code.BANK_TRANSFER' => 'Virement Bancaire',
+    'payment_method_code.SANK_MONEY' => 'Sank Money',
 
 ];

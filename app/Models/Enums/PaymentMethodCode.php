@@ -14,9 +14,17 @@ enum PaymentMethodCode: string implements AdvancedEnumInterface
     case WAVE = 'wave';
     case TELECEL_MONEY = 'telecel_money';
     case BANK_TRANSFER = 'bank_transfer';
+    case SANK_MONEY = 'sank_money';
+    case ORANGE_CI = 'orange_ci';
+    case WAVE_SN = 'wave_sn';
 
     public function label(): string
     {
-        return __('enums.payment_method_code.'.$this->name);
+        return __('enums.payment_method_code.' . $this->name);
+    }
+
+    public function getLogo(): string
+    {
+        return asset('assets/payment-methods/' . $this->value . '.png');
     }
 }

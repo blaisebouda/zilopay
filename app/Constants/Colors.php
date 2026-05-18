@@ -17,4 +17,6 @@ class Colors
     const FAILED = 'failed';
 
     const WARNING = 'warning';
+
+    const DANGER = 'danger';
 }

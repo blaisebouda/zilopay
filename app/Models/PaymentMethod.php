@@ -2,16 +2,23 @@
 
 namespace App\Models;
 
-use App\Models\Enums\CommonStatus;
+use App\Models\Enums\Country;
+use App\Models\Enums\Currency;
+use App\Models\Enums\LockActiveStatus;
 use App\Models\Enums\PaymentMethodCode;
 use App\Models\Enums\PaymentMethodType;
+use App\Models\Traits\HasFeed;
+use App\Models\Traits\HasLockActiveStatus;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 
 class PaymentMethod extends Model
 {
+    use HasFeed, HasLockActiveStatus;
+
     protected $fillable = [
-        'contry_id',
+        'country',
         'name',
         'logo',
         'type',
@@ -20,6 +27,7 @@ class PaymentMethod extends Model
         'max_amount',
         'fee_fixed',
         'fee_percent',
+        'currency',
     ];
 
     /**
@@ -30,27 +38,47 @@ class PaymentMethod extends Model
     protected function casts(): array
     {
         return [
+            'country' => Country::class,
             'code' => PaymentMethodCode::class,
             'min_amount' => 'float',
             'max_amount' => 'float',
             'fee_percent' => 'float',
             'fee_fixed' => 'float',
+            'currency' => Currency::class,
             'type' => PaymentMethodType::class,
+            'status' => LockActiveStatus::class,
         ];
-    }
-
-    public function country()
-    {
-        return $this->belongsTo(Country::class);
     }
 
     public function logoUrl()
     {
-        return Storage::disk('public')->url(PAYMENT_METHOD_LOGO_PATH.$this->logo);
+        return $this->code->getLogo();
+
+        //return Storage::disk('public')->url($this->logo);
     }
 
-    public function scopeActive($query)
+    public function countryFlagUrl()
     {
-        return $query->where('status', CommonStatus::ACTIVE);
+        return asset('assets/flags/' . $this->country->value . '.svg');
+    }
+
+    public function minAmountLabel()
+    {
+        return format_amount($this->min_amount, $this->currency->symbol());
+    }
+
+    public function maxAmountLabel()
+    {
+        return format_amount($this->max_amount, $this->currency->symbol());
+    }
+
+    public function amountRangeLabel()
+    {
+        return $this->minAmountLabel() . ' - ' . $this->maxAmountLabel();
+    }
+
+    public function scopeActive(Builder $query): Builder
+    {
+        return $query->where('status', LockActiveStatus::ACTIVE);
     }
 }

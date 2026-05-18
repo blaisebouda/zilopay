@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace App\Services\Merchant;
 
-use App\Models\Enums\CommonStatus;
+use App\Models\Enums\LockActiveStatus;
 use App\Models\Merchant;
-use App\Models\PaymentLinks;
+use App\Models\PaymentLink;
+use App\Services\Merchant\Utils\PaymentLinkValidator;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Facades\URL;
 
 class PaymentLinkService
 {
@@ -17,22 +19,27 @@ class PaymentLinkService
      *
      * @param  array<string, mixed>  $data
      */
-    public function create(Merchant $merchant, array $data): PaymentLinks
+    public function create(Merchant $merchant, array $data): string
     {
-        $paymentLink = PaymentLinks::create([
+
+        $paymentLink = PaymentLink::create([
             'merchant_id' => $merchant->id,
             'title' => $data['title'],
             'description' => $data['description'] ?? null,
             'amount' => $data['amount'] ?? null,
             'currency' => $data['currency'],
-            'status' => CommonStatus::ACTIVE,
+            'status' => LockActiveStatus::ACTIVE,
             'max_uses' => $data['max_uses'] ?? null,
             'uses_count' => 0,
             'expires_at' => $data['expires_at'] ?? null,
             'metadata' => $data['metadata'] ?? null,
         ]);
 
-        return $paymentLink->fresh();
+        $url = $this->generateLink($merchant, $paymentLink->refresh());
+
+        $paymentLink->update(['url' => $url]);
+
+        return $url;
     }
 
     /**
@@ -40,9 +47,9 @@ class PaymentLinkService
      *
      * @throws ModelNotFoundException
      */
-    public function getByUuid(string $uuid): PaymentLinks
+    public function getByUuid(string $uuid): PaymentLink
     {
-        return PaymentLinks::where('uuid', $uuid)->firstOrFail();
+        return PaymentLink::where('uuid', $uuid)->firstOrFail();
     }
 
     /**
@@ -60,7 +67,7 @@ class PaymentLinkService
      *
      * @param  array<string, mixed>  $data
      */
-    public function update(PaymentLinks $paymentLink, array $data): PaymentLinks
+    public function update(PaymentLink $paymentLink, array $data): PaymentLink
     {
         if (isset($data['title'])) {
             $paymentLink->title = $data['title'];
@@ -89,67 +96,53 @@ class PaymentLinkService
 
         $paymentLink->save();
 
-        return $paymentLink->fresh();
-    }
-
-    /**
-     * Delete a payment link.
-     */
-    public function delete(PaymentLinks $paymentLink): void
-    {
-        $paymentLink->delete();
+        return $paymentLink->refresh();
     }
 
     /**
      * Check if payment link is valid for payment.
-     *
-     * @return array{valid: bool, message?: string}
      */
-    public function validateForPayment(PaymentLinks $paymentLink, ?float $amount = null): array
+    public function validateForPayment(PaymentLink $paymentLink): PaymentLinkValidator
     {
-        if (! $paymentLink->isActive()) {
-            return [
-                'valid' => false,
-                'message' => 'Le lien de paiement n\'est pas actif.',
-            ];
-        }
-
-        if ($paymentLink->isExpired()) {
-            return [
-                'valid' => false,
-                'message' => 'Le lien de paiement a expiré.',
-            ];
-        }
-
-        if ($paymentLink->hasReachedMaxUses()) {
-            return [
-                'valid' => false,
-                'message' => 'Le lien de paiement a atteint le nombre d\'utilisations maximum.',
-            ];
-        }
-
-        if (! $paymentLink->amountIsMatching($amount)) {
-            return [
-                'valid' => false,
-                'message' => 'Le montant ne correspond pas au montant requis.',
-            ];
-        }
-
-        if ($paymentLink->amountIsZeroOrNull($amount)) {
-            return [
-                'valid' => false,
-                'message' => 'Le montant est requis pour ce lien de paiement.',
-            ];
-        }
-
-        return ['valid' => true];
+        return PaymentLinkValidator::make($paymentLink);
     }
 
     /**
      * Increment the uses count.
      */
-    public function incrementUses(PaymentLinks $paymentLink): void
+    public function incrementUses(PaymentLink $paymentLink): void
     {
         $paymentLink->increment('uses_count');
+    }
+
+    private function generateLink(Merchant $merchant, PaymentLink $paymentLink): string
+    {
+        // Generate a secure signed URL that redirects to checkout
+        // $paymentLink = $transaction->paymentLink;
+
+        // Generate a signed URL valid for 30 days
+        $signedUrl = URL::temporarySignedRoute(
+            'merchant.pay',
+            now()->addDays(30),
+            [
+                'ref' => $paymentLink->uuid,
+                'merchant_name' => $merchant->business_name,
+                'amount' => $paymentLink->amount,
+                'currency' => $paymentLink->currency,
+            ]
+        );
+
+        // Build the checkout redirect URL
+        $checkoutUrl = config('services.checkout.url');
+
+        // Extract the signed URL path and query string
+        $parsedUrl = parse_url($signedUrl);
+        $path = $parsedUrl['path'] ?? '';
+        $query = $parsedUrl['query'] ?? '';
+
+        // Build the secure checkout link
+        $checkoutLink = $checkoutUrl . $path . ($query ? '?' . $query : '');
+
+        return $checkoutLink;
     }
 }

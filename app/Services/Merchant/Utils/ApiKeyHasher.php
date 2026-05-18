@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Services\Merchant\Utils;
 
-use Illuminate\Support\Facades\Hash;
-
 class ApiKeyHasher
 {
     /**
@@ -18,9 +16,9 @@ class ApiKeyHasher
         $prefix = $isLive ? 'mk_live_' : 'mk_test_';
         $publicPrefix = $isLive ? 'mk_pub_live_' : 'mk_pub_test_';
 
-        $key = $prefix.self::generateRandomString(32);
-        $publicKey = $publicPrefix.self::generateRandomString(32);
-        $plainSecret = self::generateRandomString(48);
+        $key = $prefix . self::generateRandomString(32);
+        $publicKey = $publicPrefix . self::generateRandomString(32);
+        $plainSecret = self::generateRandomString(72);
         $hashedSecret = self::hashSecret($plainSecret);
 
         return (object) [
@@ -44,7 +42,7 @@ class ApiKeyHasher
      */
     public static function verifySecret(string $secret, string $hashedSecret): bool
     {
-        return hash_equals(hash('sha256', $secret), $hashedSecret);
+        return hash_equals(self::hashSecret($secret), $hashedSecret);
     }
 
     /**

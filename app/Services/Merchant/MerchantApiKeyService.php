@@ -34,7 +34,7 @@ class MerchantApiKeyService
         ]);
 
         return (object) [
-            'api_key' => $apiKey->fresh(),
+            'api_key' => $apiKey->refresh(),
             'plain_secret' => $keyPair->plainSecret,
         ];
     }
@@ -65,6 +65,12 @@ class MerchantApiKeyService
     public function revoke(MerchantApiKey $apiKey): void
     {
         $apiKey->is_active = false;
+        $apiKey->save();
+    }
+
+    public function toggleActive(MerchantApiKey $apiKey): void
+    {
+        $apiKey->is_active = !$apiKey->is_active;
         $apiKey->save();
     }
 

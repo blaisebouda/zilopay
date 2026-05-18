@@ -19,7 +19,7 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
 class MerchantController extends ApiController
 {
     public function __construct(
-        private MerchantService $merchantService
+        private MerchantService $service
     ) {}
 
     /**
@@ -28,7 +28,7 @@ class MerchantController extends ApiController
     public function store(StoreMerchantRequest $request): JsonResponse
     {
         try {
-            $merchant = $this->merchantService->create(
+            $merchant = $this->service->create(
                 $request->user(),
                 $request->validated()
             );
@@ -50,27 +50,24 @@ class MerchantController extends ApiController
         }
     }
 
-    /**
-     * Display the specified merchant.
-     */
+
     public function show(Request $request): JsonResponse
     {
         try {
+
+
             /*
             @var \App\Models\Merchant $merchant
             */
             $merchant = $request->user()->merchant;
 
             if (! $merchant->isApproved()) {
-                return $this->successResponse(
-                    new MerchantResource($merchant->load('documents')),
-                );
+                return $this->successResponse([
+                    'merchant' => new MerchantResource($merchant->load('documents')),
+                ]);
             }
 
-            return $this->successResponse(
-                new MerchantResource($merchant),
-                'Merchant retrieved successfully'
-            );
+            return $this->successResponse($this->service->getStatistics($merchant));
         } catch (ModelNotFoundException $e) {
             return $this->errorResponse('Marchant introuvable', 404);
         } catch (\Exception $e) {
