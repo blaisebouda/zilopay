@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Controllers\Merchant;
+namespace App\Http\Controllers\Api\Merchant;
 
 use App\Http\Controllers\Api\ApiController;
 use App\Http\Resources\MerchantDashboardResource;
