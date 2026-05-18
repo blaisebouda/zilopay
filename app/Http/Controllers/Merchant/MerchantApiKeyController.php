@@ -19,6 +19,19 @@ class MerchantApiKeyController extends ApiController
         private MerchantApiKeyService $apiKeyService
     ) {}
 
+    public function index(): JsonResponse
+    {
+        /** @var Merchant $merchant */
+        $merchant = request()->attributes->get('merchant');
+
+        $apiKeys = $merchant->apiKeys()->get();
+
+        return $this->successResponse(
+            MerchantApiKeyResource::collection($apiKeys),
+            'Clés API récupérées avec succès'
+        );
+    }
+
     /**
      * Store a newly created API key.
      */
@@ -70,6 +83,32 @@ class MerchantApiKeyController extends ApiController
             ]);
 
             return $this->errorResponse('Impossible de supprimer la clé API', 500);
+        }
+    }
+
+    public function toggleActive(MerchantApiKey $apiKey): JsonResponse
+    {
+        try {
+            /** @var Merchant $merchant */
+            $merchant = request()->attributes->get('merchant');
+
+            if ($apiKey->merchant_id !== $merchant->id) {
+                return $this->errorResponse('Unauthorized', 403);
+            }
+
+            $this->apiKeyService->toggleActive($apiKey);
+
+            return $this->successResponse(
+                null,
+                'Le statut de la clé API a été modifié avec succès'
+            );
+        } catch (\Exception $e) {
+            Log::error('Failed to toggle API key status', [
+                'api_key_id' => $apiKey->id,
+                'error' => $e->getMessage(),
+            ]);
+
+            return $this->errorResponse('Impossible de modifier le statut de la clé API', 500);
         }
     }
 }

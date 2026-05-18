@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
@@ -13,6 +14,7 @@ return new class extends Migration
     {
         Schema::create('merchant_api_keys', function (Blueprint $table) {
             $table->id();
+            $table->uuid('uuid')->default(DB::raw('gen_random_uuid()'))->unique();
             $table->foreignId('merchant_id')->constrained()->cascadeOnDelete();
             $table->string('name');                        // 'Production', 'Test'
             $table->string('key')->unique();               // mk_live_xxxx ou mk_test_xxxx

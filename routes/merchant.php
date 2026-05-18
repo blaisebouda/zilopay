@@ -25,8 +25,10 @@ Route::prefix('merchant')->name('merchant.')->group(function () {
         Route::get('/payment-links/{payment:uuid}', [PaymentLinkController::class, 'show']);
         Route::delete('/payment-links/{payment:uuid}', [PaymentLinkController::class, 'destroy']);
 
+        Route::get('/api-keys', [MerchantApiKeyController::class, 'index']);
         Route::post('/api-keys', [MerchantApiKeyController::class, 'store']);
-        Route::delete('/api-keys/{api_key:uuid}', [MerchantApiKeyController::class, 'destroy']);
+        Route::post('/api-keys/{merchantApiKey:uuid}/toggle-active', [MerchantApiKeyController::class, 'toggleActive']);
+        Route::delete('/api-keys/{merchantApiKey:uuid}', [MerchantApiKeyController::class, 'destroy']);
     });
 
     // Routes API Key — intégration externe

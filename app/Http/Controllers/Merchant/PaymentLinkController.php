@@ -22,7 +22,8 @@ class PaymentLinkController extends ApiController
 {
     public function __construct(
         private PaymentLinkService $paymentLinkService,
-        private MerchantPaymentService $paymentService
+        private MerchantPaymentService $paymentService,
+        private ProccesLinkService $proccesLinkService
     ) {}
 
     /**
@@ -173,7 +174,7 @@ class PaymentLinkController extends ApiController
         try {
             $paymentLink = $this->paymentLinkService->getByUuid($uuid);
 
-            $transaction = $this->paymentService->processViaLink($paymentLink, $request->validated());
+            $transaction = $this->proccesLinkService->handle($paymentLink, $request->validated());
 
             return $this->successResponse(
                 new MerchantTransactionResource($transaction),

@@ -50,10 +50,12 @@ class MerchantController extends ApiController
         }
     }
 
-    #[Authorize('view', 'merchant')]
+
     public function show(Request $request): JsonResponse
     {
         try {
+
+
             /*
             @var \App\Models\Merchant $merchant
             */

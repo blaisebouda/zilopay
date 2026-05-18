@@ -15,6 +15,11 @@ class MerchantPolicy
         return $user->id === $merchant->user_id;
     }
 
+    public function dashboard(User $user): bool
+    {
+        return true;
+    }
+
     /**
      * Determine whether the user can create models.
      */

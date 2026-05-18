@@ -4,8 +4,11 @@ declare(strict_types=1);
 
 namespace App\Http\Requests\Merchant;
 
+
+use App\Models\Enums\Country;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class ProcessPaymentLinkRequest extends FormRequest
 {
@@ -25,9 +28,10 @@ class ProcessPaymentLinkRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'amount' => ['required', 'numeric', 'min:100'],
+            'country' => ['required', 'string', Rule::enum(Country::class)],
+            'payment_method' => ['required', 'exists:payment_methods,id'],
             'customer_email' => ['nullable', 'string', 'email', 'max:255'],
-            'customer_phone' => ['nullable', 'string', 'max:20'],
+            'customer_phone' => ['nullable', 'regex:' . PHONE_NUMBER_REGEX],
             'customer_name' => ['nullable', 'string', 'max:255'],
             'metadata' => ['nullable', 'array'],
         ];
@@ -41,9 +45,8 @@ class ProcessPaymentLinkRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'amount.numeric' => 'The amount must be a number.',
-            'amount.min' => 'The amount must be at least 0.01.',
             'customer_email.email' => 'Please provide a valid customer email.',
+            'customer_phone.regex' => 'Please provide a valid customer phone number.',
         ];
     }
 }
