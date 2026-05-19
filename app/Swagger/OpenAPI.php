@@ -35,5 +35,5 @@ use OpenApi\Attributes as OA;
 
 class OpenAPI
 {
-    // This class is used for OpenAPI documentation
+    // This class OpenAPI used for OpenAPI documentation
 }
