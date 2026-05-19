@@ -25,13 +25,13 @@ import {
     SidebarTrigger,
 } from "@/components/ui/sidebar";
 
-import { RouterLink as NavLink } from "@/components/ui/nav-link";
 import ThemeToggle from "@/components/ui/theme-toggle";
 
+import { ROUTE } from "@/constants/route";
 import LS from "@/lib/ls";
-import { ROUTE } from "@/router/route";
 import { MainLayout } from "./MainLayout";
 import ProfileDropdown from "./partial/dropdown-profil";
+import { NavLink } from "./partial/nav-link";
 
 const isMerchant = LS.get("user")?.is_merchant || false;
 
@@ -95,8 +95,10 @@ const NAV_ITEMS = [
 
 export default function DashboardLayout({
     children,
+    title = "Zilopay",
 }: {
     children: React.ReactNode;
+    title?: string;
 }) {
     return (
         <div className="flex min-h-dvh w-full">
@@ -109,7 +111,7 @@ export default function DashboardLayout({
                                     <SidebarMenuButton size="lg" asChild>
                                         <a href="#">
                                             <img
-                                                src="/logo.jpeg"
+                                                src="/images/logo.png"
                                                 alt="Zilopay"
                                                 className="size-10 border rounded-lg"
                                             />
@@ -137,7 +139,6 @@ export default function DashboardLayout({
                                             <SidebarMenuItem key={item.title}>
                                                 <SidebarMenuButton asChild>
                                                     <NavLink
-                                                        key={item.url}
                                                         href={item.url}
                                                         title={item.title}
                                                         icon={
@@ -148,10 +149,10 @@ export default function DashboardLayout({
                                                     />
                                                 </SidebarMenuButton>
                                                 {/* {item.badge && (
-                          <SidebarMenuBadge className="top-1.5 right-1 bg-primary/10 rounded-full">
-                            {item.badge}
-                          </SidebarMenuBadge>
-                        )} */}
+													<SidebarMenuBadge className="top-1.5 right-1 bg-primary/10 rounded-full">
+														{item.badge}
+													</SidebarMenuBadge>
+												)} */}
                                             </SidebarMenuItem>
                                         ))}
                                     </SidebarMenu>
@@ -174,7 +175,7 @@ export default function DashboardLayout({
                                 {/* breadcrumbs */}
                                 <div className="hidden sm:block">
                                     <h2 className="font-bold text-muted-foreground">
-                                        Tableau de bord
+                                        {title}
                                     </h2>
                                 </div>
                             </div>
