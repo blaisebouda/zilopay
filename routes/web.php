@@ -1,13 +1,19 @@
 <?php
 
-use App\Http\Controllers\Merchant\MerchantController;
-use App\Http\Controllers\Merchant\PaymentLinkController;
+use App\Http\Controllers\Api\Merchant\MerchantController;
+use App\Http\Controllers\Api\Merchant\PaymentLinkController;
 use App\Http\Controllers\OtpTestController;
 use Illuminate\Support\Facades\Route;
+use Inertia\Inertia;
+
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
 Route::get('/', function () {
-    return view('welcome');
+    return Inertia::render('Dashboard');
 });
+
 
 Route::get('/otp', [OtpTestController::class, 'index']);
 

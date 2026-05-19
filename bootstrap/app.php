@@ -20,11 +20,11 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->web(append: [
             HandleInertiaRequests::class,
+            // CacheResponse::class, // TODO: Enable this when is production ready
         ]);
         $middleware->statefulApi();
 
         $middleware->prepend(\Illuminate\Http\Middleware\HandleCors::class);
-        $middleware->append(CacheResponse::class);
 
         $middleware->alias([
             'merchant.approved' => MerchantApprovedMiddleware::class,
