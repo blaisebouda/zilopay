@@ -65,7 +65,7 @@ class AuthController extends ApiController
             ->first();
 
         if (! $user || ! Hash::check($request->password, $user->password)) {
-            return $this->errorResponse('Identifiants invalides.', 404);
+            return $this->errorResponse('Identifiants invalides.', 401);
         }
 
         // Create token
