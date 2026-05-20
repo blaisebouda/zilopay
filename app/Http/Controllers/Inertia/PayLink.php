@@ -3,14 +3,12 @@
 namespace App\Http\Controllers\Inertia;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\PaymentLinkResource;
 use App\Services\Merchant\PaymentLinkService;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class PayLink extends Controller
 {
-
     public function __construct(
         private PaymentLinkService $paymentLinkService
     ) {}

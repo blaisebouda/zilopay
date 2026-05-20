@@ -62,7 +62,6 @@ class PaymentLinkController extends ApiController
 
             $paymentLink = $this->paymentLinkService->create($merchant, $request->validated());
 
-
             return $this->successResponse(
                 ['payment_url' => $paymentLink],
                 'Le lien de paiement a été créé avec succès',
@@ -87,8 +86,6 @@ class PaymentLinkController extends ApiController
             $paymentLink = $this->paymentLinkService->getByUuid($ref);
 
             $validation = $this->paymentLinkService->validateForPayment($paymentLink);
-
-
 
             return $this->successResponse(
                 [

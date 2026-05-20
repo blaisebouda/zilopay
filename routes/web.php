@@ -4,7 +4,6 @@ use App\Http\Controllers\Api\Merchant\MerchantController;
 use App\Http\Controllers\Api\Merchant\PaymentLinkController;
 use App\Http\Controllers\Inertia\PayLink;
 use App\Http\Controllers\OtpTestController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -17,14 +16,13 @@ Route::get('/', function () {
 });
 
 // Auth routes
-Route::get('/login', fn() => Inertia::render('Auth/Login'))->name('login');
-Route::get('/register', fn() => Inertia::render('Auth/Register'))->name('register');
+Route::get('/login', fn () => Inertia::render('Auth/Login'))->name('login');
+Route::get('/register', fn () => Inertia::render('Auth/Register'))->name('register');
 
 // Dashboard routes
 Route::prefix('dashboard')->group(function () {
-    Route::get('/', fn() => Inertia::render('Dashboard/Index'))->name('dashboard');
+    Route::get('/', fn () => Inertia::render('Dashboard/Index'))->name('dashboard');
 });
-
 
 Route::get('/otp', [OtpTestController::class, 'index']);
 
@@ -34,7 +32,6 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
         ->can('view', 'Merchant')
         ->name('filament.merchant.download');
 });
-
 
 // Public — lien de paiement
 Route::middleware(['signed', 'throttle:3,1'])->group(function () {

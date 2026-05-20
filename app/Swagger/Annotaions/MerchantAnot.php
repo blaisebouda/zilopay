@@ -286,8 +286,8 @@ class MerchantAnot
         summary: 'Create payment link',
         tags: ['Merchants'],
         parameters: [
-            new OA\Parameter(name: "X-API-Key", in: "header", required: true, schema: new OA\Schema(type: "string")),
-            new OA\Parameter(name: "X-API-Secret", in: "header", required: true, schema: new OA\Schema(type: "string")),
+            new OA\Parameter(name: 'X-API-Key', in: 'header', required: true, schema: new OA\Schema(type: 'string')),
+            new OA\Parameter(name: 'X-API-Secret', in: 'header', required: true, schema: new OA\Schema(type: 'string')),
         ],
         requestBody: new OA\RequestBody(
             required: true,
@@ -490,10 +490,6 @@ class MerchantAnot
         ]
     )]
     public function apiKeysDestroy() {}
-
-
-
-
 
     #[OA\Get(
         path: '/merchant/pay/{uuid}',

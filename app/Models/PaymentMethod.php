@@ -54,12 +54,12 @@ class PaymentMethod extends Model
     {
         return $this->code->getLogo();
 
-        //return Storage::disk('public')->url($this->logo);
+        // return Storage::disk('public')->url($this->logo);
     }
 
     public function countryFlagUrl()
     {
-        return asset('assets/flags/' . $this->country->value . '.svg');
+        return asset('assets/flags/'.$this->country->value.'.svg');
     }
 
     public function minAmountLabel()
@@ -74,7 +74,7 @@ class PaymentMethod extends Model
 
     public function amountRangeLabel()
     {
-        return $this->minAmountLabel() . ' - ' . $this->maxAmountLabel();
+        return $this->minAmountLabel().' - '.$this->maxAmountLabel();
     }
 
     public function scopeActive(Builder $query): Builder

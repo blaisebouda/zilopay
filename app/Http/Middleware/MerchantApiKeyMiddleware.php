@@ -30,7 +30,6 @@ class MerchantApiKeyMiddleware
             ], 401);
         }
 
-
         $merchantApiKey = MerchantApiKey::active($apiKey)->first();
 
         if (! $merchantApiKey) {

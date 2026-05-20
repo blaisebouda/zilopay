@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Merchant;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 
@@ -54,7 +55,7 @@ class UserSeeder extends Seeder
         $merchantUser->defaultWallet->credit(1000000);
         $merchantUser->defaultWallet->update(['code' => 'ZP00000003']);
 
-        \App\Models\Merchant::factory()
+        Merchant::factory()
             ->for($merchantUser)
             ->approve()
             ->create();

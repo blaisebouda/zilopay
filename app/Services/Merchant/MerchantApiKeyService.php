@@ -70,7 +70,7 @@ class MerchantApiKeyService
 
     public function toggleActive(MerchantApiKey $apiKey): void
     {
-        $apiKey->is_active = !$apiKey->is_active;
+        $apiKey->is_active = ! $apiKey->is_active;
         $apiKey->save();
     }
 

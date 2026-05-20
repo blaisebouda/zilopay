@@ -18,7 +18,7 @@ enum MerchantTransactionStatus: int implements AdvancedEnumInterface
 
     public function label(): string
     {
-        return __('enums.merchant_transaction_status.' . $this->name);
+        return __('enums.merchant_transaction_status.'.$this->name);
     }
 
     public function color(): string

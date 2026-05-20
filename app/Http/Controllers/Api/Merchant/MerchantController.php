@@ -50,11 +50,9 @@ class MerchantController extends ApiController
         }
     }
 
-
     public function show(Request $request): JsonResponse
     {
         try {
-
 
             /*
             @var \App\Models\Merchant $merchant

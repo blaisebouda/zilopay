@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Http\Requests\Merchant;
 
-
 use App\Models\Enums\Country;
 use App\Models\Enums\Currency;
 use Illuminate\Contracts\Validation\ValidationRule;
@@ -33,7 +32,7 @@ class ProcessPaymentLinkRequest extends FormRequest
             'currency' => ['required', 'string', Rule::enum(Currency::class)],
             'payment_method' => ['required', 'exists:payment_methods,id'],
             'customer_email' => ['nullable', 'string', 'email', 'max:255'],
-            'customer_phone' => ['nullable', 'regex:' . PHONE_NUMBER_REGEX],
+            'customer_phone' => ['nullable', 'regex:'.PHONE_NUMBER_REGEX],
             'customer_name' => ['nullable', 'string', 'max:255'],
             'metadata' => ['nullable', 'array'],
         ];
