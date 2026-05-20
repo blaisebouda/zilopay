@@ -14,6 +14,7 @@ use App\Models\Merchant;
 use App\Models\PaymentLink;
 use App\Services\Merchant\MerchantPaymentService;
 use App\Services\Merchant\PaymentLinkService;
+use App\Services\Merchant\ProccesLinkService;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Log;
@@ -61,6 +62,7 @@ class PaymentLinkController extends ApiController
 
             $paymentLink = $this->paymentLinkService->create($merchant, $request->validated());
 
+
             return $this->successResponse(
                 ['payment_url' => $paymentLink],
                 'Le lien de paiement a été créé avec succès',
@@ -93,8 +95,7 @@ class PaymentLinkController extends ApiController
                     'payment_link' => new PaymentLinkResource($paymentLink),
                     'is_valid' => $validation->isValid,
                     'validation_message' => $validation->message,
-                ],
-                'Le lien de paiement a été récupéré avec succès'
+                ]
             );
         } catch (ModelNotFoundException $e) {
             return $this->errorResponse('Le lien de paiement n\'existe pas', 404);

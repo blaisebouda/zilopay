@@ -29,7 +29,7 @@ import ThemeToggle from "@/components/ui/theme-toggle";
 
 import { ROUTE } from "@/constants/route";
 import LS from "@/lib/ls";
-import { MainLayout } from "./MainLayout";
+import { AppLayout } from "./AppLayout";
 import ProfileDropdown from "./partial/dropdown-profil";
 import { NavLink } from "./partial/nav-link";
 
@@ -202,7 +202,7 @@ export default function DashboardLayout({
                         </div>
                     </header>
 
-                    <MainLayout>{children}</MainLayout>
+                    <AppLayout>{children}</AppLayout>
                 </div>
             </SidebarProvider>
         </div>

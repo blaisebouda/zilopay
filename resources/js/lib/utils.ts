@@ -77,10 +77,10 @@ export function waitFor(
     });
 }
 
-export function getIdentifer(user: User): string {
-    return user?.email || user?.phone_number || "";
-}
-
 export function int(value?: string): number {
     return value ? parseInt(value) : 0;
+}
+
+export function removeSpaces(str: string): string {
+    return str.replace(/\s/g, "");
 }

@@ -16,7 +16,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import ENDPOINTS from "@/constants/endpoints";
 import { useAppNavigation } from "@/hooks/use-app-navigation";
 import { usePost } from "@/hooks/use-post";
-import { MainLayout } from "@/Layouts/MainLayout";
+import { MainLayout } from "@/Layouts/AppLayout";
 import LS from "@/lib/ls";
 import type { LoginResponse } from "@/types";
 import { Eye, EyeOff, Link, Lock, Mail, Phone } from "lucide-react";
