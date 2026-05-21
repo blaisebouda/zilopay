@@ -1,142 +1,145 @@
 import {
+  Form,
   FormControl,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { PhoneInput } from "@/components/ui/phone-input";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import type { RegisterFormData } from "@/validations/register.shema";
-import { Lock, Mail, Phone, ShieldCheck, User } from "lucide-react";
-import type { UseFormReturn } from "react-hook-form";
+} from "@/components/ui/form"
+import { Input } from "@/components/ui/input"
+import { PhoneInput } from "@/components/ui/phone-input"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import type { RegisterFormData } from "@/lib/validations/register.shema"
+import { Lock, Mail, Phone, ShieldCheck, User } from "lucide-react"
+import type { UseFormReturn } from "react-hook-form"
 interface RegisterInfosFormProps {
-  form: UseFormReturn<RegisterFormData>;
+  form: UseFormReturn<RegisterFormData>
 }
 
 export function RegisterInfosForm({ form }: RegisterInfosFormProps) {
   const reset = () => {
-    form.setValue("email", null);
-    form.setValue("phone_number", null);
-  };
+    form.setValue("email", null)
+    form.setValue("phone_number", null)
+  }
   return (
-    <div className="mx-auto bg-card border p-4 sm:p-6 rounded-lg space-y-6">
-      <Tabs onValueChange={reset} defaultValue="email" className="w-full">
-        <TabsList className="grid w-full grid-cols-2">
-          <TabsTrigger value="email" className="gap-2">
-            <Mail className="h-4 w-4" />
-            Email
-          </TabsTrigger>
-          <TabsTrigger value="phone" className="gap-2">
-            <Phone className="h-4 w-4" />
-            Téléphone
-          </TabsTrigger>
-        </TabsList>
-        <TabsContent value="email" className="mt-4">
-          <FormField
-            control={form.control}
-            name="email"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>
-                  <Mail className="h-4 w-4" />
-                  Adresse email
-                </FormLabel>
-                <FormControl>
-                  <Input
-                    required={form.getValues("phone_number") == null}
-                    type="email"
-                    placeholder="exemple@email.com"
-                    {...field}
-                    value={field.value || ""}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        </TabsContent>
-        <TabsContent value="phone" className="mt-4">
-          <FormField
-            control={form.control}
-            name="phone_number"
-            render={({ field }) => (
-              <FormItem className="flex flex-col items-start">
-                <FormLabel className="text-left">
-                  <Phone className="h-4 w-4" />
-                  Numéro de téléphone
-                </FormLabel>
-                <FormControl className="w-full">
-                  <PhoneInput
-                    required={form.getValues("email") == null}
-                    placeholder="Entrez votre numéro"
-                    {...field}
-                    value={field.value || ""}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        </TabsContent>
-      </Tabs>
-      <FormField
-        control={form.control}
-        name="name"
-        render={({ field }) => (
-          <FormItem>
-            <FormLabel className="flex items-center gap-2">
-              <User className="h-4 w-4" />
-              Nom complet
-            </FormLabel>
-            <FormControl>
-              <Input type="text" placeholder="Ex: Oumar Diallo" {...field} />
-            </FormControl>
-            <FormMessage />
-          </FormItem>
-        )}
-      />
-      <FormField
-        control={form.control}
-        name="password"
-        render={({ field }) => (
-          <FormItem>
-            <FormLabel className="flex items-center gap-2">
-              <Lock className="h-4 w-4" />
-              Mot de passe
-            </FormLabel>
-            <FormControl>
-              <Input
-                type="password"
-                placeholder="Entrez votre mot de passe"
-                {...field}
-              />
-            </FormControl>
-            <FormMessage />
-          </FormItem>
-        )}
-      />
-      <FormField
-        control={form.control}
-        name="password_confirmation"
-        render={({ field }) => (
-          <FormItem>
-            <FormLabel className="flex items-center gap-2">
-              <ShieldCheck className="h-4 w-4" />
-              Confirmation du mot de passe
-            </FormLabel>
-            <FormControl>
-              <Input
-                type="password"
-                placeholder="Confirmez votre mot de passe"
-                {...field}
-              />
-            </FormControl>
-            <FormMessage />
-          </FormItem>
-        )}
-      />
-    </div>
-  );
+   
+      <div className="mx-auto bg-card border p-4 sm:p-6 rounded-lg space-y-6">
+        <Tabs onValueChange={reset} defaultValue="email" className="w-full">
+          <TabsList className="grid w-full grid-cols-2">
+            <TabsTrigger value="email" className="gap-2">
+              <Mail className="h-4 w-4" />
+              Email
+            </TabsTrigger>
+            <TabsTrigger value="phone" className="gap-2">
+              <Phone className="h-4 w-4" />
+              Téléphone
+            </TabsTrigger>
+          </TabsList>
+          <TabsContent value="email" className="mt-4">
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>
+                    <Mail className="h-4 w-4" />
+                    Adresse email
+                  </FormLabel>
+                  <FormControl>
+                    <Input
+                      required={form.getValues("phone_number") == null}
+                      type="email"
+                      placeholder="exemple@email.com"
+                      {...field}
+                      value={field.value || ""}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </TabsContent>
+          <TabsContent value="phone" className="mt-4">
+            <FormField
+              control={form.control}
+              name="phone_number"
+              render={({ field }) => (
+                <FormItem className="flex flex-col items-start">
+                  <FormLabel className="text-left">
+                    <Phone className="h-4 w-4" />
+                    Numéro de téléphone
+                  </FormLabel>
+                  <FormControl className="w-full">
+                    <PhoneInput
+                      required={form.getValues("email") == null}
+                      placeholder="Entrez votre numéro"
+                      {...field}
+                      value={field.value || ""}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </TabsContent>
+        </Tabs>
+        <FormField
+          control={form.control}
+          name="name"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel className="flex items-center gap-2">
+                <User className="h-4 w-4" />
+                Nom complet
+              </FormLabel>
+              <FormControl>
+                <Input type="text" placeholder="Ex: Oumar Diallo" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="password"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel className="flex items-center gap-2">
+                <Lock className="h-4 w-4" />
+                Mot de passe
+              </FormLabel>
+              <FormControl>
+                <Input
+                  type="password"
+                  placeholder="Entrez votre mot de passe"
+                  {...field}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="password_confirmation"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel className="flex items-center gap-2">
+                <ShieldCheck className="h-4 w-4" />
+                Confirmation du mot de passe
+              </FormLabel>
+              <FormControl>
+                <Input
+                  type="password"
+                  placeholder="Confirmez votre mot de passe"
+                  {...field}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+      </div>
+    
+  )
 }

@@ -1,7 +1,7 @@
-import { RefreshCwIcon } from "lucide-react";
+import { RefreshCwIcon } from "lucide-react"
 
-import { LoadingButton } from "@/components/customs/loading-button";
-import { Button } from "@/components/ui/button";
+import { LoadingButton } from "@/components/customs/loading-button"
+import { Button } from "@/components/ui/button"
 import {
   Card,
   CardContent,
@@ -9,46 +9,51 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { ErrorsList } from "@/components/ui/errors-list";
-import { Field, FieldLabel } from "@/components/ui/field";
+} from "@/components/ui/card"
+import { ErrorsList } from "@/components/ui/errors-list"
+import { Field, FieldLabel } from "@/components/ui/field"
 import {
   InputOTP,
   InputOTPGroup,
   InputOTPSeparator,
   InputOTPSlot,
-} from "@/components/ui/input-otp";
-import ENDPOINTS from "@/constants/endpoints";
-import { useAppNavigation } from "@/hooks/use-app-navigation";
-import { usePost } from "@/hooks/use-post";
-import { getIdentifer } from "@/lib/helpers";
-import { useState } from "react";
-import { toast } from "sonner";
+} from "@/components/ui/input-otp"
+import ENDPOINTS from "@/constants/endpoints"
+import { useAppNavigation } from "@/hooks/use-app-navigation"
+import { usePost } from "@/hooks/use-post"
+import { OtpResponse, User } from "@/types/interface"
+import { useState } from "react"
+import { toast } from "sonner"
 
 export function InputOTPForm({ result }: { result: OtpResponse }) {
-  const [otp, setOtp] = useState("");
-  const { loading, post, error } = usePost(ENDPOINTS.AUTH.verify_otp);
-  const { goTo } = useAppNavigation();
+  const [otp, setOtp] = useState("")
+  const { loading, post, error } = usePost(ENDPOINTS.AUTH.verify_otp)
+  const { goTo } = useAppNavigation()
+
+  const getIdentifer = (user: User) => {
+    return user.email || user.phone_number
+  }
 
   const onSubmit = async () => {
     await post({
       identifier: getIdentifer(result.user),
       otp_code: otp,
-    });
-    toast.success("Votre compte a bien été vérifié");
-    goTo("/login");
-  };
+    })
+    toast.success("Votre compte a bien été vérifié")
+    goTo("/login")
+  }
 
   const { loading: resendLoading, post: resendPost } = usePost(
-    ENDPOINTS.AUTH.resend_otp,
-  );
+    ENDPOINTS.AUTH.resend_otp
+  )
 
   const resend = async () => {
     await resendPost({
       identifier: getIdentifer(result.user),
-    });
-    toast.success("Le code de vérification a bien été renvoyé");
-  };
+    })
+    toast.success("Le code de vérification a bien été renvoyé")
+  }
+
   return (
     <Card className="mx-auto max-w-sm">
       <CardHeader>
@@ -120,5 +125,5 @@ export function InputOTPForm({ result }: { result: OtpResponse }) {
         </Field>
       </CardFooter>
     </Card>
-  );
+  )
 }

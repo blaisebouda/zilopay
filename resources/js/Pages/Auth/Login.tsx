@@ -1,9 +1,7 @@
 import { Button } from "@/components/ui/button"
 import {
-  Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
@@ -19,9 +17,9 @@ import { usePost } from "@/hooks/use-post"
 import { AppLayout } from "@/Layouts/AppLayout"
 import LS from "@/lib/ls"
 import type { LoginResponse } from "@/types"
+import { Link, usePage } from "@inertiajs/react"
 import { Eye, EyeOff, Lock, Mail, Phone } from "lucide-react"
 import { useEffect, useState } from "react"
-import { Link } from "@inertiajs/react"
 
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false)
@@ -43,18 +41,18 @@ export default function LoginPage() {
 
   const { goTo } = useAppNavigation()
 
+  const { props } = usePage() as any
+
+  if (props.auth?.user) {
+    goTo("/dashboard")
+  }
+
   useEffect(() => {
     if (result) {
       LS.set("user", result.user)
       LS.set("wallet", result.wallet)
 
-      const attemptedUrl = localStorage.getItem("attemptedUrl")
-      if (!attemptedUrl) {
-        goTo("/dashboard")
-      } else {
-        const pathname = new URL(attemptedUrl).pathname
-        goTo(pathname)
-      }
+      goTo("/dashboard")
     }
   }, [result, goTo])
 

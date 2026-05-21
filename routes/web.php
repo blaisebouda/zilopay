@@ -16,12 +16,12 @@ Route::get('/', function () {
 });
 
 // Auth routes
-Route::get('/login', fn () => Inertia::render('Auth/Login'))->name('login');
-Route::get('/register', fn () => Inertia::render('Auth/Register'))->name('register');
+Route::get('/login', fn() => Inertia::render('Auth/Login'))->name('login');
+Route::get('/register', fn() => Inertia::render('Auth/Register'))->name('register');
 
 // Dashboard routes
-Route::prefix('dashboard')->group(function () {
-    Route::get('/', fn () => Inertia::render('Dashboard/Index'))->name('dashboard');
+Route::middleware(['auth:sanctum'])->prefix('dashboard')->group(function () {
+    Route::get('/', fn() => Inertia::render('Dashboard/Index'))->name('dashboard');
 });
 
 Route::get('/otp', [OtpTestController::class, 'index']);

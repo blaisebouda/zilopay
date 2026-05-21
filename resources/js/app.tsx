@@ -1,19 +1,19 @@
-import "../css/app.css";
+import "../css/app.css"
 
-import { createInertiaApp } from "@inertiajs/react";
-import { createRoot } from "react-dom/client";
+import { createInertiaApp } from "@inertiajs/react"
+import { createRoot } from "react-dom/client"
 
 createInertiaApp({
-    id: "app",
-    resolve: async (name) => {
-        const pages = import.meta.glob("./Pages/**/*.tsx");
+  id: "app",
+  resolve: async (name) => {
+    const pages = import.meta.glob("./Pages/**/*.tsx")
 
-        const page: any = await pages[`./Pages/${name}.tsx`]();
+    const page: any = await pages[`./Pages/${name}.tsx`]()
 
-        return page;
-    },
+    return page
+  },
 
-    setup({ el, App, props }) {
-        createRoot(el).render(<App {...props} />);
-    },
-});
+  setup({ el, App, props }) {
+    createRoot(el).render(<App {...props} />)
+  },
+})
