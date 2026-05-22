@@ -1,11 +1,14 @@
+import { Endpoint } from "@/lib/utils"
+
 const BASES = {
   TRANSACTION: "/transactions",
   AUTH: "/auth",
   VAULT: "/vaults",
   MERCHANT: "/merchant",
-};
+}
 
 const ENDPOINTS = {
+  from: (base: string) => base,
   TRANSACTIONS: {
     base: BASES.TRANSACTION,
     history: `${BASES.TRANSACTION}/history`,
@@ -25,12 +28,13 @@ const ENDPOINTS = {
     deposit: "deposit",
     withdraw: "withdraw",
     toggle: "toggle",
+    show: (uuid: string) => Endpoint(BASES.VAULT).from(uuid),
   },
   MERCHANT: {
     base: BASES.MERCHANT,
     api_key: `${BASES.MERCHANT}/api-keys`,
     toggle_active: (uuid: string) => `${BASES.MERCHANT}/${uuid}/toggle-active`,
   },
-} as const;
+} as const
 
-export default ENDPOINTS;
+export default ENDPOINTS

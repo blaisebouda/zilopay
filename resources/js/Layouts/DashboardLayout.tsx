@@ -41,22 +41,22 @@ const NAV_ITEMS = [
     items: [
       {
         title: "Tableau de bord",
-        url: ROUTE.DASHBOARD,
+        url: `/${ROUTE.DASHBOARD}`,
         icon: ChartSplineIcon,
       },
       {
         title: "Coffres",
-        url: ROUTE.VAULT,
+        url: `/dashboard/${ROUTE.WALLETS}`,
         icon: Wallet2,
       },
       {
         title: "Transactions",
-        url: ROUTE.TRANSACTIONS,
+        url: `/dashboard/${ROUTE.TRANSACTIONS}`,
         icon: ArrowRightLeftIcon,
       },
       {
         title: "Retraits",
-        url: ROUTE.WITHDRAWS,
+        url: `/dashboard/${ROUTE.WITHDRAWS}`,
         icon: BanknoteArrowDown,
       },
     ],
@@ -66,14 +66,14 @@ const NAV_ITEMS = [
     items: [
       {
         title: "Compte marchand",
-        url: ROUTE.MERCHANTS,
+        url: `/dashboard/${ROUTE.MERCHANTS}`,
         icon: Building2,
       },
       ...(isMerchant
         ? [
             {
               title: "Clés API",
-              url: ROUTE.API_KEYS,
+              url: `/dashboard/${ROUTE.API_KEYS}`,
               icon: KeyIcon,
             },
           ]
@@ -86,7 +86,7 @@ const NAV_ITEMS = [
     items: [
       {
         title: "Paramètres",
-        url: ROUTE.SETTINGS,
+        url: `/dashboard/${ROUTE.SETTINGS}`,
         icon: SettingsIcon,
       },
     ],

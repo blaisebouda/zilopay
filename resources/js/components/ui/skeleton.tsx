@@ -10,4 +10,18 @@ function Skeleton({ className, ...props }: React.ComponentProps<"div">) {
   )
 }
 
-export { Skeleton }
+function SkeletonTable({ loading = false }: { loading?: boolean }) {
+  return loading ? (
+    <div className="flex w-full flex-col gap-2">
+      {Array.from({ length: 5 }).map((_, index) => (
+        <div className="flex gap-4" key={index}>
+          <Skeleton className="h-8 flex-1" />
+          <Skeleton className="h-8 w-24" />
+          <Skeleton className="h-8 w-20" />
+        </div>
+      ))}
+    </div>
+  ) : null
+}
+
+export { Skeleton, SkeletonTable }

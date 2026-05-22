@@ -1,6 +1,6 @@
-"use client";
+"use client"
 
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/button"
 import {
   Dialog,
   DialogContent,
@@ -8,8 +8,8 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog";
-import { ErrorsList } from "@/components/ui/errors-list";
+} from "@/components/ui/dialog"
+import { ErrorsList } from "@/components/ui/errors-list"
 import {
   Form,
   FormControl,
@@ -17,20 +17,20 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import ENDPOINTS from "@/constants/endpoints";
-import { vaultFormSchema, type VaultFormData } from "@/constants/vault-types";
-import { usePost } from "@/hooks/use-post";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Lock, PiggyBank, Target, Wallet } from "lucide-react";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { toast } from "sonner";
+} from "@/components/ui/form"
+import { Input } from "@/components/ui/input"
+import { Textarea } from "@/components/ui/textarea"
+import ENDPOINTS from "@/constants/endpoints"
+import { vaultFormSchema, type VaultFormData } from "@/constants/vault-types"
+import { usePost } from "@/hooks/use-post"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { Lock, PiggyBank, Target, Wallet } from "lucide-react"
+import { useState } from "react"
+import { useForm } from "react-hook-form"
+import { toast } from "sonner"
 
 interface VaultFormProps {
-  refresh: () => void;
+  refresh: () => void
 }
 
 export function VaultForm({ refresh }: VaultFormProps) {
@@ -42,31 +42,31 @@ export function VaultForm({ refresh }: VaultFormProps) {
       type: "savings",
       maturity_date: null,
     },
-  });
+  })
 
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(false)
 
-  const { post: createVault, loading, error } = usePost(ENDPOINTS.VAULT.base);
+  const { post: createVault, loading, error } = usePost(ENDPOINTS.VAULT.base)
 
   const onSubmit = async (data: VaultFormData) => {
     try {
-      await createVault(data);
-      toast.success("Coffre créé avec succès !");
-      onClose();
-      refresh();
+      await createVault(data)
+      toast.success("Coffre créé avec succès !")
+      onClose()
+      refresh()
     } catch {
-      toast.error("Erreur lors de la création du coffre");
+      toast.error("Erreur lors de la création du coffre")
     }
-  };
+  }
 
   const handleSubmit = (data: VaultFormData) => {
-    onSubmit(data);
-  };
+    onSubmit(data)
+  }
 
   const onClose = () => {
-    setOpen(false);
-    form.reset();
-  };
+    setOpen(false)
+    form.reset()
+  }
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -203,5 +203,5 @@ export function VaultForm({ refresh }: VaultFormProps) {
         </Form>
       </DialogContent>
     </Dialog>
-  );
+  )
 }

@@ -1,22 +1,22 @@
-"use client";
+"use client"
 
-import { CardTable } from "@/components/table/card-table";
-import { Badge } from "@/components/ui/badge";
+import { CardTable } from "@/components/table/card-table"
+import { Badge } from "@/components/ui/badge"
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
+} from "@/components/ui/card"
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog";
-import { SkeletonTable } from "@/components/ui/skeleton";
+} from "@/components/ui/dialog"
+import { SkeletonTable } from "@/components/ui/skeleton"
 import {
   Table,
   TableBody,
@@ -24,61 +24,58 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
-import ENDPOINTS from "@/constants/endpoints";
-import { useGet } from "@/hooks/use-get";
-import { Endpoint } from "@/lib/helpers";
-import type { Vault } from "@/types";
-import { PiggyBank, Target, Wallet } from "lucide-react";
-import { useEffect, useState } from "react";
+} from "@/components/ui/table"
+import ENDPOINTS from "@/constants/endpoints"
+import { useGet } from "@/hooks/use-get"
+import type { Vault } from "@/types"
+import { PiggyBank, Target, Wallet } from "lucide-react"
+import { useEffect, useState } from "react"
 
 interface VaultDetailsProps {
-  currentVault: Vault | null;
-  open: boolean;
-  onOpenChange: (open: boolean) => void;
+  currentVault: Vault | null
+  open: boolean
+  onOpenChange: (open: boolean) => void
 }
 
 const typeIcons = {
   savings: PiggyBank,
   investment: Target,
   emergency: Wallet,
-};
+}
 
 export default function VaultDetails({
   currentVault,
   open,
   onOpenChange,
 }: VaultDetailsProps) {
-  const endpoint = Endpoint(ENDPOINTS.VAULT.base).from([
-    currentVault?.uuid || "",
-  ]);
+  const endpoint = ENDPOINTS.VAULT.show(currentVault?.uuid || "")
 
-  const [vault, setVault] = useState<Vault | null>(currentVault);
-  const { result, refetch, loading } = useGet<Vault>(endpoint, false);
+  const [vault, setVault] = useState<Vault | null>(currentVault)
+  const { result, refetch, loading } = useGet<Vault>(endpoint, false)
 
   useEffect(() => {
     if (open && currentVault) {
-      setVault(currentVault);
+      setVault(currentVault)
       // refetch();
     }
-  }, [open, currentVault?.uuid, refetch]);
+  }, [open, currentVault?.uuid, refetch])
 
   useEffect(() => {
     if (result) {
-      setVault(result);
+      setVault(result)
     }
-  }, [result]);
+  }, [result])
 
   const formatAmount = (amount: number, symbol: string) => {
-    return `${amount.toLocaleString("fr-FR")} ${symbol}`;
-  };
+    return `${amount.toLocaleString("fr-FR")} ${symbol}`
+  }
 
   // const formatDate = (date: string) => {
   //   if (!date) return "N/A";
   //   return format(new Date(date), "dd MMMM yyyy", { locale: fr });
   // };
 
-  const TypeIcon = vault ? typeIcons[vault.type] : PiggyBank;
+  const TypeIcon = vault ? typeIcons[vault.type] : PiggyBank
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -204,7 +201,7 @@ export default function VaultDetails({
                           <TableCell className="font-medium">
                             {formatAmount(
                               transaction.amount,
-                              vault.currency_symbol,
+                              vault.currency_symbol
                             )}
                           </TableCell>
                           <TableCell className="text-sm text-muted-foreground max-w-[200px] truncate">
@@ -225,5 +222,5 @@ export default function VaultDetails({
         )}
       </DialogContent>
     </Dialog>
-  );
+  )
 }

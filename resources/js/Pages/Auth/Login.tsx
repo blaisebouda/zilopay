@@ -71,7 +71,7 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center p-4">
+    <div className="flex items-center justify-center p-4">
       <div className="w-full bg-transparent max-w-md">
         <CardHeader className="text-center">
           <div className="flex justify-center pb-2">

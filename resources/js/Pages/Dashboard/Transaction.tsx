@@ -13,8 +13,9 @@ import ENDPOINTS from "@/constants/endpoints"
 import { useGet } from "@/hooks/use-get"
 import type { Transaction } from "@/types"
 //import { RotateCcw } from "lucide-react";
+import DashboardLayout from "@/Layouts/DashboardLayout"
 import { useState } from "react"
-import TransactionTable from "../../components/shares/transaction-table"
+import TransactionTable from "@/components/shares/transaction-table"
 
 const transactionStatusOptions = [
   { value: "all", label: "Toutes les statuts" },
@@ -122,3 +123,7 @@ export default function Transaction() {
     </>
   )
 }
+
+Transaction.layout = (page: React.ReactNode) => (
+  <DashboardLayout title="Historique des transactions">{page}</DashboardLayout>
+)

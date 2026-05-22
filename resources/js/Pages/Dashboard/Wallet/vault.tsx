@@ -1,81 +1,81 @@
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { SkeletonTable } from "@/components/ui/skeleton";
-import ENDPOINTS from "@/constants/endpoints";
-import { useGet } from "@/hooks/use-get";
-import { VaultForm } from "@/pages/wallet/partial/vault-form";
-import type { Vault, VaultDashboard } from "@/types";
-import { Calendar, Eye, Lock, Shield } from "lucide-react";
-import { useState } from "react";
-import RechargeVault from "./partial/recharge-vault";
-import VaultDetails from "./partial/vault-details";
+} from "@/components/ui/card"
+import { SkeletonTable } from "@/components/ui/skeleton"
+import ENDPOINTS from "@/constants/endpoints"
+import { useGet } from "@/hooks/use-get"
+import type { Vault, VaultDashboard } from "@/types"
+import { Calendar, Eye, Lock, Shield } from "lucide-react"
+import { useState } from "react"
+import RechargeVault from "./partial/recharge-vault"
+import VaultDetails from "./partial/vault-details"
+import { VaultForm } from "./partial/vault-form"
 
 const getTypeColor = (type: Vault["type"]) => {
   switch (type) {
     case "savings":
-      return "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200";
+      return "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200"
     case "investment":
-      return "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200";
+      return "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200"
     case "emergency":
-      return "bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200";
+      return "bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200"
     default:
-      return "bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200";
+      return "bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200"
   }
-};
+}
 
 const getTypeLabel = (type: Vault["type"]) => {
   switch (type) {
     case "savings":
-      return "Épargne";
+      return "Épargne"
     case "investment":
-      return "Investissement";
+      return "Investissement"
     case "emergency":
-      return "Urgence";
+      return "Urgence"
     default:
-      return "Autre";
+      return "Autre"
   }
-};
+}
 
 const getStatusColor = (status: Vault["status"]) => {
   switch (status) {
     case "active":
-      return "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200";
+      return "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200"
     case "locked":
-      return "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200";
+      return "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200"
     case "matured":
-      return "bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200";
+      return "bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200"
     default:
-      return "bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200";
+      return "bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200"
   }
-};
+}
 
 const getStatusLabel = (status: Vault["status"]) => {
   switch (status) {
     case "active":
-      return "Actif";
+      return "Actif"
     case "locked":
-      return "Verrouillé";
+      return "Verrouillé"
     case "matured":
-      return "Échu";
+      return "Échu"
     default:
-      return "Inconnu";
+      return "Inconnu"
   }
-};
+}
 
 export default function Vault() {
   const { result, loading, refetch } = useGet<VaultDashboard>(
-    ENDPOINTS.VAULT.base,
-  );
+    ENDPOINTS.VAULT.base
+  )
 
-  const [open, setOpen] = useState(false);
-  const [currentVault, setCurrentVault] = useState<Vault | null>(null);
+  const [open, setOpen] = useState(false)
+  const [currentVault, setCurrentVault] = useState<Vault | null>(null)
 
   return (
     <div className=" mx-auto ">
@@ -178,8 +178,8 @@ export default function Vault() {
               <div className="flex gap-2 pt-2">
                 <Button
                   onClick={() => {
-                    setCurrentVault(vault);
-                    setOpen(true);
+                    setCurrentVault(vault)
+                    setOpen(true)
                   }}
                   variant="outline"
                   size="sm"
@@ -213,5 +213,5 @@ export default function Vault() {
         </Card>
       )}
     </div>
-  );
+  )
 }

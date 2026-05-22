@@ -22,6 +22,8 @@ Route::get('/register', fn() => Inertia::render('Auth/Register'))->name('registe
 // Dashboard routes
 Route::middleware(['auth:sanctum'])->prefix('dashboard')->group(function () {
     Route::get('/', fn() => Inertia::render('Dashboard/Index'))->name('dashboard');
+    Route::get('/transactions', fn() => Inertia::render('Dashboard/Transaction'))->name('transactions');
+    Route::get('/wallets', fn() => Inertia::render('Dashboard/Wallet/Index'))->name('wallets');
 });
 
 Route::get('/otp', [OtpTestController::class, 'index']);

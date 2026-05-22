@@ -15,7 +15,7 @@ class DepositRequest extends FormRequest
     {
         return [
             'wallet_id' => ['required', 'string', 'exists:wallets,code'],
-            'amount' => ['required', 'numeric', 'min:1', 'max:100000000'],
+            'amount' => ['required', 'numeric', 'min:100', 'max:100000000'],
             'description' => ['nullable', 'string', 'max:255'],
         ];
     }
@@ -28,7 +28,7 @@ class DepositRequest extends FormRequest
             'wallet_id.exists' => 'L\'ID du portefeuille n\'existe pas',
             'amount.required' => 'Le montant est requis',
             'amount.numeric' => 'Le montant doit être un nombre',
-            'amount.min' => 'Le montant minimum est de 1',
+            'amount.min' => 'Le montant minimum est de 100',
             'amount.max' => 'Le montant maximum est de 100,000,000',
         ];
     }

@@ -79,7 +79,7 @@ export default function UserDashboard() {
       <div className="mx-auto max-w-7xl">
         <RecentTransactions
           loading={loading}
-          transactions={result?.transactions}
+          transactions={result?.transactions || null}
         />
       </div>
     </div>
