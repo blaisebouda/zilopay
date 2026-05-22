@@ -1,23 +1,23 @@
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/button"
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { currencies, transferTypes } from "@/constants";
-import { int } from "@/lib/helpers";
+} from "@/components/ui/card"
+import { currencies, transferTypes } from "@/constants"
+import { int } from "@/lib/utils"
 
-import LS from "@/lib/ls";
-import { usePaymentMethod } from "@/stores/payment-method.store";
-import type { TransferFormData } from "@/validations/transfer.schema";
+import LS from "@/lib/ls"
+import { usePaymentMethod } from "@/lib/stores/payment-method.store"
+import type { TransferFormData } from "@/lib/validations/transfer.schema"
 
 interface TransferSummaryProps {
-  data: TransferFormData;
-  onConfirm: (formData: object) => void;
-  onBack: () => void;
-  isLoading?: boolean;
+  data: TransferFormData
+  onConfirm: (formData: object) => void
+  onBack: () => void
+  isLoading?: boolean
 }
 
 export function TransferSummary({
@@ -26,27 +26,25 @@ export function TransferSummary({
   onBack,
   isLoading = false,
 }: TransferSummaryProps) {
-  const { data: paymentMethods } = usePaymentMethod();
+  const { data: paymentMethods } = usePaymentMethod()
 
-  const transferType = transferTypes.find(
-    (t) => t.value === data.transfer_type,
-  );
+  const transferType = transferTypes.find((t) => t.value === data.transfer_type)
 
-  const currency = currencies.find((c) => c.value === data.currency);
+  const currency = currencies.find((c) => c.value === data.currency)
   const sourceMethod = paymentMethods.find(
-    (method) => method.id === int(data.sourceMethod),
-  );
+    (method) => method.id === int(data.sourceMethod)
+  )
   const targetMethod = paymentMethods.find(
-    (method) => method.id === int(data.targetMethod),
-  );
+    (method) => method.id === int(data.targetMethod)
+  )
 
   const calculateFees = () => {
-    const amount = parseInt(data.amount);
-    return Math.floor(amount * 0.01); // 2% de frais
-  };
+    const amount = parseInt(data.amount)
+    return Math.floor(amount * 0.01) // 2% de frais
+  }
 
-  const fees = calculateFees();
-  const total = int(data.amount) + fees;
+  const fees = calculateFees()
+  const total = int(data.amount) + fees
 
   const parsedData = (from: TransferFormData) => ({
     type: from.transfer_type,
@@ -55,7 +53,7 @@ export function TransferSummary({
     amount: from.amount,
     source_method: from.sourceMethod,
     target_method: from.targetMethod,
-  });
+  })
 
   return (
     <Card className="shadow-none">
@@ -136,5 +134,5 @@ export function TransferSummary({
         </div>
       </CardContent>
     </Card>
-  );
+  )
 }

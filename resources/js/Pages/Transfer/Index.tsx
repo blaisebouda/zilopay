@@ -1,4 +1,4 @@
-"use client";
+"use client"
 
 import {
   Card,
@@ -6,53 +6,52 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { ErrorsList } from "@/components/ui/errors-list";
-import ENDPOINTS from "@/constants/endpoints";
-import { type TransferFormData } from "@/constants/transfer-types";
-import { useAppNavigation } from "@/hooks/use-app-navigation";
-import { usePost } from "@/hooks/use-post";
-import { ROUTE } from "@/router/route";
-import { useState } from "react";
-import { toast } from "sonner";
-import { TransferForm } from "./partial/transfer-form";
-import { TransferSummary } from "./partial/transfer-summary";
+} from "@/components/ui/card"
+import { ErrorsList } from "@/components/ui/errors-list"
+import ENDPOINTS from "@/constants/endpoints"
+import { type TransferFormData } from "@/lib/validations/transfer.schema"
+import { useAppNavigation } from "@/hooks/use-app-navigation"
+import { usePost } from "@/hooks/use-post"
+import { ROUTE } from "@/constants/route"
+import { useState } from "react"
+import { toast } from "sonner"
+import { TransferForm } from "./partial/transfer-form"
+import { TransferSummary } from "./partial/transfer-summary"
+import { AppLayout } from "@/Layouts/AppLayout"
 
 export default function Transfer() {
-  const [step, setStep] = useState<"form" | "summary">("form");
+  const [step, setStep] = useState<"form" | "summary">("form")
   const [transferData, setTransferData] = useState<TransferFormData | null>(
-    null,
-  );
-  const [isLoading, setIsLoading] = useState(false);
+    null
+  )
+  const [isLoading, setIsLoading] = useState(false)
 
   const handleFormSubmit = (data: TransferFormData) => {
-    setTransferData(data);
-    setStep("summary");
-  };
-  const { post: sendTransfer, error } = usePost(
-    ENDPOINTS.TRANSACTIONS.TRANSFER,
-  );
+    setTransferData(data)
+    setStep("summary")
+  }
+  const { post: sendTransfer, error } = usePost(ENDPOINTS.TRANSACTIONS.TRANSFER)
 
-  const { goToDashboard } = useAppNavigation();
+  const { goToDashboard } = useAppNavigation()
 
   const handleConfirm = async (transferData: object) => {
-    if (!transferData) return;
+    if (!transferData) return
 
-    setIsLoading(true);
+    setIsLoading(true)
     try {
-      await sendTransfer(transferData);
+      await sendTransfer(transferData)
       toast.success("Transfert effectué avec succès!", {
         position: "top-center",
-      });
-      goToDashboard(ROUTE.TRANSACTIONS);
+      })
+      goToDashboard(ROUTE.TRANSACTIONS)
     } finally {
-      setIsLoading(false);
+      setIsLoading(false)
     }
-  };
+  }
 
   const handleBack = () => {
-    setStep("form");
-  };
+    setStep("form")
+  }
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -87,5 +86,7 @@ export default function Transfer() {
         </CardContent>
       </Card>
     </div>
-  );
+  )
 }
+
+Transfer.layout = (page: React.ReactNode) => <AppLayout children={page} />

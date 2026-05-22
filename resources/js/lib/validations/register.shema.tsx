@@ -1,5 +1,5 @@
-import { isValidPhoneNumber } from "react-phone-number-input";
-import z from "zod";
+import { isValidPhoneNumber } from "react-phone-number-input"
+import z from "zod"
 
 export const RegisterSchema = z
   .object({
@@ -14,7 +14,7 @@ export const RegisterSchema = z
     password_confirmation: z
       .string()
       .min(8, "Le mot de passe doit contenir au moins 8 caractères"),
-    name: z.string().min(4, "Le nom est requis"),
+    name: z.string().min(2, "Le nom doit contenir au moins 2 caractères"),
     policy_accepted: z.boolean().refine((value) => value === true, {
       message: "Vous devez accepter les conditions d'utilisation",
     }),
@@ -22,6 +22,6 @@ export const RegisterSchema = z
   .refine((data) => data.password === data.password_confirmation, {
     message: "Les mots de passe ne correspondent pas",
     path: ["password_confirmation"],
-  });
+  })
 
-export type RegisterFormData = z.infer<typeof RegisterSchema>;
+export type RegisterFormData = z.infer<typeof RegisterSchema>

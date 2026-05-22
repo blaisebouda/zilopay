@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button"
 import { ErrorsList } from "@/components/ui/errors-list"
+import { Form } from "@/components/ui/form"
 import {
   Stepper,
   StepperContent,
@@ -19,15 +20,15 @@ import {
   RegisterSchema,
   type RegisterFormData,
 } from "@/lib/validations/register.shema"
-import { OtpResponse } from "@/types/interface"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { Link } from "@inertiajs/react"
 import { useCallback, useState } from "react"
 import { useForm } from "react-hook-form"
+
+import { OtpResponse } from "@/types/interface"
+import { Link } from "@inertiajs/react"
 import { toast } from "sonner"
 import { InputOTPForm } from "./partial/otp-verification"
 import { RegisterInfosForm } from "./partial/register-infos-form"
-import { Form } from "@/components/ui/form"
 
 const steps = [
   {
@@ -115,57 +116,60 @@ export default function RegisterPage() {
           errors={error.response.errors}
         />
       )}
-      
 
-      <Form {...form} className="w-full" onSubmit={form.handleSubmit(onSubmit)}>
-        <Stepper value={step} onValueChange={setStep} onValidate={onValidate}>
-          <StepperList>
-            {steps.map((step) => (
-              <StepperItem key={step.value} value={step.value}>
-                <StepperTrigger>
-                  <StepperIndicator />
-                  <div className="flex flex-col gap-px">
-                    <StepperTitle>{step.title}</StepperTitle>
-                    <StepperDescription>{step.description}</StepperDescription>
-                  </div>
-                </StepperTrigger>
-                <StepperSeparator className="mx-4" />
-              </StepperItem>
-            ))}
-          </StepperList>
-          <StepperContent value="infos">
-            <RegisterInfosForm form={form} />
-          </StepperContent>
-          <StepperContent value="otp">
-            {registerResponse && <InputOTPForm result={registerResponse} />}
-          </StepperContent>
-          {stepIndex === 0 && (
-            <>
-              <p className="text-sm text-muted-foreground text-center">
-                En continuant, vous acceptez nos{" "}
-                <a href="#" className="text-primary hover:underline">
-                  conditions
-                </a>{" "}
-                d'utilisation.
-              </p>
-              <div className="flex justify-between items-center">
-                <p className="text-sm text-muted-foreground">
-                  Déjà un compte ?{" "}
-                  <Link
-                    href="/login"
-                    className="hover:underline p-0 text-primary font-semibold"
-                  >
-                    Se connecter
-                  </Link>
+      <Form {...form}>
+        <form className="w-full" onSubmit={form.handleSubmit(onSubmit)}>
+          <Stepper value={step} onValueChange={setStep} onValidate={onValidate}>
+            <StepperList>
+              {steps.map((step) => (
+                <StepperItem key={step.value} value={step.value}>
+                  <StepperTrigger>
+                    <StepperIndicator />
+                    <div className="flex flex-col gap-px">
+                      <StepperTitle>{step.title}</StepperTitle>
+                      <StepperDescription>
+                        {step.description}
+                      </StepperDescription>
+                    </div>
+                  </StepperTrigger>
+                  <StepperSeparator className="mx-4" />
+                </StepperItem>
+              ))}
+            </StepperList>
+            <StepperContent value="infos">
+              <RegisterInfosForm form={form} />
+            </StepperContent>
+            <StepperContent value="otp">
+              {registerResponse && <InputOTPForm result={registerResponse} />}
+            </StepperContent>
+            {stepIndex === 0 && (
+              <>
+                <p className="text-sm text-muted-foreground text-center">
+                  En continuant, vous acceptez nos{" "}
+                  <a href="#" className="text-primary hover:underline">
+                    conditions
+                  </a>{" "}
+                  d'utilisation.
                 </p>
+                <div className="flex justify-between items-center">
+                  <p className="text-sm text-muted-foreground">
+                    Déjà un compte ?{" "}
+                    <Link
+                      href="/login"
+                      className="hover:underline p-0 text-primary font-semibold"
+                    >
+                      Se connecter
+                    </Link>
+                  </p>
 
-                <Button type="submit" disabled={loading}>
-                  {loading ? "En cours..." : "Créer le compte"}
-                </Button>
-              </div>
-            </>
-          )}
-        </Stepper>
+                  <Button type="submit" disabled={loading}>
+                    {loading ? "En cours..." : "Créer le compte"}
+                  </Button>
+                </div>
+              </>
+            )}
+          </Stepper>
+        </form>
       </Form>
     </div>
   )

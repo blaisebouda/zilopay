@@ -1,6 +1,6 @@
-"use client";
+"use client"
 
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/button"
 import {
   Form,
   FormControl,
@@ -8,19 +8,19 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { PhoneInput } from "@/components/ui/phone-input";
-import { AmountField, PaymentMethodField } from "@/pages/shares/form-items";
+} from "@/components/ui/form"
+import { PhoneInput } from "@/components/ui/phone-input"
+import { AmountField, PaymentMethodField } from "@/components/shares/form-items"
 import {
   depositSchema,
   type DepositFormData,
-} from "@/validations/deposit.schema";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+} from "@/lib/validations/deposit.schema"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { useForm } from "react-hook-form"
 
 interface DepositFormProps {
-  onSubmit: (data: DepositFormData) => void;
-  isLoading?: boolean;
+  onSubmit: (data: DepositFormData) => void
+  isLoading?: boolean
 }
 
 export function DepositForm({ onSubmit, isLoading = false }: DepositFormProps) {
@@ -33,11 +33,11 @@ export function DepositForm({ onSubmit, isLoading = false }: DepositFormProps) {
       phone_number: "",
       country: "BF",
     },
-  });
+  })
 
   const handleSubmit = (data: DepositFormData) => {
-    onSubmit(data);
-  };
+    onSubmit(data)
+  }
 
   return (
     <Form {...form}>
@@ -74,5 +74,5 @@ export function DepositForm({ onSubmit, isLoading = false }: DepositFormProps) {
         </Button>
       </form>
     </Form>
-  );
+  )
 }

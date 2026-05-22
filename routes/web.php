@@ -20,6 +20,8 @@ Route::get('/login', fn() => Inertia::render('Auth/Login'))->name('login');
 Route::get('/register', fn() => Inertia::render('Auth/Register'))->name('register');
 
 Route::middleware(['auth:sanctum'])->group(function () {
+    Route::get('/deposit', fn() => Inertia::render('Deposit/Index'))->name('deposit');
+    Route::get('/transfer', fn() => Inertia::render('Transfer/Index'))->name('transfer');
     Route::get('/merchants/create', fn() => Inertia::render('Dashboard/Merchant/MerchantCreate'))->name('merchants.create');
 });
 

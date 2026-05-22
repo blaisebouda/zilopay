@@ -1,6 +1,6 @@
-"use client";
+"use client"
 
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/button"
 import {
   Form,
   FormControl,
@@ -8,29 +8,29 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { usePaymentMethod } from "@/stores/payment-method.store";
+} from "@/components/ui/form"
+import { Input } from "@/components/ui/input"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { usePaymentMethod } from "@/lib/stores/payment-method.store"
 
-import { AmountField, PaymentMethodField } from "@/pages/shares/form-items";
+import { AmountField, PaymentMethodField } from "@/components/shares/form-items"
 import {
   transferSchema,
   type TransferFormData,
-} from "@/validations/transfer.schema";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+} from "@/lib/validations/transfer.schema"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { useForm } from "react-hook-form"
 
 interface TransferFormProps {
-  onSubmit: (data: TransferFormData) => void;
-  isLoading?: boolean;
+  onSubmit: (data: TransferFormData) => void
+  isLoading?: boolean
 }
 
 export function TransferForm({
   onSubmit,
   isLoading = false,
 }: TransferFormProps) {
-  const { data: paymentMethods } = usePaymentMethod();
+  const { data: paymentMethods } = usePaymentMethod()
 
   const form = useForm<TransferFormData>({
     resolver: zodResolver(transferSchema),
@@ -42,16 +42,16 @@ export function TransferForm({
       sourceMethod: "",
       targetMethod: "",
     },
-  });
+  })
 
-  const transferType = form.watch("transfer_type");
-  const sourceMethod = parseInt(form.watch("sourceMethod") || "0");
-  const isSystemTransfer = transferType === "system";
-  const isInterTransfer = transferType === "inter_transaction";
+  const transferType = form.watch("transfer_type")
+  const sourceMethod = parseInt(form.watch("sourceMethod") || "0")
+  const isSystemTransfer = transferType === "system"
+  const isInterTransfer = transferType === "inter_transaction"
 
   const handleSubmit = (data: TransferFormData) => {
-    onSubmit(data);
-  };
+    onSubmit(data)
+  }
 
   return (
     <Form {...form}>
@@ -145,5 +145,5 @@ export function TransferForm({
         </Button>
       </form>
     </Form>
-  );
+  )
 }

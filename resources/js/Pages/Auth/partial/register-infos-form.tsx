@@ -1,5 +1,4 @@
 import {
-  Form,
   FormControl,
   FormField,
   FormItem,
@@ -22,83 +21,88 @@ export function RegisterInfosForm({ form }: RegisterInfosFormProps) {
     form.setValue("phone_number", null)
   }
   return (
-   
-      <div className="mx-auto bg-card border p-4 sm:p-6 rounded-lg space-y-6">
-        <Tabs onValueChange={reset} defaultValue="email" className="w-full">
-          <TabsList className="grid w-full grid-cols-2">
-            <TabsTrigger value="email" className="gap-2">
-              <Mail className="h-4 w-4" />
-              Email
-            </TabsTrigger>
-            <TabsTrigger value="phone" className="gap-2">
-              <Phone className="h-4 w-4" />
-              Téléphone
-            </TabsTrigger>
-          </TabsList>
-          <TabsContent value="email" className="mt-4">
-            <FormField
-              control={form.control}
-              name="email"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>
-                    <Mail className="h-4 w-4" />
-                    Adresse email
-                  </FormLabel>
-                  <FormControl>
-                    <Input
-                      required={form.getValues("phone_number") == null}
-                      type="email"
-                      placeholder="exemple@email.com"
-                      {...field}
-                      value={field.value || ""}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </TabsContent>
-          <TabsContent value="phone" className="mt-4">
-            <FormField
-              control={form.control}
-              name="phone_number"
-              render={({ field }) => (
-                <FormItem className="flex flex-col items-start">
-                  <FormLabel className="text-left">
-                    <Phone className="h-4 w-4" />
-                    Numéro de téléphone
-                  </FormLabel>
-                  <FormControl className="w-full">
-                    <PhoneInput
-                      required={form.getValues("email") == null}
-                      placeholder="Entrez votre numéro"
-                      {...field}
-                      value={field.value || ""}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </TabsContent>
-        </Tabs>
-        <FormField
-          control={form.control}
-          name="name"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel className="flex items-center gap-2">
-                <User className="h-4 w-4" />
-                Nom complet
-              </FormLabel>
-              <FormControl>
-                <Input type="text" placeholder="Ex: Oumar Diallo" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+    <div className="mx-auto bg-card border p-4 sm:p-6 rounded-lg space-y-6">
+      <Tabs onValueChange={reset} defaultValue="email" className="w-full">
+        <TabsList className="grid w-full grid-cols-2">
+          <TabsTrigger value="email" className="gap-2">
+            <Mail className="h-4 w-4" />
+            Email
+          </TabsTrigger>
+          <TabsTrigger value="phone" className="gap-2">
+            <Phone className="h-4 w-4" />
+            Téléphone
+          </TabsTrigger>
+        </TabsList>
+        <TabsContent value="email" className="mt-4">
+          <FormField
+            control={form.control}
+            name="email"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>
+                  <Mail className="h-4 w-4" />
+                  Adresse email
+                </FormLabel>
+                <FormControl>
+                  <Input
+                    required={form.getValues("phone_number") == null}
+                    type="email"
+                    placeholder="exemple@email.com"
+                    {...field}
+                    value={field.value || ""}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </TabsContent>
+        <TabsContent value="phone" className="mt-4">
+          <FormField
+            control={form.control}
+            name="phone_number"
+            render={({ field }) => (
+              <FormItem className="flex flex-col items-start">
+                <FormLabel className="text-left">
+                  <Phone className="h-4 w-4" />
+                  Numéro de téléphone
+                </FormLabel>
+                <FormControl className="w-full">
+                  <PhoneInput
+                    required={form.getValues("email") == null}
+                    placeholder="Entrez votre numéro"
+                    {...field}
+                    value={field.value || ""}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </TabsContent>
+      </Tabs>
+      <FormField
+        control={form.control}
+        name="name"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel className="flex items-center gap-2">
+              <User className="h-4 w-4" />
+              Nom complet
+            </FormLabel>
+            <FormControl>
+              <Input
+                required
+                type="text"
+                placeholder="Ex: Oumar Diallo"
+                {...field}
+              />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+      <div className="grid md:grid-cols-2 gap-2">
         <FormField
           control={form.control}
           name="password"
@@ -140,6 +144,6 @@ export function RegisterInfosForm({ form }: RegisterInfosFormProps) {
           )}
         />
       </div>
-    
+    </div>
   )
 }

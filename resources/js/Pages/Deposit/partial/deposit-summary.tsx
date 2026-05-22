@@ -1,15 +1,15 @@
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { countries, currencies } from "@/constants";
-import LS from "@/lib/ls";
-import { usePaymentMethod } from "@/stores/payment-method.store";
-import { type DepositFormData } from "@/validations/deposit.schema";
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { countries, currencies } from "@/constants"
+import LS from "@/lib/ls"
+import { usePaymentMethod } from "@/lib/stores/payment-method.store"
+import { type DepositFormData } from "@/lib/validations/deposit.schema"
 
 interface DepositSummaryProps {
-  data: DepositFormData;
-  onConfirm: (data: object) => void;
-  onBack: () => void;
-  isLoading?: boolean;
+  data: DepositFormData
+  onConfirm: (data: object) => void
+  onBack: () => void
+  isLoading?: boolean
 }
 
 export function DepositSummary({
@@ -18,27 +18,27 @@ export function DepositSummary({
   onBack,
   isLoading = false,
 }: DepositSummaryProps) {
-  const { data: paymentMethods } = usePaymentMethod();
+  const { data: paymentMethods } = usePaymentMethod()
 
   const paymentMethod = paymentMethods.find(
-    (method) => method.id === parseInt(data.payment_method),
-  );
-  const currency = currencies.find((c) => c.value === data.currency);
-  const country = countries.find((c) => c.value === data.country);
+    (method) => method.id === parseInt(data.payment_method)
+  )
+  const currency = currencies.find((c) => c.value === data.currency)
+  const country = countries.find((c) => c.value === data.country)
 
   const parseData = (form: DepositFormData) => ({
     wallet_id: LS.get("wallet")?.id,
     amount: parseInt(form.amount),
     payment_method_id: parseInt(form.payment_method),
     phone_number: form.phone_number,
-  });
+  })
 
   const calculateFees = () => {
-    const amount = parseInt(data.amount);
-    return Math.floor(amount * 0.001); // 2% de frais
-  };
+    const amount = parseInt(data.amount)
+    return Math.floor(amount * 0.001) // 2% de frais
+  }
 
-  const fees = calculateFees();
+  const fees = calculateFees()
 
   return (
     <Card>
@@ -102,5 +102,5 @@ export function DepositSummary({
         </div>
       </CardContent>
     </Card>
-  );
+  )
 }

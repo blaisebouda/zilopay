@@ -98,7 +98,7 @@ export function PaymentMethodField({
                 </SelectLabel>
                 {paymentMethods.map((item) => (
                   <SelectItem key={item.id} value={item.id.toString()}>
-                    <Avatar className="size-5">
+                    <Avatar className="size-6">
                       <AvatarImage
                         src={item.logo_url}
                         alt={item.name}
