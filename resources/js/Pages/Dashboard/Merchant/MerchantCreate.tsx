@@ -1,6 +1,6 @@
-import { Button } from "@/components/ui/button";
-import { ErrorsList } from "@/components/ui/errors-list";
-import { Form } from "@/components/ui/form";
+import { Button } from "@/components/ui/button"
+import { ErrorsList } from "@/components/ui/errors-list"
+import { Form } from "@/components/ui/form"
 import {
   Stepper,
   StepperContent,
@@ -14,21 +14,23 @@ import {
   StepperTitle,
   StepperTrigger,
   type StepperProps,
-} from "@/components/ui/stepper";
-import ENDPOINTS from "@/constants/endpoints";
-import { useAppNavigation } from "@/hooks/use-app-navigation";
-import { usePost } from "@/hooks/use-post";
+} from "@/components/ui/stepper"
+import ENDPOINTS from "@/constants/endpoints"
+import { useAppNavigation } from "@/hooks/use-app-navigation"
+import { usePost } from "@/hooks/use-post"
 import {
   MerchantFormSchema,
   type MerchantFormData,
-} from "@/validations/merchant.schema";
-import { zodResolver } from "@hookform/resolvers/zod";
+} from "@/lib/validations/merchant.schema"
+import { zodResolver } from "@hookform/resolvers/zod"
 
-import { useCallback, useState } from "react";
-import { useForm } from "react-hook-form";
-import { toast } from "sonner";
-import MerchantCompanyForm from "./partial/merchant-company-form";
-import MerchantDocumentForm from "./partial/merchant-document-form";
+import { ROUTE } from "@/constants/route"
+import { AppLayout } from "@/Layouts/AppLayout"
+import { useCallback, useState } from "react"
+import { useForm } from "react-hook-form"
+import { toast } from "sonner"
+import MerchantCompanyForm from "./partial/merchant-company-form"
+import MerchantDocumentForm from "./partial/merchant-document-form"
 
 const steps = [
   {
@@ -43,10 +45,10 @@ const steps = [
     description: "Importez vos documents",
     fields: ["documents"] as const,
   },
-];
+]
 
 export default function MerchantCreatePage() {
-  const [step, setStep] = useState("company");
+  const [step, setStep] = useState("company")
 
   const form = useForm<MerchantFormData>({
     resolver: zodResolver(MerchantFormSchema),
@@ -57,48 +59,48 @@ export default function MerchantCreatePage() {
       documents: [],
       country: "",
     },
-  });
+  })
 
-  const stepIndex = steps.findIndex((s) => s.value === step);
+  const stepIndex = steps.findIndex((s) => s.value === step)
 
   const onValidate: NonNullable<StepperProps["onValidate"]> = useCallback(
     async (_value, direction) => {
-      if (direction === "prev") return true;
+      if (direction === "prev") return true
 
-      const stepData = steps.find((s) => s.value === step);
-      if (!stepData) return true;
+      const stepData = steps.find((s) => s.value === step)
+      if (!stepData) return true
 
-      const isValid = await form.trigger(stepData.fields);
+      const isValid = await form.trigger(stepData.fields)
 
       if (!isValid) {
-        toast.info("Veuillez remplir tous les champs requis");
+        toast.info("Veuillez remplir tous les champs requis")
       }
 
-      return isValid;
+      return isValid
     },
-    [form, step],
-  );
+    [form, step]
+  )
 
-  const { post, error, loading } = usePost(ENDPOINTS.MERCHANT.base);
-  const { goToDashboard } = useAppNavigation();
+  const { post, error, loading } = usePost(ENDPOINTS.MERCHANT.base)
+  const { goToDashboard } = useAppNavigation()
 
   const onSubmit = async (input: MerchantFormData) => {
     // Create FormData for file upload
-    const formData = new FormData();
-    formData.append("business_name", input.business_name);
-    formData.append("business_email", input.business_email);
-    formData.append("phone_number", input.phone_number);
-    formData.append("country", input.country || "");
+    const formData = new FormData()
+    formData.append("business_name", input.business_name)
+    formData.append("business_email", input.business_email)
+    formData.append("phone_number", input.phone_number)
+    formData.append("country", input.country || "")
 
     // Append files
     input.documents.forEach((file, index) => {
-      formData.append(`documents[${index}]`, file);
-    });
+      formData.append(`documents[${index}]`, file)
+    })
 
-    await post(formData as unknown as MerchantFormData);
-    toast.success("Votre demande a bien été envoyée");
-    goToDashboard("/merchants");
-  };
+    await post(formData as unknown as MerchantFormData)
+    toast.success("Votre demande a bien été envoyée")
+    goToDashboard(ROUTE.MERCHANTS)
+  }
 
   return (
     <div className="max-w-xl mx-auto">
@@ -168,5 +170,9 @@ export default function MerchantCreatePage() {
         </form>
       </Form>
     </div>
-  );
+  )
 }
+
+MerchantCreatePage.layout = (page: React.ReactNode) => (
+  <AppLayout>{page}</AppLayout>
+)

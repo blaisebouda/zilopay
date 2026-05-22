@@ -169,7 +169,7 @@ export default function DashboardLayout({
                 <ProfileDropdown
                   trigger={
                     <Button variant="ghost" size="icon" className="size-9.5">
-                      <Avatar className="size-9.5 rounded-md">
+                      <Avatar className="size-8.5 rounded-md">
                         <AvatarImage src="https://cdn.shadcnstudio.com/ss-assets/avatar/avatar-1.png" />
                         <AvatarFallback>JD</AvatarFallback>
                       </Avatar>

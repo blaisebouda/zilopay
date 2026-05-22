@@ -1,8 +1,8 @@
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod"
+import { useForm } from "react-hook-form"
 
-import { FormDialog } from "@/components/form/form-dialog";
-import { Button } from "@/components/ui/button";
+import { FormDialog } from "@/components/form/form-dialog"
+import { Button } from "@/components/ui/button"
 import {
   Form,
   FormControl,
@@ -10,21 +10,21 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+} from "@/components/ui/form"
+import { Input } from "@/components/ui/input"
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import { countries, currencies } from "@/constants";
+} from "@/components/ui/select"
+import { countries, currencies } from "@/constants"
 import {
   withdrawSchema,
   type WithdrawFormData,
-} from "@/validations/withdraw.schema";
-import { Plus } from "lucide-react";
+} from "@/lib/validations/withdraw.schema"
+import { Plus } from "lucide-react"
 
 const WithdrawForm = () => {
   const form = useForm<WithdrawFormData>({
@@ -36,12 +36,12 @@ const WithdrawForm = () => {
       phoneNumber: "",
       country: "BF",
     },
-  });
+  })
 
   const handleSubmit = (data: WithdrawFormData) => {
-    console.log("Withdraw form submitted:", data);
+    console.log("Withdraw form submitted:", data)
     // TODO: Implementer la logique de soumission
-  };
+  }
   return (
     <FormDialog
       title="Effectuer un retrait"
@@ -183,7 +183,7 @@ const WithdrawForm = () => {
         </div>
       </Form>
     </FormDialog>
-  );
-};
+  )
+}
 
-export default WithdrawForm;
+export default WithdrawForm

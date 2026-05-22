@@ -1,9 +1,9 @@
 "use client"
 
-import { useComposedRefs } from "@/lib/helpers/compose-refs"
-import { useAsRef } from "@/lib/helpers/use-as-ref"
-import { useIsomorphicLayoutEffect } from "@/lib/helpers/use-isomorphic-layout-effect"
-import { useLazyRef } from "@/lib/helpers/use-lazy-ref"
+import { useComposedRefs } from "@/components/hooks/compose-refs"
+import { useAsRef } from "@/components/hooks/use-as-ref"
+import { useIsomorphicLayoutEffect } from "@/components/hooks/use-isomorphic-layout-effect"
+import { useLazyRef } from "@/components/hooks/use-lazy-ref"
 import { cn } from "@/lib/utils"
 import { Check } from "lucide-react"
 import {

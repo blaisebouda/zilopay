@@ -1,10 +1,11 @@
-"use client";
-import Heading from "@/components/ui/heading";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { KeyIcon, Shield, User2 } from "lucide-react";
-import Password from "./password";
-import Profile from "./profile";
-import TwoFactor from "./two-factor";
+"use client"
+import Heading from "@/components/ui/heading"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { KeyIcon, Shield, User2 } from "lucide-react"
+import Password from "./password"
+import Profile from "./profile"
+import TwoFactor from "./two-factor"
+import DashboardLayout from "@/Layouts/DashboardLayout"
 
 export default function Settings() {
   const tabs = [
@@ -26,7 +27,7 @@ export default function Settings() {
       icon: <Shield />,
       content: <TwoFactor />,
     },
-  ];
+  ]
   return (
     <>
       <Tabs
@@ -59,5 +60,9 @@ export default function Settings() {
         </div>
       </Tabs>
     </>
-  );
+  )
 }
+
+Settings.layout = (page: React.ReactNode) => (
+  <DashboardLayout>{page}</DashboardLayout>
+)

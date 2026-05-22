@@ -1,4 +1,4 @@
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import {
   AlertDialog,
   AlertDialogCancel,
@@ -7,21 +7,22 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from "@/components/ui/alert-dialog";
-import { Badge } from "@/components/ui/badge";
-import { Code } from "@/components/ui/code";
-import { ShieldAlert } from "lucide-react";
+} from "@/components/ui/alert-dialog"
+import { Badge } from "@/components/ui/badge"
+import { Code } from "@/components/ui/code"
+import { ApiKey } from "@/types/interface"
+import { ShieldAlert } from "lucide-react"
 
 type ApiKeyResponse = {
-  api_key: ApiKey;
-  plain_secret: string;
-};
+  api_key: ApiKey
+  plain_secret: string
+}
 
 type ShowCredentialsProps = {
-  result: ApiKeyResponse | null;
-  open: boolean;
-  onOpenChange: (open: boolean) => void;
-};
+  result: ApiKeyResponse | null
+  open: boolean
+  onOpenChange: (open: boolean) => void
+}
 
 export default function ShowCredentials({
   result,
@@ -45,11 +46,11 @@ export default function ShowCredentials({
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
-  );
+  )
 }
 
 export function ApiKeyDetails({ result }: { result: ApiKeyResponse }) {
-  const apiKey = result.api_key;
+  const apiKey = result.api_key
 
   return (
     <div className=" space-y-4">
@@ -99,5 +100,5 @@ export function ApiKeyDetails({ result }: { result: ApiKeyResponse }) {
         </Alert>
       </div>
     </div>
-  );
+  )
 }

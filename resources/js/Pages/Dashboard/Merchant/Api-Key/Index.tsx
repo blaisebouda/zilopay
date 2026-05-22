@@ -1,22 +1,24 @@
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Switch } from "@/components/ui/switch";
-import { Card, CardContent } from "@/components/ui/card";
-import { Code } from "@/components/ui/code";
-import Empty from "@/components/ui/empty";
-import { SkeletonTable } from "@/components/ui/skeleton";
-import ENDPOINTS from "@/constants/endpoints";
-import { useGet } from "@/hooks/use-get";
-import { Key, Plus, Trash2 } from "lucide-react";
-import { useState } from "react";
-import ApiKeyForm from "./partial/api-key-form";
+import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent } from "@/components/ui/card"
+import { Code } from "@/components/ui/code"
+import Empty from "@/components/ui/empty"
+import { SkeletonTable } from "@/components/ui/skeleton"
+import { Switch } from "@/components/ui/switch"
+import ENDPOINTS from "@/constants/endpoints"
+import { useGet } from "@/hooks/use-get"
+import DashboardLayout from "@/Layouts/DashboardLayout"
+import { Key, Plus, Trash2 } from "lucide-react"
+import { useState } from "react"
+import ApiKeyForm from "./partial/api-key-form"
+import { ApiKey } from "@/types/interface"
 
 export default function ApiKeyPage() {
-  const [isFormOpen, setIsFormOpen] = useState(false);
+  const [isFormOpen, setIsFormOpen] = useState(false)
 
   const { loading, result, refetch } = useGet<ApiKey[]>(
-    ENDPOINTS.MERCHANT.api_key,
-  );
+    ENDPOINTS.MERCHANT.api_key
+  )
 
   return (
     <div className="space-y-6">
@@ -57,7 +59,7 @@ export default function ApiKeyPage() {
         refresh={refetch}
       />
     </div>
-  );
+  )
 }
 
 function ApiCard({ item }: { item: ApiKey }) {
@@ -70,7 +72,7 @@ function ApiCard({ item }: { item: ApiKey }) {
               <span className="font-bold">Nom:</span>
               <span className="text-lg">{item.name}</span>
               <Badge variant={item.is_live ? "default" : "secondary"}>
-                {item.is_active ? "Production" : "Test"}
+                {item.is_live ? "Production" : "Test"}
               </Badge>
             </div>
             <div className="pt-4">
@@ -96,5 +98,9 @@ function ApiCard({ item }: { item: ApiKey }) {
         </div>
       </CardContent>
     </Card>
-  );
+  )
 }
+
+ApiKeyPage.layout = (page: React.ReactNode) => (
+  <DashboardLayout title="Clés API">{page}</DashboardLayout>
+)

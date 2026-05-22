@@ -1,33 +1,34 @@
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/button"
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Switch } from "@/components/ui/switch";
-import ENDPOINTS from "@/constants/endpoints";
-import { usePost } from "@/hooks/use-post";
-import { useState } from "react";
-import ShowCredentials from "./show-credentials";
+} from "@/components/ui/dialog"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { Switch } from "@/components/ui/switch"
+import ENDPOINTS from "@/constants/endpoints"
+import { usePost } from "@/hooks/use-post"
+import { useState } from "react"
+import ShowCredentials from "./show-credentials"
+import { ApiKey } from "@/types/interface"
 
 interface ApiKeyFormData {
-  name: string;
-  is_live: boolean;
+  name: string
+  is_live: boolean
 }
 
 type ApiKeyResponse = {
-  api_key: ApiKey;
-  plain_secret: string;
-};
+  api_key: ApiKey
+  plain_secret: string
+}
 
 interface ApiKeyFormProps {
-  open: boolean;
-  onOpenChange: (open: boolean) => void;
-  refresh: () => void;
+  open: boolean
+  onOpenChange: (open: boolean) => void
+  refresh: () => void
 }
 
 export default function ApiKeyForm({
@@ -38,25 +39,25 @@ export default function ApiKeyForm({
   const [formData, setFormData] = useState<ApiKeyFormData>({
     name: "",
     is_live: false,
-  });
+  })
 
-  const [showCredentials, setShowCredentials] = useState(false);
-  const [result, setResult] = useState<ApiKeyResponse | null>(null);
+  const [showCredentials, setShowCredentials] = useState(false)
+  const [result, setResult] = useState<ApiKeyResponse | null>(null)
 
-  const { post, loading } = usePost<ApiKeyResponse>(ENDPOINTS.MERCHANT.api_key);
+  const { post, loading } = usePost<ApiKeyResponse>(ENDPOINTS.MERCHANT.api_key)
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    const resp = await post(formData);
+    e.preventDefault()
+    const resp = await post(formData)
 
     if (resp) {
-      setResult(resp);
+      setResult(resp)
     }
-    refresh();
-    setShowCredentials(true);
-    setFormData({ name: "", is_live: false });
-    onOpenChange(false);
-  };
+    refresh()
+    setShowCredentials(true)
+    setFormData({ name: "", is_live: false })
+    onOpenChange(false)
+  }
 
   return (
     <>
@@ -66,7 +67,7 @@ export default function ApiKeyForm({
         onOpenChange={setShowCredentials}
       />
       <Dialog open={open} onOpenChange={onOpenChange}>
-        <DialogContent className="overflow-y-auto">
+        <DialogContent className="sm:max-w-[480px] overflow-y-auto">
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
               Nouvelle clé API
@@ -122,5 +123,5 @@ export default function ApiKeyForm({
         </DialogContent>
       </Dialog>
     </>
-  );
+  )
 }

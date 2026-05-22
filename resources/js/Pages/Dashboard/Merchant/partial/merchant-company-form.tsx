@@ -4,14 +4,14 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { PhoneInput } from "@/components/ui/phone-input";
-import type { UseFormReturn } from "react-hook-form";
-import type { MerchantFormData } from "@/validations/merchant.schema";
+} from "@/components/ui/form"
+import { Input } from "@/components/ui/input"
+import { PhoneInput } from "@/components/ui/phone-input"
+import type { UseFormReturn } from "react-hook-form"
+import type { MerchantFormData } from "@/lib/validations/merchant.schema"
 
 interface MerchantCompanyFormProps {
-  form: UseFormReturn<MerchantFormData>;
+  form: UseFormReturn<MerchantFormData>
 }
 
 export default function MerchantCompanyForm({
@@ -61,7 +61,7 @@ export default function MerchantCompanyForm({
             <FormControl className="w-full">
               <PhoneInput
                 onCountryChange={(meta) => {
-                  form.setValue("country", meta?.country || "");
+                  form.setValue("country", meta?.country || "")
                 }}
                 placeholder="Entrez un numéro de téléphone"
                 {...field}
@@ -72,5 +72,5 @@ export default function MerchantCompanyForm({
         )}
       />
     </div>
-  );
+  )
 }

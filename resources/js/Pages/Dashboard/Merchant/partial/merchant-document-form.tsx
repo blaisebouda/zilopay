@@ -1,6 +1,6 @@
-"use client";
+"use client"
 
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/button"
 import {
   FileUpload,
   FileUploadDropzone,
@@ -10,33 +10,33 @@ import {
   FileUploadItemPreview,
   FileUploadList,
   FileUploadTrigger,
-} from "@/components/ui/file-upload";
-import type { MerchantFormData } from "@/validations/merchant.schema";
-import { Upload, X } from "lucide-react";
-import * as React from "react";
-import { useEffect } from "react";
-import type { UseFormReturn } from "react-hook-form";
-import { toast } from "sonner";
+} from "@/components/ui/file-upload"
+import type { MerchantFormData } from "@/lib/validations/merchant.schema"
+import { Upload, X } from "lucide-react"
+import * as React from "react"
+import { useEffect } from "react"
+import type { UseFormReturn } from "react-hook-form"
+import { toast } from "sonner"
 
 interface MerchantDocumentFormProps {
-  form: UseFormReturn<MerchantFormData>;
+  form: UseFormReturn<MerchantFormData>
 }
 
 export default function MerchantDocumentForm({
   form,
 }: MerchantDocumentFormProps) {
-  const [files, setFiles] = React.useState<File[]>([]);
+  const [files, setFiles] = React.useState<File[]>([])
 
   // Sync files with react-hook-form
   useEffect(() => {
-    form.setValue("documents", files, { shouldValidate: true });
-  }, [files, form]);
+    form.setValue("documents", files, { shouldValidate: true })
+  }, [files, form])
 
   const onFileReject = React.useCallback((file: File, message: string) => {
     toast(message, {
       description: `"${file.name.length > 20 ? `${file.name.slice(0, 20)}...` : file.name}" a été rejeté`,
-    });
-  }, []);
+    })
+  }, [])
 
   return (
     <FileUpload
@@ -47,6 +47,7 @@ export default function MerchantDocumentForm({
       onValueChange={setFiles}
       onFileReject={onFileReject}
       multiple
+      accept=".pdf"
     >
       <FileUploadDropzone>
         <div className="flex flex-col items-center gap-1 text-center">
@@ -78,5 +79,5 @@ export default function MerchantDocumentForm({
         ))}
       </FileUploadList>
     </FileUpload>
-  );
+  )
 }

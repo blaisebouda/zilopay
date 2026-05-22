@@ -1,17 +1,18 @@
-import { SectionHeader } from "@/components/sections/section-header";
-import { Button } from "@/components/ui/button";
-import Empty from "@/components/ui/empty";
-import { SkeletonTable } from "@/components/ui/skeleton";
-import ENDPOINTS from "@/constants/endpoints";
-import { useAppNavigation } from "@/hooks/use-app-navigation";
-import { useGet } from "@/hooks/use-get";
-import { ROUTE } from "@/router/route";
-import type { MerchantResponse, MerchantTransaction } from "@/types";
-import { Building2, KeyIcon } from "lucide-react";
-import { useMemo } from "react";
-import MerchantInfoCard from "./partial/merchant-info-card";
-import StatsCards from "./partial/stats-cards";
-import TransactionTable from "./partial/transaction-table";
+import { SectionHeader } from "@/components/sections/section-header"
+import { Button } from "@/components/ui/button"
+import Empty from "@/components/ui/empty"
+import { SkeletonTable } from "@/components/ui/skeleton"
+import ENDPOINTS from "@/constants/endpoints"
+import { ROUTE } from "@/constants/route"
+import { useAppNavigation } from "@/hooks/use-app-navigation"
+import { useGet } from "@/hooks/use-get"
+import DashboardLayout from "@/Layouts/DashboardLayout"
+import type { MerchantResponse, MerchantTransaction } from "@/types"
+import { Building2, KeyIcon } from "lucide-react"
+import { useMemo } from "react"
+import MerchantInfoCard from "./partial/merchant-info-card"
+import StatsCards from "./partial/stats-cards"
+import TransactionTable from "./partial/transaction-table"
 
 const transactions: MerchantTransaction[] = [
   {
@@ -34,14 +35,14 @@ const transactions: MerchantTransaction[] = [
     status_color: "warning",
     date: "2 mins ago",
   },
-];
+]
 
-export default function MerchantPage() {
-  const { goTo, goToDashboard } = useAppNavigation();
+export default function Merchant() {
+  const { goTo, goToDashboard } = useAppNavigation()
 
-  const { result, loading } = useGet<MerchantResponse>(ENDPOINTS.MERCHANT.base);
+  const { result, loading } = useGet<MerchantResponse>(ENDPOINTS.MERCHANT.base)
 
-  const isMerchant = useMemo(() => result?.statistics !== undefined, [result]);
+  const isMerchant = useMemo(() => result?.statistics !== undefined, [result])
 
   return (
     <>
@@ -80,5 +81,9 @@ export default function MerchantPage() {
         </Empty>
       )}
     </>
-  );
+  )
 }
+
+Merchant.layout = (page: React.ReactNode) => (
+  <DashboardLayout title="Marchand">{page}</DashboardLayout>
+)
