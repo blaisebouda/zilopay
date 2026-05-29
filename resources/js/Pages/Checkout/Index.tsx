@@ -88,7 +88,7 @@ function Header() {
   const { merchant_name, amountFormatted } = getUrlParams()
 
   return (
-    <div className="flex justify-between rounded-lg border border-tertiary/40 bg-tertiary/10 px-4 py-2">
+    <div className="flex justify-between rounded-lg border  bg-[#E6F0FA] px-4 py-2">
       <div>
         <p className="text-muted-foreground">Marchand</p>
         <p className="text-base font-semibold">{merchant_name}</p>

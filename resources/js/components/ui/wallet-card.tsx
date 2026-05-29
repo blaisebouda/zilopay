@@ -127,7 +127,7 @@ export function WalletCard({ id, balance, currency, currency_symbol }: Wallet) {
   }).format(balance)
 
   return (
-    <div className="w-full rounded-2xl p-6 bg-gradient text-white shadow-lg">
+    <div className="w-full rounded-2xl p-6 bg-primary text-white shadow-lg">
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-2">

@@ -54,8 +54,7 @@
   --card-foreground: oklch(0.28 0.04 260.33);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.28 0.04 260.33);
-  --primary: #bc38b3;
-  --tertiary: #32b5d4;
+  --primary: #0064b4;
 
   --primary-foreground: oklch(1 0 0);
   --secondary: oklch(0.93 0.01 261.82);
@@ -110,7 +109,7 @@
   --card-foreground: oklch(0.93 0.01 256.71);
   --popover: oklch(0.28 0.04 260.33);
   --popover-foreground: oklch(0.93 0.01 256.71);
-  --primary: oklch(0.68 0.16 276.93);
+  --primary: #3399ff;
   --primary-foreground: oklch(0.21 0.04 264.04);
   --secondary: oklch(0.34 0.03 261.83);
   --secondary-foreground: oklch(0.87 0.01 261.81);
@@ -165,15 +164,4 @@
   [role="button"]:not(:disabled) {
     cursor: pointer;
   }
-}
-
-.bg-gradient,
-.bg-gradient-hover {
-  transition: background 0.3s ease;
-  background: linear-gradient(to right, var(--primary), var(--tertiary));
-}
-
-.bg-gradient-hover:hover {
-  transition: background 0.3s ease;
-  background: linear-gradient(to right, var(--tertiary), var(--primary));
 }

@@ -74,13 +74,9 @@ export default function LoginPage() {
     <div className="flex items-center justify-center p-4">
       <div className="w-full bg-transparent max-w-md">
         <CardHeader className="text-center">
-          <div className="flex justify-center pb-2">
+          <div className="flex justify-center pb-6">
             <a href="#">
-              <img
-                src="/images/logo.png"
-                alt="Zilopay Logo"
-                className="size-20"
-              />
+              <img src="/images/logo.png" alt="Zilopay Logo" width={200} />
             </a>
           </div>
           <CardTitle className="text-3xl font-bold">Bon retour 👋!</CardTitle>

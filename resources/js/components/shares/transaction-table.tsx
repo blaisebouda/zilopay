@@ -1,19 +1,19 @@
-import { DataTable } from "@/components/table/data-table";
-import { Badge } from "@/components/ui/badge";
-import type { Transaction } from "@/types";
-import type { ColumnDef } from "@tanstack/react-table";
-import { ArrowDownLeft, ArrowUpRight, Repeat } from "lucide-react";
+import { DataTable } from "@/components/table/data-table"
+import { Badge } from "@/components/ui/badge"
+import type { Transaction } from "@/types"
+import type { ColumnDef } from "@tanstack/react-table"
+import { ArrowDownLeft, ArrowUpRight, Repeat } from "lucide-react"
 
 const TransactionIcon = ({ transaction }: { transaction: Transaction }) => {
   const colors = (transaction: Transaction) => {
     if (transaction.is_deposit) {
-      return "bg-emerald-100 text-emerald-600";
+      return "bg-emerald-100 text-emerald-600 dark:bg-emerald-900 dark:text-emerald-400"
     } else if (transaction.is_transfer) {
-      return "bg-blue-100 text-blue-600";
+      return "bg-blue-100 text-blue-600 dark:bg-blue-900 dark:text-blue-400"
     } else {
-      return "bg-rose-100 text-rose-600";
+      return "bg-rose-100 text-rose-600 dark:bg-rose-900 dark:text-rose-400"
     }
-  };
+  }
 
   return (
     <div className="flex items-center gap-3">
@@ -33,15 +33,15 @@ const TransactionIcon = ({ transaction }: { transaction: Transaction }) => {
         <p className="text-muted-foreground">{transaction.target}</p>
       </div>
     </div>
-  );
-};
+  )
+}
 
 const columns: ColumnDef<Transaction>[] = [
   {
     accessorKey: "type",
     header: "Transaction",
     cell: ({ row }) => {
-      return <TransactionIcon transaction={row.original} />;
+      return <TransactionIcon transaction={row.original} />
     },
   },
   {
@@ -56,41 +56,41 @@ const columns: ColumnDef<Transaction>[] = [
     accessorKey: "amount",
     header: "Montant",
     cell: ({ row }) => {
-      const amount = row.getValue("amount") as string;
+      const amount = row.getValue("amount") as string
       return (
         <span
           className={`font-bold ${amount.startsWith("+") ? "text-emerald-500" : amount.startsWith("-") ? "text-foreground" : "text-rose-500"}`}
         >
           {amount}
         </span>
-      );
+      )
     },
   },
   {
     accessorKey: "status",
     header: "Statut",
     cell: ({ row }) => {
-      const tx = row.original;
+      const tx = row.original
 
-      return <Badge variant={tx.status_color}>{tx.status}</Badge>;
+      return <Badge variant={tx.status_color}>{tx.status}</Badge>
     },
   },
   {
     accessorKey: "date",
     header: "Date",
   },
-];
+]
 
 export default function TransactionTable({
   transactions,
   loading = false,
 }: {
-  transactions: Transaction[] | null;
-  loading?: boolean;
+  transactions: Transaction[] | null
+  loading?: boolean
 }) {
   return (
     <>
       <DataTable loading={loading} data={transactions} columns={columns} />
     </>
-  );
+  )
 }

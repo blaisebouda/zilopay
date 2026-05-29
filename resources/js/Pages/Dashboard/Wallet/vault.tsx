@@ -100,7 +100,7 @@ export default function Vault() {
         </div>
 
         {/* Carte résumé */}
-        <Card className="mb-8 bg-gradient text-white">
+        <Card className="mb-8 bg-primary text-white">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Shield className="h-5 w-5" />

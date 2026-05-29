@@ -111,9 +111,9 @@ export default function DashboardLayout({
                   <SidebarMenuButton size="lg" asChild>
                     <a href="#">
                       <img
-                        src="/images/logo.png"
+                        src="/images/logo_icon.png"
                         alt="Zilopay"
-                        className="size-10 border rounded-lg"
+                        className="w-12 object-contain"
                       />
                       <div className="grid flex-1 text-left text-sm leading-tight">
                         <span className="truncate font-medium">Zilopay</span>
