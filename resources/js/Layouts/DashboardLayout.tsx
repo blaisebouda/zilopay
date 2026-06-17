@@ -5,7 +5,7 @@ import {
   ChartSplineIcon,
   KeyIcon,
   SettingsIcon,
-  Wallet2,
+  Vault,
 } from "lucide-react"
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
@@ -47,7 +47,7 @@ const NAV_ITEMS = [
       {
         title: "Coffres",
         url: `/dashboard/${ROUTE.WALLETS}`,
-        icon: Wallet2,
+        icon: Vault,
       },
       {
         title: "Transactions",

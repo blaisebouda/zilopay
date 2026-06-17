@@ -102,7 +102,7 @@ export default function RegisterPage() {
   }
 
   return (
-    <div className="max-w-lg mx-auto">
+    <div className="max-w-lg mx-auto p-4">
       <div className="text-center mb-6">
         <h1 className="text-3xl font-bold mb-1">Créer un compte</h1>
         <p className="text-muted-foreground">

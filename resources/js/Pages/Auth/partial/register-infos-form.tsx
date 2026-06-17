@@ -130,7 +130,7 @@ export function RegisterInfosForm({ form }: RegisterInfosFormProps) {
             <FormItem>
               <FormLabel className="flex items-center gap-2">
                 <ShieldCheck className="h-4 w-4" />
-                Confirmation du mot de passe
+                Confirmez le mot de passe
               </FormLabel>
               <FormControl>
                 <Input
