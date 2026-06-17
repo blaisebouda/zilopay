@@ -1,6 +1,7 @@
 import { ActionButton } from "@/components/ui/action-btn"
 import { Button } from "@/components/ui/button"
 import { EyeClosed, Lock, Newspaper, Plus } from "lucide-react"
+import { useState } from "react"
 
 export function CardSection() {
   return (
@@ -28,6 +29,8 @@ export function CardSection() {
 }
 
 function Card() {
+  const [isVisible, setIsVisible] = useState(false)
+
   return (
     <div className="bg-primary text-white p-4 rounded-xl">
       <div className="flex items-center justify-between">
@@ -36,9 +39,12 @@ function Card() {
       </div>
       <img src="/images/card-puce.png" className="w-10 mt-6" alt="Card Puce" />
       <h1 className="font-mono text-2xl flex items-center gap-2">
-        <span> **** **** **** 1234</span>
+        <span> {isVisible ? "4349 3232 8080 " : "**** **** ****"} 1234</span>
         <span>
-          <EyeClosed />
+          <EyeClosed
+            className="cursor-pointer"
+            onClick={() => setIsVisible(!isVisible)}
+          />
         </span>
       </h1>
       <div className="flex items-center justify-between mt-2">

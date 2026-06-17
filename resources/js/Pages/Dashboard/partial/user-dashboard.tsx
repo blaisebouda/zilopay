@@ -31,23 +31,6 @@ export default function UserDashboard() {
 
   return (
     <div className="space-y-8 bg-background text-foreground">
-      {/* <div className="mx-auto max-w-7xl">
-        <div className="mb-6 flex items-center justify-between">
-          <h2 className="flex items-center gap-2 text-xl font-bold">
-            Mes Portefeuilles
-            <span className="rounded bg-muted px-2 py-0.5 text-[10px] text-muted-foreground uppercase">
-              Multi-devises
-            </span>
-          </h2>
-          <Button
-            variant="outline"
-            size="sm"
-            className="text-blue-600 hover:text-blue-700 dark:text-blue-400"
-          >
-            Ajouter un portefeuille
-          </Button>
-        </div> */}
-
       <div className="grid gap-4 grid-cols-1 lg:grid-cols-3">
         {result?.wallet && (
           <WalletCard
