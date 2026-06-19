@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}"  @class(['dark' => ($appearance ?? 'system') == 'dark'])>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>{{ config('app.name', 'Zilopay') }}</title>
+        <link rel="icon" href="/images/logo_icon.png" type="image/png">
+       
+        <!-- Fonts -->
+        <link rel="preconnect" href="https://fonts.bunny.net">
+        <link href="https://fonts.bunny.net/css?family=figtree:400,500,600" rel="stylesheet" />
+        
+        @viteReactRefresh
+        @vite('resources/js/app.tsx')
+
+        <x-inertia::head />
+    </head>
+    <body>
+        <x-inertia::app />
+    </body>
+</html>

@@ -1,9 +1,9 @@
 <?php
 
-use App\Http\Controllers\Merchant\MerchantApiKeyController;
-use App\Http\Controllers\Merchant\MerchantController;
-use App\Http\Controllers\Merchant\MerchantDashboardController;
-use App\Http\Controllers\Merchant\PaymentLinkController;
+use App\Http\Controllers\Api\Merchant\MerchantApiKeyController;
+use App\Http\Controllers\Api\Merchant\MerchantController;
+use App\Http\Controllers\Api\Merchant\MerchantDashboardController;
+use App\Http\Controllers\Api\Merchant\PaymentLinkController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('merchant')->name('merchant.')->group(function () {

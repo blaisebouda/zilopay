@@ -55,14 +55,14 @@ class QueryTrendResult
     public function values()
     {
         return $this->data
-            ->map(fn(TrendValue $value) => $value->aggregate)
+            ->map(fn (TrendValue $value) => $value->aggregate)
             ->toArray();
     }
 
     public function labels()
     {
         return $this->data
-            ->map(fn(TrendValue $value) => $value->date)
+            ->map(fn (TrendValue $value) => $value->date)
             ->toArray();
     }
 }

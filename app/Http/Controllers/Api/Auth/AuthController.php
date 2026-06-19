@@ -11,6 +11,7 @@ use App\Models\User;
 use App\Services\Auth\OtpService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -65,12 +66,24 @@ class AuthController extends ApiController
             ->first();
 
         if (! $user || ! Hash::check($request->password, $user->password)) {
-            return $this->errorResponse('Identifiants invalides.', 404);
+            return $this->errorResponse('Identifiants invalides.', 422);
         }
 
-        // Create token
-        $tokenName = $request->remember ? 'remember_token' : 'auth_token';
-        $token = $user->createToken($tokenName)->plainTextToken;
+        if ($request->header('X-Inertia') || $request->hasSession()) {
+
+            Auth::login($user, $request->boolean('remember'));
+
+            $request->session()->regenerate();
+
+            return $this->successResponse([
+                'user' => UserResource::make($user),
+                'wallet' => WalletResource::make($user->defaultWallet),
+            ], 'Connexion réussie.');
+        }
+
+        $deviceName = $request->input('device_name', 'Mobile App');
+
+        $token = $user->createToken($deviceName)->plainTextToken;
 
         return $this->successResponse([
             'token' => $token,
@@ -79,8 +92,17 @@ class AuthController extends ApiController
         ], 'Connexion réussie.');
     }
 
-    public function logout(Request $request): JsonResponse
+    public function logout(Request $request)
     {
+        if ($request->hasSession() || $request->header('X-Inertia')) {
+            Auth::guard('web')->logout();
+
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
+
+            return $this->successResponse([], 'Déconnexion réussie.');
+        }
+
         $request->user()->currentAccessToken()->delete();
 
         return $this->successResponse([], 'Déconnexion réussie.');

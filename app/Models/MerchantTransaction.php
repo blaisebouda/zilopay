@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Models\Enums\Currency;
 use App\Models\Enums\MerchantTransactionStatus;
 use Database\Factories\MerchantTransactionFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -22,9 +23,12 @@ class MerchantTransaction extends Model
      */
     protected $fillable = [
         'merchant_id',
+        'payment_link_id',
         'uuid',
-        'phone_number',
-        'gross_amount',
+        'customer_phone',
+        'customer_email',
+        'currency',
+        'amount',
         'platform_fee',
         'net_amount',
         'status',
@@ -40,10 +44,11 @@ class MerchantTransaction extends Model
     protected function casts(): array
     {
         return [
-            'gross_amount' => 'decimal:8',
+            'currency' => Currency::class,
+            'amount' => 'decimal:8',
             'platform_fee' => 'decimal:8',
             'net_amount' => 'decimal:8',
-            'status' => 'integer',
+            'status' => MerchantTransactionStatus::class,
             'settled_at' => 'datetime',
             'metadata' => 'array',
         ];

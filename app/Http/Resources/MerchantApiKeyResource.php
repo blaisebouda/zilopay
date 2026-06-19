@@ -6,7 +6,6 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-
 use Illuminate\Support\Str;
 
 class MerchantApiKeyResource extends JsonResource
@@ -21,7 +20,7 @@ class MerchantApiKeyResource extends JsonResource
         return [
             'uuid' => $this->uuid,
             'name' => $this->name,
-            'key' => Str::mask($this->key, "*", 3, 24),
+            'key' => Str::mask($this->key, '*', 3, 24),
             'public_key' => $this->public_key,
             'is_live' => $this->is_live,
             'is_active' => $this->is_active,

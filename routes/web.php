@@ -1,13 +1,42 @@
 <?php
 
-use App\Http\Controllers\Merchant\MerchantController;
-use App\Http\Controllers\Merchant\PaymentLinkController;
+use App\Http\Controllers\Api\Merchant\MerchantController;
+use App\Http\Controllers\Api\Merchant\PaymentLinkController;
+use App\Http\Controllers\Inertia\PayLink;
 use App\Http\Controllers\OtpTestController;
 use Illuminate\Support\Facades\Route;
+use Inertia\Inertia;
+
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
 Route::get('/', function () {
     return view('welcome');
 });
+
+// Auth routes
+Route::get('/login', fn() => Inertia::render('Auth/Login'))->name('login');
+Route::get('/register', fn() => Inertia::render('Auth/Register'))->name('register');
+
+Route::middleware(['auth:sanctum'])->group(function () {
+    Route::get('/deposit', fn() => Inertia::render('Deposit/Index'))->name('deposit');
+    Route::get('/transfer', fn() => Inertia::render('Transfer/Index'))->name('transfer');
+    Route::get('/merchants/create', fn() => Inertia::render('Dashboard/Merchant/MerchantCreate'))->name('merchants.create');
+});
+
+// Dashboard routes
+Route::middleware(['auth:sanctum'])->prefix('dashboard')->group(function () {
+    Route::get('/', fn() => Inertia::render('Dashboard/Index'))->name('dashboard');
+    Route::get('/transactions', fn() => Inertia::render('Dashboard/Transaction'))->name('transactions');
+    Route::get('/wallets', fn() => Inertia::render('Dashboard/Wallet/Index'))->name('wallets');
+    Route::get('/withdraws', fn() => Inertia::render('Dashboard/Withdraw/Index'))->name('withdraws');
+    Route::get('/merchants', fn() => Inertia::render('Dashboard/Merchant/Index'))->name('merchants');
+    Route::get('/api-keys', fn() => Inertia::render('Dashboard/Merchant/Api-Key/Index'))->name('api-keys');
+    Route::get('/settings', fn() => Inertia::render('Dashboard/Settings/Index'))->name('settings');
+});
+
+
 
 Route::get('/otp', [OtpTestController::class, 'index']);
 
@@ -20,6 +49,6 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
 
 // Public — lien de paiement
 Route::middleware(['signed', 'throttle:3,1'])->group(function () {
-    Route::get('/pay/{ref}', [PaymentLinkController::class, 'show'])->name('merchant.pay');
+    Route::get('/pay/{ref}', [PayLink::class, 'index'])->name('merchant.pay');
     Route::post('/pay/{ref}', [PaymentLinkController::class, 'process'])->name('process');
 });

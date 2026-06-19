@@ -141,7 +141,7 @@ class PaymentLinkService
         $query = $parsedUrl['query'] ?? '';
 
         // Build the secure checkout link
-        $checkoutLink = $checkoutUrl . $path . ($query ? '?' . $query : '');
+        $checkoutLink = $checkoutUrl.$path.($query ? '?'.$query : '');
 
         return $checkoutLink;
     }
