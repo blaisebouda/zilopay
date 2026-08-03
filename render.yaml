@@ -3,46 +3,37 @@ services:
     name: laravel-inertia-app
     runtime: docker
     plan: free
-    dockerfilePath: ./Dockerfile
-    dockerContext: .
+    branch: main
     envVars:
       - key: APP_ENV
         value: production
       - key: APP_DEBUG
         value: false
       - key: APP_KEY
-        sync: false          # paste your generated key manually in Render's dashboard
+        sync: false  # You will set this manually in the dashboard
       - key: APP_URL
-        sync: false          # set to your onrender.com URL after first deploy
+        value: https://laravel-inertia-app.onrender.com
+      - key: DB_CONNECTION
+        value: pgsql
+      - key: DATABASE_URL
+        fromDatabase:
+          name: laravel-db
+          property: connectionString
       - key: LOG_CHANNEL
         value: stderr
       - key: SESSION_DRIVER
-        value: cookie        # avoids relying on the ephemeral filesystem for sessions
-      - key: DB_CONNECTION
-        value: pgsql
-      - key: DB_HOST
-        fromDatabase:
-          name: laravel-db
-          property: host
-      - key: DB_PORT
-        fromDatabase:
-          name: laravel-db
-          property: port
-      - key: DB_DATABASE
-        fromDatabase:
-          name: laravel-db
-          property: database
-      - key: DB_USERNAME
-        fromDatabase:
-          name: laravel-db
-          property: user
-      - key: DB_PASSWORD
-        fromDatabase:
-          name: laravel-db
-          property: password
+        value: database
+      - key: CACHE_STORE
+        value: database
+      - key: QUEUE_CONNECTION
+        value: database
+    disk:
+      name: storage
+      mountPath: /var/www/html/storage/app
+      sizeGB: 1
 
 databases:
   - name: laravel-db
-    plan: free
     databaseName: laravel
     user: laravel
+    plan: free

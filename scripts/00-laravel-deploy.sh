@@ -1,26 +1,26 @@
 #!/usr/bin/env bash
-echo "Running composer"
-composer install --no-dev --working-dir=/var/www/html
+set -e
 
-echo "Generating application key..."
-php artisan key:generate --show
+# Configure Apache to use Render's dynamic PORT
+sed -i "s/Listen 80/Listen ${PORT}/" /etc/apache2/ports.conf
+sed -ri "s/<VirtualHost \*:80>/<VirtualHost \*:${PORT}>/g" /etc/apache2/sites-available/000-default.conf
 
-echo "Caching config..."
-php artisan config:cache
+# Update DocumentRoot to Laravel's public folder
+sed -ri -e 's!/var/www/html!/var/www/html/public!g' /etc/apache2/sites-available/*.conf
 
-echo "Caching routes..."
-php artisan route:cache
+# Allow .htaccess overrides
+sed -ri -e 's/AllowOverride None/AllowOverride All/g' /etc/apache2/apache2.conf
 
-echo "Running migrations..."
+# Create storage symlink
+php artisan storage:link --quiet || true
+
+# Run database migrations
 php artisan migrate --force
 
-# Build your React assets for production
-echo "Building frontend assets..."
-npm install
-npm run build
+# Cache Laravel config/routes/views for performance
+php artisan config:cache
+php artisan route:cache
+php artisan view:cache
 
-# Start the Inertia SSR server in the background
-echo "Starting Inertia SSR..."
-php artisan inertia:start-ssr &
-
-echo "All done!"
+# Start Apache in foreground
+exec apache2-foreground
