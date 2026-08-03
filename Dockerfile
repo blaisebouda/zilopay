@@ -1,51 +1,59 @@
-# ---- Stage 1: build frontend assets (Vite + React + Inertia) ----
-FROM node:22-alpine AS frontend
-
+# --- Stage 1: Build Frontend Assets via pnpm ---
+FROM node:20-alpine AS frontend-builder
 WORKDIR /app
-RUN corepack enable && corepack prepare pnpm@9 --activate
-COPY package.json pnpm-lock.yaml ./
+
+# Enable corepack to get pnpm automatically
+RUN corepack enable && corepack prepare pnpm@latest --activate
+
+# Copy only lockfile and package configuration for caching layers
+COPY package.json pnpm-lock.yaml* ./
 RUN pnpm install --frozen-lockfile
+
+# Copy the rest of the application files and compile
 COPY . .
 RUN pnpm run build
 
-# ---- Stage 2: PHP application ----
-FROM php:8.3-apache AS app
+# --- Stage 2: Serve the Application with PHP 8.3 ---
+FROM php:8.3-fpm-alpine
 
-# System deps + PHP extensions Laravel typically needs
-RUN apt-get update && apt-get install -y \
-        git curl unzip zip \
-        libpng-dev libonig-dev libxml2-dev libzip-dev libpq-dev \
-    && docker-php-ext-install pdo pdo_mysql pdo_pgsql mbstring exif pcntl bcmath gd zip \
-    && a2enmod rewrite \
-    && rm -rf /var/lib/apt/lists/*
+# Install system dependencies and database drivers
+RUN apk add --no-cache \
+    nginx \
+    supervisor \
+    curl \
+    libpng-dev \
+    libxml2-dev \
+    zip \
+    unzip \
+    git \
+    oniguruma-dev \
+    postgresql-dev
+
+# Install PHP extensions required for Laravel 13
+RUN docker-php-ext-install pdo pdo_mysql pdo_pgsql mbstring exif pcntl bcmath gd
+
+# Grab the latest Composer
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 WORKDIR /var/www/html
 
-# Composer
-COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
-
-# App source
+# Copy application backend files
 COPY . .
 
-# Built frontend assets from stage 1
-COPY --from=frontend /app/public/build ./public/build
+# Copy compiled production assets from Stage 1 
+COPY --from=frontend-builder /app/public/build ./public/build
 
-# PHP deps (no dev deps, optimized autoloader)
-RUN composer install --optimize-autoloader --no-dev --no-interaction --no-progress
+# Install production PHP dependencies
+ENV COMPOSER_ALLOW_SUPERUSER=1
+RUN composer install --no-interaction --optimize-autoloader --no-dev
 
-# Permissions Laravel needs to write to
-RUN chown -R www-data:www-data /var/www/html \
-    && chmod -R 775 storage bootstrap/cache
+# Fix write permissions for the container environment
+RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 
-# Point Apache's document root at Laravel's /public
-ENV APACHE_DOCUMENT_ROOT=/var/www/html/public
-RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' \
-        /etc/apache2/sites-available/*.conf \
-        /etc/apache2/apache2.conf \
-        /etc/apache2/conf-available/*.conf
-
-COPY docker/entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
+# Copy Nginx and Supervisor configs from your local project
+COPY docker/nginx.conf /etc/nginx/nginx.conf
+COPY docker/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 EXPOSE 80
-ENTRYPOINT ["/entrypoint.sh"]
+
+CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
