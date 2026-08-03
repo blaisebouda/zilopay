@@ -32,7 +32,7 @@ RUN composer install --no-dev --no-autoloader --no-scripts --no-interaction
 
 # Copy and install Node dependencies (layer caching)
 COPY package.json pnpm-lock.yaml ./
-RUN pnpm install --frozen-lockfile
+RUN pnpm install --frozen-lockfile --ignore-scripts
 
 # Copy ALL application code
 COPY . .
