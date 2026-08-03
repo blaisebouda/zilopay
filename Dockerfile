@@ -1,5 +1,5 @@
 # --- Stage 1: Build Frontend Assets via pnpm ---
-FROM node:20-alpine AS frontend-builder
+FROM node:22-alpine AS frontend-builder
 WORKDIR /app
 
 # Enable corepack to get pnpm automatically
@@ -39,6 +39,8 @@ WORKDIR /var/www/html
 
 # Copy application backend files
 COPY . .
+RUN pnpm run build
+
 
 # Copy compiled production assets from Stage 1 
 COPY --from=frontend-builder /app/public/build ./public/build
