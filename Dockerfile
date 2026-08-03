@@ -4,7 +4,6 @@ FROM php:8.4-apache
 RUN a2enmod rewrite
 
 # Install PHP extensions and system deps
-# Added: libicu-dev + intl extension for Filament
 RUN apt-get update && apt-get install -y \
     libpq-dev \
     libzip-dev \
@@ -27,16 +26,19 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 # Set working directory
 WORKDIR /var/www/html
 
-# Copy and install PHP dependencies (layer caching)
+# Copy and install PHP dependencies WITHOUT autoloader (layer caching)
 COPY composer.json composer.lock ./
-RUN composer install --no-dev --optimize-autoloader --no-interaction
+RUN composer install --no-dev --no-autoloader --no-scripts --no-interaction
 
 # Copy and install Node dependencies (layer caching)
 COPY package.json pnpm-lock.yaml ./
 RUN pnpm install --frozen-lockfile
 
-# Copy application code
+# Copy ALL application code
 COPY . .
+
+# Now generate autoloader (app/helpers.php exists now)
+RUN composer dump-autoload --optimize
 
 # Build Vite assets (Inertia + React)
 RUN pnpm run build
