@@ -1,36 +1,41 @@
-# Multi-stage build for better optimization
-FROM richarvey/nginx-php-fpm:3.1.6
+# Use an image with PHP 8.4 and Nginx
+FROM serversideup/php:8.4-nginx
 
-# Install Node.js (Alpine version)
-RUN apk add --no-cache nodejs npm
+# Install Node.js
+RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
+    && apt-get install -y nodejs \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
+# Set working directory
+WORKDIR /var/www/html
 
 # Copy application code
 COPY . .
 
-# Install Composer dependencies
-RUN composer install --no-dev --optimize-autoloader
+# Install PHP dependencies
+RUN composer install --no-interaction --optimize-autoloader --no-dev
 
 # Build frontend assets
 RUN npm install && npm run build
 
-# Set environment variables
-ENV SKIP_COMPOSER 1
-ENV WEBROOT /var/www/html/public
-ENV PHP_ERRORS_STDERR 1
-ENV RUN_SCRIPTS 1
-ENV REAL_IP_HEADER 1
-ENV APP_ENV production
-ENV APP_DEBUG false
-ENV LOG_CHANNEL stderr
-ENV COMPOSER_ALLOW_SUPERUSER 1
+# Set permissions
+RUN chown -R www-data:www-data /var/www/html \
+    && chmod -R 755 /var/www/html/storage \
+    && chmod -R 755 /var/www/html/bootstrap/cache
 
-# Create custom start script
-RUN echo '#!/bin/sh\n\
+# Create a startup script
+RUN echo '#!/bin/bash\n\
 php artisan config:cache\n\
 php artisan route:cache\n\
 php artisan view:cache\n\
 php artisan migrate --force\n\
 php artisan inertia:start-ssr &\n\
-/start.sh' > /custom-start.sh && chmod +x /custom-start.sh
+php-fpm &\n\
+nginx -g "daemon off;"' > /start.sh && chmod +x /start.sh
 
-CMD ["/custom-start.sh"]
+# Expose port 8080
+EXPOSE 8080
+
+# Start the application
+CMD ["/start.sh"]
