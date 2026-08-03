@@ -1,16 +1,18 @@
-FROM php:8.3-apache
+FROM php:8.4-apache
 
 # Enable Apache mod_rewrite
 RUN a2enmod rewrite
 
 # Install PHP extensions and system deps
+# Added: libicu-dev + intl extension for Filament
 RUN apt-get update && apt-get install -y \
     libpq-dev \
     libzip-dev \
+    libicu-dev \
     unzip \
     git \
     curl \
-    && docker-php-ext-install pdo_pgsql zip \
+    && docker-php-ext-install pdo_pgsql zip intl \
     && rm -rf /var/lib/apt/lists/*
 
 # Install Node.js 20.x and enable pnpm via corepack
