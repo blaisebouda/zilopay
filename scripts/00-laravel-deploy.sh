@@ -18,7 +18,7 @@ php artisan storage:link --quiet || true
 php artisan migrate --force
 
 # Seed the database (optional)
-php artisan db:seed --force
+# php artisan db:seed --force
 
 # Cache Laravel config/routes/views for performance
 php artisan config:cache
