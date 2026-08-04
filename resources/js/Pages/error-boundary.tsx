@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
+import { Link, usePage } from "@inertiajs/react";
 import { ArrowLeft } from "lucide-react";
-import { Link, useRouteError } from "react-router-dom";
 
 const NotFound = () => {
   return (
@@ -23,7 +23,7 @@ const NotFound = () => {
           </div>
           <h1 className="mb-2 text-4xl font-bold">Page non trouvée</h1>
           <p>Oops! La page que vous essayez d'accéder n'existe pas.</p>
-          <Link to="/">
+          <Link href="/">
             <Button className="h-9 px-4 py-2 mt-8 cursor-pointer">
               <ArrowLeft />
               <span>Retour à l'accueil</span>
@@ -36,21 +36,17 @@ const NotFound = () => {
 };
 
 export default function ErrorBoundary() {
-  const error = useRouteError() as {
-    status: number;
-    statusText: string;
-    message: string;
-  };
+  const page = usePage()
 
-  if (error.status === 404) {
+  if (page.props.status === 404) {
     return <NotFound />;
   }
 
   return (
     <div className="grid min-h-screen w-full xl:grid-cols-2">
       <h1>Oops! Une erreur est survenue</h1>
-      <p>{error.statusText || error.message}</p>
-      <Link to="/">Retour à l'accueil</Link>
+      {/* <p>{page.props.statusText || page.props.message}</p> */}
+      <Link href="/">Retour à l'accueil</Link>
     </div>
   );
 }
