@@ -123,7 +123,7 @@ export function WalletCard({ id, balance, currency, currency_symbol }: Wallet) {
 
 function VaultCard() {
   return (
-    <div className="w-full bg-card p-4 flex flex-col gap-4 justify-center rounded-2xl">
+    <div className="w-full bg-card p-4 flex  justify-between flex-wrap lg:flex-col gap-4 lg:justify-center rounded-2xl">
       <div className="flex items-center gap-4">
         <div className="size-12 bg-primary/10 rounded-full flex text-primary items-center justify-center">
           <Vault size={24} />
