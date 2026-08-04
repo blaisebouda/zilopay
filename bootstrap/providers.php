@@ -9,5 +9,7 @@ return [
     AppServiceProvider::class,
     AuthServiceProvider::class,
     AdminPanelProvider::class,
-    TelescopeServiceProvider::class,
+    ...(class_exists(\Laravel\Telescope\TelescopeServiceProvider::class)
+        ? [App\Providers\TelescopeServiceProvider::class]
+        : []),
 ];
