@@ -9,6 +9,7 @@ export const api = axios.create({
   timeout: 10000,
   headers: {
     Accept: "application/json",
+    'X-Inertia': true,
   },
 })
 
