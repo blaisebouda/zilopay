@@ -1,7 +1,7 @@
 import axios from "axios"
 
-// const BASE_URL =  "http://localhost:8000/api"
-const BASE_URL = "https://zilopay.onrender.com/api"
+const BASE_URL = "http://localhost:8000/api"
+//const BASE_URL = "https://zilopay.onrender.com/api"
 
 localStorage.setItem("apiUrl", BASE_URL);
 export const api = axios.create({
@@ -9,7 +9,6 @@ export const api = axios.create({
   timeout: 10000,
   headers: {
     Accept: "application/json",
-    'X-Inertia': true,
   },
 })
 
