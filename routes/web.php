@@ -1,12 +1,12 @@
 <?php
 
+use App\Http\Controllers\Api\Auth\AuthController;
 use App\Http\Controllers\Api\Merchant\MerchantController;
 use App\Http\Controllers\Api\Merchant\PaymentLinkController;
 use App\Http\Controllers\Inertia\PayLink;
 use App\Http\Controllers\OtpTestController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
-use App\Http\Controllers\Api\Auth\AuthController;
 
 
 // Route::get('/', function () {
@@ -15,6 +15,11 @@ use App\Http\Controllers\Api\Auth\AuthController;
 
 Route::get('/', function () {
     return Inertia::render('Welcome');
+});
+
+Route::prefix('auth')->group(function () {
+    Route::post('/login', [AuthController::class, 'login']);
+    Route::post('/logout', [AuthController::class, 'logout']);
 });
 
 
