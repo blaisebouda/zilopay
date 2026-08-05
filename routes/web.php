@@ -6,6 +6,8 @@ use App\Http\Controllers\Inertia\PayLink;
 use App\Http\Controllers\OtpTestController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use App\Http\Controllers\Api\Auth\AuthController;
+
 
 // Route::get('/', function () {
 //     return view('welcome');
@@ -14,6 +16,7 @@ use Inertia\Inertia;
 Route::get('/', function () {
     return Inertia::render('Welcome');
 });
+
 
 // Auth routes
 Route::get('/login', fn() => Inertia::render('Auth/Login'))->name('login');

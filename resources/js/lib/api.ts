@@ -7,8 +7,11 @@ localStorage.setItem("apiUrl", BASE_URL);
 export const api = axios.create({
   baseURL: BASE_URL,
   timeout: 10000,
+  withCredentials: true,
   headers: {
-    Accept: "application/json",
+    'X-Requested-With': 'XMLHttpRequest',
+    'Accept': 'application/json',
+    'X-Inertia': 'true',
   },
 })
 
