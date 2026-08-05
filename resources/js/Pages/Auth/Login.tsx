@@ -41,7 +41,7 @@ export default function LoginPage() {
 
   const post = (body: object) =>
     execute(async () => {
-      //  await baseApi.get('/sanctum/csrf-cookie');
+      await baseApi.get('/sanctum/csrf-cookie');
 
       const res = await baseApi.post('auth/login', body);
       return res.data;
