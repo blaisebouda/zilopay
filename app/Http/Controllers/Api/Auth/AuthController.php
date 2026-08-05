@@ -72,8 +72,6 @@ class AuthController extends ApiController
 
         if ($request->header('X-Inertia') || $request->hasSession()) {
 
-            Auth::login($user, $request->boolean('remember'));
-
             $request->session()->regenerate();
 
             return $this->successResponse([
