@@ -8,7 +8,7 @@ export function ErrorsList({
   errors?: string[];
 }) {
   return (
-    <Alert className="mb-2" variant="destructive">
+    <Alert className="mb-2 mt-2" variant="destructive">
       {title && <AlertTitle>{title}</AlertTitle>}
       <AlertDescription>
         <ul>
@@ -23,7 +23,7 @@ export function ErrorsList({
 
 export function Error({ title }: { title?: string }) {
   return (
-    <Alert className="mb-2" variant="destructive">
+    <Alert className="mb-2 mt-2" variant="destructive">
       <AlertTitle>{title || "Une erreur est survenue"}</AlertTitle>
     </Alert>
   );

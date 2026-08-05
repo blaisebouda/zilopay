@@ -11,10 +11,8 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { PhoneInput } from "@/components/ui/phone-input"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import ENDPOINTS from "@/constants/endpoints"
 import { useAppNavigation } from "@/hooks/use-app-navigation"
 import { useFetch } from "@/hooks/use-fetch"
-import { usePost } from "@/hooks/use-post"
 import { AppLayout } from "@/Layouts/AppLayout"
 import { baseApi } from "@/lib/api"
 import LS from "@/lib/ls"
@@ -41,7 +39,7 @@ export default function LoginPage() {
 
   const post = (body: object) =>
     execute(async () => {
-      //  await baseApi.get('/sanctum/csrf-cookie');
+      await baseApi.get('/sanctum/csrf-cookie');
 
       const res = await baseApi.post('auth/login', body);
       return res.data;

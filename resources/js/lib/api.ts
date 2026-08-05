@@ -1,6 +1,6 @@
 import axios from "axios"
 
-const BASE_URL = "http://localhost:8000"
+const BASE_URL = "https://zilopay.onrender.com"
 
 export const baseApi = axios.create({
   baseURL: BASE_URL,

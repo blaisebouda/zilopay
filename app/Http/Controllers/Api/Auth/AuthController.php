@@ -60,6 +60,7 @@ class AuthController extends ApiController
 
     public function login(LoginRequest $request)
     {
+
         // Find user by email or phone
         $user = User::where('email', $request->email)
             ->orWhere('phone_number', trim($request->phone_number))
@@ -70,8 +71,6 @@ class AuthController extends ApiController
         }
 
         if ($request->header('X-Inertia') || $request->hasSession()) {
-
-            Auth::login($user, $request->boolean('remember'));
 
             $request->session()->regenerate();
 

@@ -8,6 +8,7 @@ use App\Http\Controllers\OtpTestController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
+
 // Route::get('/', function () {
 //     return view('welcome');
 // });
