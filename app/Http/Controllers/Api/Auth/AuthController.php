@@ -64,11 +64,9 @@ class AuthController extends ApiController
             ->orWhere('phone_number', trim($request->phone_number))
             ->first();
 
-
         if (! $user || ! Hash::check($request->password, $user->password)) {
             return $this->errorResponse('Identifiants invalides.', 422);
         }
-
 
         if ($request->expectsJson() && ! $request->header('X-Inertia')) {
             $deviceName = $request->input('device_name', 'Mobile App');
@@ -80,7 +78,6 @@ class AuthController extends ApiController
                 'wallet' => WalletResource::make($user->defaultWallet),
             ], 'Connexion réussie.');
         }
-
 
         Auth::login($user, $request->boolean('remember'));
         $request->session()->regenerate();
