@@ -60,7 +60,6 @@ class AuthController extends ApiController
 
     public function login(LoginRequest $request)
     {
-        // Find user by email or phone
         $user = User::where('email', $request->email)
             ->orWhere('phone_number', trim($request->phone_number))
             ->first();
@@ -69,27 +68,23 @@ class AuthController extends ApiController
             return $this->errorResponse('Identifiants invalides.', 422);
         }
 
-        if ($request->header('X-Inertia') || $request->hasSession()) {
 
-            Auth::login($user, $request->boolean('remember'));
-
-            $request->session()->regenerate();
+        if ($request->expectsJson() && ! $request->header('X-Inertia')) {
+            $deviceName = $request->input('device_name', 'Mobile App');
+            $token = $user->createToken($deviceName)->plainTextToken;
 
             return $this->successResponse([
+                'token' => $token,
                 'user' => UserResource::make($user),
                 'wallet' => WalletResource::make($user->defaultWallet),
             ], 'Connexion réussie.');
         }
 
-        $deviceName = $request->input('device_name', 'Mobile App');
 
-        $token = $user->createToken($deviceName)->plainTextToken;
+        Auth::login($user, $request->boolean('remember'));
+        $request->session()->regenerate();
 
-        return $this->successResponse([
-            'token' => $token,
-            'user' => UserResource::make($user),
-            'wallet' => WalletResource::make($user->defaultWallet),
-        ], 'Connexion réussie.');
+        return redirect()->intended('/dashboard');
     }
 
     public function logout(Request $request)

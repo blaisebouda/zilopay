@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Validation\Rules\Password;
-use Illuminate\Routing\UrlGenerator;
+use Illuminate\Support\Facades\URL;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -27,13 +27,13 @@ class AppServiceProvider extends ServiceProvider
     /**
      * Bootstrap any application services.
      */
-    public function boot(UrlGenerator $url): void
+    public function boot(): void
     {
         $this->configureDefaults();
         $this->configureObservers();
 
         if (env('APP_ENV') === 'production') {
-            $url->forceScheme('https');
+            URL::forceScheme('https');
         }
     }
 
