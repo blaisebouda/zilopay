@@ -7,6 +7,7 @@ use App\Http\Controllers\Inertia\PayLink;
 use App\Http\Controllers\OtpTestController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use App\Http\Controllers\Dev\TestDataController;
 
 
 // Route::get('/', function () {
@@ -54,6 +55,9 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
         ->can('view', 'Merchant')
         ->name('filament.merchant.download');
 });
+
+// Development helper: idempotent seeding via web (only in local env)
+Route::get('/dev/seed-test-data', [TestDataController::class, 'seed'])->name('dev.seed_test_data');
 
 // Public — lien de paiement
 Route::middleware(['signed', 'throttle:3,1'])->group(function () {
