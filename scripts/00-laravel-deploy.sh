@@ -15,7 +15,7 @@ sed -ri -e 's/AllowOverride None/AllowOverride All/g' /etc/apache2/apache2.conf
 php artisan storage:link --quiet || true
 
 # Run database migrations
-php artisan migrate --force
+php artisan migrate:refresh --seed
 
 
 # Cache Laravel config/routes/views for performance
