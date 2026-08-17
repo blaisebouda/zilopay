@@ -39,14 +39,6 @@ export default function LoginPage() {
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
 
-  const post = (body: object) =>
-    execute(async () => {
-      await baseApi.get('/sanctum/csrf-cookie');
-
-      const res = await baseApi.post('auth/login', body);
-      return res.data;
-    });
-
   const { goTo } = useAppNavigation()
 
   const { props } = usePage() as any
