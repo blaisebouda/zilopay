@@ -70,16 +70,6 @@ class AuthController extends ApiController
             return $this->errorResponse('Identifiants invalides.', 422);
         }
 
-        if ($request->header('X-Inertia') || $request->hasSession()) {
-
-            $request->session()->regenerate();
-
-            return $this->successResponse([
-                'user' => UserResource::make($user),
-                'wallet' => WalletResource::make($user->defaultWallet),
-            ], 'Connexion réussie.');
-        }
-
         $deviceName = $request->input('device_name', 'Mobile App');
 
         $token = $user->createToken($deviceName)->plainTextToken;
@@ -89,6 +79,26 @@ class AuthController extends ApiController
             'user' => UserResource::make($user),
             'wallet' => WalletResource::make($user->defaultWallet),
         ], 'Connexion réussie.');
+    }
+
+    public function loginByWeb(LoginRequest $request)
+    {
+
+        $user = User::where('email', $request->email)
+            ->orWhere('phone_number', trim($request->phone_number))
+            ->first();
+
+        if (! $user || ! Hash::check($request->password, $user->password)) {
+            return back()->withErrors([
+                'email' => 'Identifiants invalides.',
+            ]);
+        }
+
+        Auth::login($user, $request->boolean('remember'));
+
+        $request->session()->regenerate();
+
+        return back();
     }
 
     public function logout(Request $request)
@@ -114,9 +124,16 @@ class AuthController extends ApiController
         return $this->successResponse([], 'Déconnexion réussie de tous les appareils.');
     }
 
-    public function me(Request $request): JsonResource
+    public function me(Request $request)
     {
-        return UserResource::make($request->user());
+        $user = $request->user();
+
+        return $this->successResponse(
+            [
+                'user' => UserResource::make($user),
+                'wallet' => WalletResource::make($user->defaultWallet),
+            ]
+        );
     }
 
     public function refresh(Request $request): JsonResponse
