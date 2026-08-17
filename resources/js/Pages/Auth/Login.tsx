@@ -14,10 +14,10 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { useAppNavigation } from "@/hooks/use-app-navigation"
 import { useFetch } from "@/hooks/use-fetch"
 import { AppLayout } from "@/Layouts/AppLayout"
-import { baseApi } from "@/lib/api"
+import api, { baseApi } from "@/lib/api"
 import LS from "@/lib/ls"
 import type { LoginResponse } from "@/types"
-import { Link, usePage } from "@inertiajs/react"
+import { Link, router, usePage } from "@inertiajs/react"
 import { Eye, EyeOff, Lock, Mail, Phone } from "lucide-react"
 import { useEffect, useState } from "react"
 
@@ -35,15 +35,8 @@ export default function LoginPage() {
     remember: false,
   })
 
-  const { result, loading, error, execute } = useFetch<LoginResponse>()
-
-  const post = (body: object) =>
-    execute(async () => {
-      await baseApi.get('/sanctum/csrf-cookie');
-
-      const res = await baseApi.post('auth/login', body);
-      return res.data;
-    });
+  const [error, setError] = useState<string | null>(null)
+  const [loading, setLoading] = useState(false);
 
   const { goTo } = useAppNavigation()
 
@@ -53,18 +46,33 @@ export default function LoginPage() {
     goTo("/dashboard")
   }
 
-  useEffect(() => {
-    if (result) {
-      LS.set("user", result.user)
-      LS.set("wallet", result.wallet)
-
-      goTo("/dashboard")
-    }
-  }, [result, goTo])
-
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    post(form)
+
+    setLoading(true);
+
+    router.post('/auth/login', form, {
+      onSuccess: async () => {
+        const { data } = await api.get('auth/me');
+
+        const result = data?.data
+
+        if (result) {
+          LS.set("user", result?.user)
+          LS.set("wallet", result?.wallet)
+
+          goTo("/dashboard")
+        }
+
+      },
+      onError: (e) => {
+        setError(Object.values(e).join())
+      },
+      onFinish: () => {
+        setLoading(false);
+      },
+    });
+    // post(form)
   }
 
   const reset = () => {
@@ -115,10 +123,9 @@ export default function LoginPage() {
 
           {/* Formulaire */}
 
-          {error?.response && (
+          {error && (
             <ErrorsList
-              title={error.response.message}
-              errors={error.response.errors || []}
+              title={error}
             />
           )}
 
