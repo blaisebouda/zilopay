@@ -10,6 +10,7 @@ import {
 import Heading from "@/components/ui/heading"
 import { Input } from "@/components/ui/input"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { Link } from "@inertiajs/react"
 import { useForm } from "react-hook-form"
 import z from "zod"
 
@@ -43,53 +44,12 @@ export default function Password() {
   })
 
   return (
-    <div>
+    <div >
       <Heading title="Mot de passe" description="Changer votre mot de passe" />
+      <Link href='/reset-password'>
+        <Button type="submit">Changer de mot de passe</Button>
+      </Link>
 
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(() => {})} className="space-y-4">
-          <FormField
-            control={form.control}
-            name="password"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Ancien mot de passe</FormLabel>
-                <FormControl>
-                  <Input placeholder="********" type="password" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="new_password"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Nouveau mot de passe</FormLabel>
-                <FormControl>
-                  <Input placeholder="********" type="password" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="password_confirmation"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Confirmation du mot de passe</FormLabel>
-                <FormControl>
-                  <Input placeholder="********" type="password" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <Button type="submit">Sauvegarder</Button>
-        </form>
-      </Form>
     </div>
   )
 }

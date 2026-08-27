@@ -13,9 +13,10 @@ return new class extends Migration
     {
         Schema::create('password_resets', function (Blueprint $table) {
             $table->id();
-            $table->string('email')->index();
+            $table->string('email')->nullable()->index();
+            $table->string('phone_number')->nullable()->index();
             $table->string('token', 64)->unique();
-            $table->string('otp_code', 6);
+            $table->string('otp_code', 8);
             $table->timestamp('expires_at');
             $table->boolean('is_used')->default(false);
             $table->timestamp('used_at')->nullable();

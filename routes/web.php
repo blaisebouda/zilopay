@@ -27,6 +27,8 @@ Route::prefix('auth')->group(function () {
 // Auth routes
 Route::get('/login', fn() => Inertia::render('Auth/Login'))->name('login');
 Route::get('/register', fn() => Inertia::render('Auth/Register'))->name('register');
+Route::get('/reset-password', fn() => Inertia::render('Auth/ResetPassword'))->name('reset-password');
+
 
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/deposit', fn() => Inertia::render('Deposit/Index'))->name('deposit');

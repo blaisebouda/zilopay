@@ -47,7 +47,7 @@ class AuthController extends ApiController
             DB::commit();
 
             return $this->successResponse([
-                'user' => UserResource::make($user->refresh()),
+                'identifier' => $identifier,
                 'expires_at' => $otp->expires_at->toIso8601String(),
                 'otp_expires_in' => abs($otp->expires_at->diffInSeconds(now())),
             ], 'Inscription réussie.');

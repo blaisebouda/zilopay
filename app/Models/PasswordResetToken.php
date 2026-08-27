@@ -9,8 +9,11 @@ class PasswordResetToken extends Model
 {
     use HasFactory;
 
+    protected $table = 'password_resets';
+
     protected $fillable = [
         'email',
+        'phone_number',
         'token',
         'otp_code',
         'expires_at',

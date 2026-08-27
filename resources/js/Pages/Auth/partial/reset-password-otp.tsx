@@ -25,32 +25,25 @@ import { useState } from "react"
 import { toast } from "sonner"
 import type { OtpResponse, User } from "@/types/interface"
 
-export function InputOTPForm({ result }: { result: OtpResponse }) {
+export function ResetPasswordOTPForm({
+  result,
+  nextStep,
+}: {
+  result: OtpResponse
+  nextStep: (otp: string) => void
+}) {
   const [otp, setOtp] = useState("")
-  const { loading, post, error } = usePost(ENDPOINTS.AUTH.verify_otp)
-  const { goTo } = useAppNavigation()
-
-  const getIdentifer = (user: User) => {
-    return user.email || user.phone_number
-  }
 
   const onSubmit = async () => {
-    await post({
-      identifier: result.identifier,
-      otp_code: otp,
-    })
-    toast.success("Votre compte a bien été vérifié")
-    goTo("/login")
+    nextStep(otp)
   }
 
-  const { loading: resendLoading, post: resendPost } = usePost(
-    ENDPOINTS.AUTH.resend_otp
-  )
+  const { loading: resendLoading, post: resendPost } = usePost("")
 
   const resend = async () => {
-    await resendPost({
-      identifier: result.identifier,
-    })
+    // await resendPost({
+    //   identifier: result.identifier,
+    // })
     toast.success("Le code de vérification a bien été renvoyé")
   }
   return (
@@ -64,12 +57,6 @@ export function InputOTPForm({ result }: { result: OtpResponse }) {
         </CardDescription>
       </CardHeader>
       <CardContent>
-        {error?.response && (
-          <ErrorsList
-            title={error.response.message}
-            errors={error.response.errors}
-          />
-        )}
         <Field>
           <div className="flex items-center justify-between">
             <FieldLabel htmlFor="otp-verification">
@@ -114,7 +101,7 @@ export function InputOTPForm({ result }: { result: OtpResponse }) {
         <Field>
           <LoadingButton
             type="button"
-            disabled={loading || otp.length !== 6}
+            disabled={otp.length !== 6}
             className="w-full"
             loadingLabel="Vérification..."
             onClick={onSubmit}

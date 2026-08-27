@@ -7,9 +7,10 @@ interface User {
 }
 
 interface OtpResponse {
-  user: User
+  identifier: string
   expires_at: string
   otp_expires_in: number
+  token?: string
 }
 
 interface Wallet {

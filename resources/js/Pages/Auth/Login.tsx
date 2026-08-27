@@ -35,7 +35,6 @@ export default function LoginPage() {
     remember: false,
   })
 
-
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
 
@@ -50,11 +49,11 @@ export default function LoginPage() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
 
-    setLoading(true);
+    setLoading(true)
 
-    router.post('/auth/login', form, {
+    router.post("/auth/login", form, {
       onSuccess: async () => {
-        const { data } = await api.get('auth/me');
+        const { data } = await api.get("auth/me")
 
         const result = data?.data
 
@@ -64,15 +63,14 @@ export default function LoginPage() {
 
           goTo("/dashboard")
         }
-
       },
       onError: (e) => {
         setError(Object.values(e).join())
       },
       onFinish: () => {
-        setLoading(false);
+        setLoading(false)
       },
-    });
+    })
     // post(form)
   }
 
@@ -124,11 +122,7 @@ export default function LoginPage() {
 
           {/* Formulaire */}
 
-          {error && (
-            <ErrorsList
-              title={error}
-            />
-          )}
+          {error && <ErrorsList title={error} />}
 
           <form action="#" className="space-y-4" onSubmit={handleSubmit}>
             <div className="pt-4 space-y-4">
@@ -245,6 +239,9 @@ export default function LoginPage() {
                 </label>
               </div>
               <Button
+                onClick={() => {
+                  router.get("/reset-password")
+                }}
                 variant="link"
                 className="px-0 font-normal text-sm text-primary"
               >
