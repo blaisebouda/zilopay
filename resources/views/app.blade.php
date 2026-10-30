@@ -8,7 +8,7 @@
        
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
-        <link href="https://fonts.bunny.net/css?family=figtree:400,500,600" rel="stylesheet" />
+        <link href="https://fonts.bunny.net/css?family=instrument-serif:400|figtree:400,500,600" rel="stylesheet" />
         
         @viteReactRefresh
         @vite('resources/js/app.tsx')
