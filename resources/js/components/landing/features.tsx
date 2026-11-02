@@ -42,7 +42,7 @@ export default function Features() {
                 Les paiements de votre activité, <br />
                 plus simples à gérer
             </SectionTitle>
-            <div className="ml-auto mt-8 w-full text-xl text-muted-foreground max-w-[400px]">
+            <div className="ml-auto  mt-8 w-full text-xl text-muted-foreground w-full max-w-[400px]">
                 <span className="font-bold">
                     Une expérience claire pour vous comme pour vos clients,
                 </span>{" "}
@@ -77,7 +77,7 @@ function FeatureCard({
     icon: React.ReactNode;
 }) {
     return (
-        <div className="flex flex-col gap-4 p-6 bg-[#222222]/2 border hover:bg-[#222222]/10 transition-all duration-300 ">
+        <div className="flex w-full flex-col gap-4 p-6 bg-[#222222]/2 border hover:bg-[#222222]/10 transition-all duration-300 ">
             <div>
                 <div className="flex items-center justify-center border rounded-xl text-foreground size-10 bg-[#222222]/10">{icon}</div>
                 <h3 className="text-2xl font-serif mt-4">{title}</h3>

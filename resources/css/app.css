@@ -162,6 +162,7 @@
     @apply font-sans;
     font-size: 1.04rem;
     scroll-behavior: smooth;
+    overflow-x: hidden;
   }
 
   button:not(:disabled),

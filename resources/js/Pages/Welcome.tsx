@@ -1,6 +1,10 @@
+import CTA from "@/components/landing/cta"
+import Faqs from "@/components/landing/faqs"
 import Features from "@/components/landing/features"
+import Footer from "@/components/landing/footer"
 import Header from "@/components/landing/header"
 import Hero from "@/components/landing/hero"
+import HowItWork from "@/components/landing/how-it-work"
 import { Button } from "@/components/ui/button"
 import { ROUTE } from "@/constants/route"
 import { useAppNavigation } from "@/hooks/use-app-navigation"
@@ -22,7 +26,11 @@ export default function Welcome() {
             <main>
                 <Hero />
                 <Features />
+                <HowItWork />
+                <CTA />
+                <Faqs />
             </main>
+            <Footer />
         </>
     )
 }

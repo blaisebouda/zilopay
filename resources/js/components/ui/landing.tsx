@@ -11,7 +11,7 @@ export function SectionTitle({
     children,
 }: SectionTitleProps) {
     return (
-        <div className=" mx-auto flex flex-col gap-2 ">
+        <div className="w-full  flex flex-col gap-2 ">
             <p
                 className=" font-sans text-muted-foreground"
             >
@@ -46,7 +46,7 @@ export function Section({
             className={`px-4 pt-12 md:pt-30 pb-10 md:pb-30 bg-cover bg-center ${className}`}
         >
             <div
-                className={`relative max-w-[1040px] mx-auto ${containerClassName}`}
+                className={`relative w-full max-w-[1040px] mx-auto ${containerClassName}`}
             >
                 {children}
             </div>
@@ -54,11 +54,11 @@ export function Section({
     );
 }
 
-export function CtbBtn({ title, href }: { title: string; href: string }) {
+export function CtbBtn({ title, href, className = "" }: { title: string; href: string; className?: string }) {
     return (
-        <Link href={href} >
+        <Link href={href} aria-label={title}>
             <button
-                className=" group flex items-center gap-2 rounded-full bg-linear-to-r from-primary to-[#008CFF] px-4 py-3 text-white border border-primary shadow-[4px_4px_8px_0px_rgba(0,0,0,0.15)]"
+                className={`${className} justify-center group flex items-center gap-2 rounded-full bg-linear-to-r from-primary to-[#008CFF] px-2 py-1.5  md:px-4 md:py-3 text-white border border-primary shadow-[4px_4px_8px_0px_rgba(0,0,0,0.15)]`}
             >
                 <span className="font-semibold"> {title}</span>
                 <span
@@ -70,3 +70,58 @@ export function CtbBtn({ title, href }: { title: string; href: string }) {
         </Link >
     )
 }
+
+import { ChevronDown } from "lucide-react";
+import React, { useState } from "react";
+
+type FAQ = {
+    question: string;
+    answer: string;
+};
+
+type FaqAccordionProps = {
+    faqs: FAQ[];
+    className?: string;
+};
+
+export const FaqAccordions: React.FC<FaqAccordionProps> = ({ faqs, className }) => {
+    const [openIndex, setOpenIndex] = useState<number | null>(null);
+
+    const toggle = (index: number) => {
+        setOpenIndex(openIndex === index ? null : index);
+    };
+
+    return (
+        <div className={className}>
+            {faqs.map((faq, index) => {
+                const isOpen = openIndex === index;
+                return (
+                    <div
+                        key={index}
+                        className="text-sm lg:text-lg font-sans border p-4 bg-white rounded-xl transition-all duration-300"
+                    >
+                        <button
+                            className=" w-full flex justify-between items-center text-left focus:outline-none"
+                            onClick={() => toggle(index)}
+                            aria-expanded={isOpen}
+                        >
+                            <span className=" font-semibold">{faq.question}</span>
+                            <ChevronDown
+                                className={`w-5 h-5 text-accent-foreground transform transition-transform duration-300 ${isOpen ? "rotate-180" : ""
+                                    }`}
+                            />
+                        </button>
+
+                        <div
+                            className={`overflow-hidden transition-[max-height,opacity] duration-500 ease-in-out ${isOpen ? "max-h-40 opacity-100" : "max-h-0 opacity-0"
+                                }`}
+                        >
+                            <p className="mt-3  text-accent-foreground  leading-relaxed">{faq.answer}</p>
+                        </div>
+                    </div>
+                );
+            })}
+        </div>
+    );
+};
+

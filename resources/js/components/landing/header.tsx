@@ -67,7 +67,7 @@ export default function Header() {
                     </ul>
                 </nav>
                 <div className="flex items-center gap-2">
-                    <a href="#cta">
+                    <a href="#cta" className="hidden md:block">
                         <CtbBtn
                             title="Se connecter"
                             href="/login"
@@ -110,17 +110,17 @@ export default function Header() {
 
                     <div
                         id="mobile-menu"
-                        className={`absolute top-full right-0 mt-2 w-[200px] bg-white/95 backdrop-blur-md rounded-2xl shadow-lg border border-white/20 overflow-hidden transition-all duration-300 ease-out md:hidden ${isMenuOpen
+                        className={`absolute top-full right-0 mt-2 w-full max-w-md bg-white/95 backdrop-blur-md rounded-2xl shadow-lg border border-white/20 overflow-hidden transition-all duration-300 ease-out md:hidden ${isMenuOpen
                             ? "opacity-100 translate-y-0 pointer-events-auto"
                             : "opacity-0 -translate-y-2 pointer-events-none"
                             }`}
                         role="navigation"
                         aria-label="Navigation mobile"
                     >
-                        <ul className="flex flex-col p-2">
+                        <ul className="flex flex-col gap-1 p-2">
                             <li>
                                 <a
-                                    className="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 bg-primary/10 text-foreground font-bold"
+                                    className="flex items-center gap-3 px-4 py-2 rounded-xl transition-all duration-200 bg-primary/10 text-foreground font-bold"
                                     href="#"
                                     aria-current="page"
                                     onClick={closeMenu}
@@ -135,7 +135,7 @@ export default function Header() {
 
                             <li>
                                 <a
-                                    className="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-muted-foreground  hover:bg-white/50 hover:text-foreground"
+                                    className="flex items-center gap-3 px-4 py-2 rounded-xl transition-all duration-200 text-muted-foreground  hover:bg-white/50 hover:text-foreground"
                                     href="#features"
                                     onClick={closeMenu}
                                 >
@@ -148,7 +148,7 @@ export default function Header() {
                             </li>
                             <li>
                                 <a
-                                    className="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-muted-foreground  hover:bg-white/50 hover:text-foreground"
+                                    className="flex items-center gap-3 px-4 py-2 rounded-xl transition-all duration-200 text-muted-foreground  hover:bg-white/50 hover:text-foreground"
                                     href="#how-it-works"
                                     onClick={closeMenu}
                                 >
@@ -161,7 +161,7 @@ export default function Header() {
                             </li>
                             <li>
                                 <a
-                                    className="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-muted-foreground  hover:bg-white/50 hover:text-foreground"
+                                    className="flex items-center gap-3 px-4 py-2 rounded-xl transition-all duration-200 text-muted-foreground  hover:bg-white/50 hover:text-foreground"
                                     href="#faq"
                                     onClick={closeMenu}
                                 >
@@ -172,6 +172,12 @@ export default function Header() {
                                     FAQ
                                 </a>
                             </li>
+                            <CtbBtn
+                                className="w-full"
+                                title="Se connecter"
+                                href="/login"
+                                aria-label="Se connecter à ZiloPay"
+                            />
                         </ul>
                     </div>
                 </div>
