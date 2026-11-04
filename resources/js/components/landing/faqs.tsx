@@ -25,7 +25,7 @@ const faqs = [
 
 export default function Faqs() {
     return (
-        <Section id="faqs" aria-label="Foire aux questions" >
+        <Section id="faq" aria-label="Foire aux questions" >
             <div className="mx-auto w-max">
 
                 <SectionTitle
