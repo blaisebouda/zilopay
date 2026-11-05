@@ -1,5 +1,5 @@
 import { BellDot, Cable, ChartPie, Link } from "lucide-react";
-import { Section, SectionTitle } from "../ui/landing";
+import { Reveal, Section, SectionTitle } from "../ui/landing";
 
 const features = [
     {
@@ -35,12 +35,15 @@ const features = [
 
 export default function Features() {
     return (
-        <Section id="features" className="">
+        <Section id="features">
             <SectionTitle
                 description="Fonctionnalités"
             >
-                Les paiements de votre activité, <br />
-                plus simples à gérer
+                <Reveal>
+                    Les paiements de votre activité, <br />
+                    plus simples à gérer
+                </Reveal>
+
             </SectionTitle>
             <div className="ml-auto  mt-8 w-full text-xl text-muted-foreground w-full max-w-[400px]">
                 <span className="font-bold">

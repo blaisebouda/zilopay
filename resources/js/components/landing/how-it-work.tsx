@@ -1,4 +1,4 @@
-import { Section, SectionTitle } from "../ui/landing";
+import { Reveal, Section, SectionTitle } from "../ui/landing";
 
 const steps = [
     {
@@ -38,7 +38,9 @@ export default function HowItWork() {
             <SectionTitle
                 description="3 étapes pour encaisser"
             >
-                Comment ça marche ?
+                <Reveal>
+                    Comment ça marche ?
+                </Reveal>
             </SectionTitle>
 
             <div className="mt-10 grid grid-cols-1 md:grid-cols-2">

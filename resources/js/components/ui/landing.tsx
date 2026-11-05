@@ -1,5 +1,8 @@
 import { Link } from "@inertiajs/react";
-import { ChevronRight } from "lucide-react";
+import { ChevronRight, ChevronDown } from "lucide-react";
+import React, { useRef, useEffect, useState, type ReactNode } from "react";
+import { } from "lucide-react";
+
 
 type SectionTitleProps = {
     description: string;
@@ -71,9 +74,6 @@ export function CtbBtn({ title, href, className = "" }: { title: string; href: s
     )
 }
 
-import { ChevronDown } from "lucide-react";
-import React, { useState } from "react";
-
 type FAQ = {
     question: string;
     answer: string;
@@ -124,4 +124,54 @@ export const FaqAccordions: React.FC<FaqAccordionProps> = ({ faqs, className }) 
         </div>
     );
 };
+
+
+
+
+interface RevealProps {
+    children: React.ReactNode;
+    delay?: number;
+    threshold?: number;
+    className?: string;
+}
+
+export function Reveal({
+    children,
+    threshold = 0.5,
+    className = "",
+}: RevealProps) {
+    const [isVisible, setIsVisible] = useState(false);
+    const ref = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                if (entry.isIntersecting) {
+                    setIsVisible(true);
+                    // Optionnel: arrêter d'observer après l'animation
+                    observer.unobserve(entry.target);
+                }
+            },
+            { threshold }
+        );
+
+        if (ref.current) {
+            observer.observe(ref.current);
+        }
+
+        return () => {
+            if (ref.current) {
+                observer.unobserve(ref.current);
+            }
+        };
+    }, [threshold]);
+
+    const visibleClass = isVisible ? "reveal-visible" : "";
+
+    return (
+        <div ref={ref} className={`reveal ${visibleClass} ${className}`.trim()}>
+            {children}
+        </div>
+    );
+}
 

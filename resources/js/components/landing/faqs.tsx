@@ -1,4 +1,4 @@
-import { Section, FaqAccordions, SectionTitle } from "../ui/landing";
+import { Section, FaqAccordions, SectionTitle, Reveal } from "../ui/landing";
 
 const faqs = [
     {
@@ -31,7 +31,9 @@ export default function Faqs() {
                 <SectionTitle
                     description="Voir les questions que les gens posent"
                 >
-                    FAQ (Questions fréquentes)
+                    <Reveal>
+                        FAQ (Questions fréquentes)
+                    </Reveal>
                 </SectionTitle>
 
                 <div className="mt-10 ">
